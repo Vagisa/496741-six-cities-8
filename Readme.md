@@ -1,7 +1,7 @@
 # Личный проект «Шесть городов»
 
 * Студент: [Вагиза Свидченкова](https://up.htmlacademy.ru/react/8/user/496741).
-* Наставник: `Неизвестно`.
+* Наставник: [Михаил Кислый](https://htmlacademy.ru/profile/smart-grizzly).
 
 ---
 
