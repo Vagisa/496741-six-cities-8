@@ -1,8 +1,5 @@
+import {MainProps} from './types';
 import PlaceCard from '../place-card/place-card';
-
-type MainProps = {
-  placeCount: number;
-}
 
 function Main({placeCount}: MainProps): JSX.Element {
 
