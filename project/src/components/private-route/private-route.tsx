@@ -1,4 +1,5 @@
 import { Route, Redirect } from 'react-router';
+
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { PrivateRouteProps } from './types';
 

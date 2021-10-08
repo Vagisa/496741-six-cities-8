@@ -1,7 +1,9 @@
-import { MainProps } from './types';
 import { Link } from 'react-router-dom';
-import PlaceCard from '../place-card/place-card';
+
 import Logo from '../logo/logo';
+import PlaceCard from '../place-card/place-card';
+
+import { MainProps } from './types';
 
 function Main({placeCount}: MainProps): JSX.Element {
 

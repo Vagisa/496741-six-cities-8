@@ -1,12 +1,14 @@
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import { AppProps } from './types';
-import { AppRoute, AuthorizationStatus } from '../../const';
-import Main from '../main/main';
-import Login from '../login/login';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+
 import Favorites from '../favorites/favorites';
-import Property from '../property/property';
+import Login from '../login/login';
+import Main from '../main/main';
 import NotFound from '../not-found/not-found';
 import PrivateRoute from '../private-route/private-route';
+import Property from '../property/property';
+
+import { AppProps } from './types';
+import { AppRoute, AuthorizationStatus } from '../../const';
 
 function App({placeCount}: AppProps): JSX.Element {
   return (
