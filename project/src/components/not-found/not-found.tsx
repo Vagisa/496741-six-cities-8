@@ -2,9 +2,9 @@ import { Link } from 'react-router-dom';
 
 import Logo from '../logo/logo';
 
-function FavoritesEmpty(): JSX.Element {
+function NotFound (): JSX.Element {
   return (
-    <div className="page page--favorites-empty">
+    <div className="page page--gray page--main">
       <header className="header">
         <div className="container">
           <div className="header__wrapper">
@@ -30,25 +30,14 @@ function FavoritesEmpty(): JSX.Element {
           </div>
         </div>
       </header>
-
-      <main className="page__main page__main--favorites page__main--favorites-empty">
-        <div className="page__favorites-container container">
-          <section className="favorites favorites--empty">
-            <h1 className="visually-hidden">Favorites (empty)</h1>
-            <div className="favorites__status-wrapper">
-              <b className="favorites__status">Nothing yet saved.</b>
-              <p className="favorites__status-description">Save properties to narrow down search or plan your future trips.</p>
-            </div>
-          </section>
-        </div>
-      </main>
-      <footer className="footer">
-        <Link className="footer__logo-link" to="/">
-          <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width="64" height="33"/>
-        </Link>
-      </footer>
+      <h1>
+        404.
+        <br />
+        <small>Page not found</small>
+      </h1>
+      <Link to="/">Go to main page</Link>
     </div>
   );
 }
 
-export default FavoritesEmpty;
+export default NotFound;
