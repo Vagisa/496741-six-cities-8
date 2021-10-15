@@ -10,12 +10,12 @@ import Property from '../property/property';
 import { AppProps } from './types';
 import { AppRoute, AuthorizationStatus } from '../../const';
 
-function App({placeCount}: AppProps): JSX.Element {
+function App({placeCount, offers}: AppProps): JSX.Element {
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path={AppRoute.Main}>
-          <Main placeCount={placeCount} />
+          <Main placeCount={placeCount} offers={offers}/>
         </Route>
         <Route exact path={AppRoute.SignIn}>
           <Login />
