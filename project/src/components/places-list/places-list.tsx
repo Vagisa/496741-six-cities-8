@@ -1,12 +1,17 @@
+import { useState } from 'react';
 
 import PlaceCard from '../place-card/place-card';
 
+import { EMPTY_ACTIVE_OFFER } from '../../const';
 import { PlacesListProps } from './types';
 
 function PlacesList({placeCount, offers}: PlacesListProps): JSX.Element {
-  const cards = offers.slice(0, placeCount).map((offer) => <PlaceCard key={offer.id} offer={offer} />);
+
+  const [activeOffer, setActiveOffer] = useState(EMPTY_ACTIVE_OFFER);
+
   return (
     <section className="cities__places places">
+      <p>active offer: {activeOffer}</p>
       <h2 className="visually-hidden">Places</h2>
       <b className="places__found">312 places to stay in Amsterdam</b>
       <form className="places__sorting" action="#" method="get">
@@ -25,7 +30,17 @@ function PlacesList({placeCount, offers}: PlacesListProps): JSX.Element {
         </ul>
       </form>
       <div className="cities__places-list places__list tabs__content">
-        {cards}
+        {
+          offers
+            .slice(0, placeCount)
+            .map((offer) => (
+              <PlaceCard
+                offer={offer}
+                onMouseOver={() => setActiveOffer(offer.id)}
+                key={offer.id}
+              />
+            ))
+        }
       </div>
     </section>
   );

@@ -2,9 +2,9 @@ import { Link } from 'react-router-dom';
 
 import { PlaceCardProps } from './types';
 
-function PlaceCard({offer}: PlaceCardProps): JSX.Element {
+function PlaceCard({offer, onMouseOver}: PlaceCardProps): JSX.Element {
   return (
-    <article className="cities__place-card place-card">
+    <article onMouseOver={onMouseOver} className="cities__place-card place-card">
       {
         offer.isPremium &&
         <div className="place-card__mark">
