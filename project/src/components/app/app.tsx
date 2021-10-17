@@ -43,7 +43,9 @@ function App({placeCount, offers}: AppProps): JSX.Element {
         >
         </PrivateRoute>
         <Route exact path={AppRoute.Room}>
-          <Property />
+          <Property offers={offers} favorites={favorites}
+            onFavoritesClick={onFavoritesClick}
+          />
         </Route>
         <Route>
           <NotFound />

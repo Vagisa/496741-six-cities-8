@@ -42,7 +42,7 @@ function PlaceCard({offer, onMouseOver, isFavorite, onFavoritesClick}: PlaceCard
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to="/">{offer.heading}</Link>
+          <Link to={`/offer/${offer.id}`}>{offer.heading}</Link>
         </h2>
         <p className="place-card__type">{offer.type}</p>
       </div>
