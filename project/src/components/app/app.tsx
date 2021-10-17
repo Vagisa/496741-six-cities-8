@@ -12,7 +12,7 @@ import { AppProps } from './types';
 import { AppRoute, AuthorizationStatus } from '../../const';
 
 function App({placeCount, offers}: AppProps): JSX.Element {
-  const [favorites, setFavorites] = useState([11]);
+  const [favorites, setFavorites] = useState<number[]>([11, 12, 10, 13]);
   const onFavoritesClick = (offerId: number): void => {
     if(favorites.includes(offerId)) {
       setFavorites(favorites.filter((id) => id !== offerId));
@@ -35,7 +35,10 @@ function App({placeCount, offers}: AppProps): JSX.Element {
           <Login />
         </Route>
         <PrivateRoute exact path={AppRoute.Favorites}
-          render={() => <Favorites />}
+          render={() => (
+            <Favorites offers={offers} favorites={favorites}
+              onFavoritesClick={onFavoritesClick}
+            />)}
           authorizationStatus={AuthorizationStatus.Auth}
         >
         </PrivateRoute>
