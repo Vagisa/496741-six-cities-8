@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { useState } from 'react';
 
 import Favorites from '../favorites/favorites';
 import Login from '../login/login';
@@ -11,11 +12,24 @@ import { AppProps } from './types';
 import { AppRoute, AuthorizationStatus } from '../../const';
 
 function App({placeCount, offers}: AppProps): JSX.Element {
+  const [favorites, setFavorites] = useState([11]);
+  const onFavoritesClick = (offerId: number): void => {
+    if(favorites.includes(offerId)) {
+      setFavorites(favorites.filter((id) => id !== offerId));
+    } else {
+      setFavorites([...favorites, offerId]);
+    }
+  };
+
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path={AppRoute.Main}>
-          <Main placeCount={placeCount} offers={offers}/>
+          <Main placeCount={placeCount}
+            offers={offers}
+            favorites={favorites}
+            onFavoritesClick={onFavoritesClick}
+          />
         </Route>
         <Route exact path={AppRoute.SignIn}>
           <Login />

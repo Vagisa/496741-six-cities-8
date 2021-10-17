@@ -5,7 +5,7 @@ import PlacesList from '../places-list/places-list';
 
 import { MainProps } from './types';
 
-function Main({placeCount, offers}: MainProps): JSX.Element {
+function Main({placeCount, offers, favorites, onFavoritesClick}: MainProps): JSX.Element {
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -74,7 +74,12 @@ function Main({placeCount, offers}: MainProps): JSX.Element {
         </div>
         <div className="cities">
           <div className="cities__places-container container">
-            <PlacesList placeCount={placeCount} offers={offers} />
+            <PlacesList
+              placeCount={placeCount}
+              offers={offers}
+              favorites={favorites}
+              onFavoritesClick={onFavoritesClick}
+            />
             <div className="cities__right-section">
               <section className="cities__map map"></section>
             </div>

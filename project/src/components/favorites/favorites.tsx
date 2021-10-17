@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 
+//import FavoritePlaceCard from '../favorite-place-card/favorite-place-card';
 import Logo from '../logo/logo';
 
 function Favorites(): JSX.Element {
@@ -45,7 +46,7 @@ function Favorites(): JSX.Element {
                   </div>
                 </div>
                 <div className="favorites__places">
-                  <article className="favorites__card place-card">
+                  {/* <article className="favorites__card place-card">
                     <div className="favorites__image-wrapper place-card__image-wrapper">
                       <Link to="/">
                         <img className="place-card__image" src="img/apartment-small-03.jpg" width="150" height="110" alt="Place"/>
@@ -107,7 +108,7 @@ function Favorites(): JSX.Element {
                       </h2>
                       <p className="place-card__type">Private room</p>
                     </div>
-                  </article>
+                  </article> */}
                 </div>
               </li>
 
@@ -120,7 +121,7 @@ function Favorites(): JSX.Element {
                   </div>
                 </div>
                 <div className="favorites__places">
-                  <article className="favorites__card place-card">
+                  {/* <article className="favorites__card place-card">
                     <div className="favorites__image-wrapper place-card__image-wrapper">
                       <Link to="/">
                         <img className="place-card__image" src="img/apartment-small-04.jpg" width="150" height="110" alt="Place"/>
@@ -150,7 +151,7 @@ function Favorites(): JSX.Element {
                       </h2>
                       <p className="place-card__type">Apartment</p>
                     </div>
-                  </article>
+                  </article> */}
                 </div>
               </li>
             </ul>

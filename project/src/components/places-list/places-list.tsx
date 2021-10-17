@@ -5,7 +5,7 @@ import PlaceCard from '../place-card/place-card';
 import { EMPTY_ACTIVE_OFFER } from '../../const';
 import { PlacesListProps } from './types';
 
-function PlacesList({placeCount, offers}: PlacesListProps): JSX.Element {
+function PlacesList({placeCount, offers, favorites, onFavoritesClick}: PlacesListProps): JSX.Element {
 
   const [activeOffer, setActiveOffer] = useState(EMPTY_ACTIVE_OFFER);
 
@@ -35,8 +35,10 @@ function PlacesList({placeCount, offers}: PlacesListProps): JSX.Element {
             .slice(0, placeCount)
             .map((offer) => (
               <PlaceCard
+                isFavorite={favorites.includes(offer.id)}
                 offer={offer}
                 onMouseOver={() => setActiveOffer(offer.id)}
+                onFavoritesClick={onFavoritesClick}
                 key={offer.id}
               />
             ))
