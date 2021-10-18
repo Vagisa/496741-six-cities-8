@@ -25,7 +25,8 @@ function App({placeCount, offers}: AppProps): JSX.Element {
     <BrowserRouter>
       <Switch>
         <Route exact path={AppRoute.Main}>
-          <Main placeCount={placeCount}
+          <Main
+            placeCount={placeCount}
             offers={offers}
             favorites={favorites}
             onFavoritesClick={onFavoritesClick}
@@ -36,14 +37,18 @@ function App({placeCount, offers}: AppProps): JSX.Element {
         </Route>
         <PrivateRoute exact path={AppRoute.Favorites}
           render={() => (
-            <Favorites offers={offers} favorites={favorites}
+            <Favorites
+              offers={offers}
+              favorites={favorites}
               onFavoritesClick={onFavoritesClick}
             />)}
           authorizationStatus={AuthorizationStatus.Auth}
         >
         </PrivateRoute>
         <Route exact path={AppRoute.Room}>
-          <Property offers={offers} favorites={favorites}
+          <Property
+            offers={offers}
+            favorites={favorites}
             onFavoritesClick={onFavoritesClick}
           />
         </Route>

@@ -17,5 +17,5 @@ export type Offer = {
   price: number;
   advantages: string[];
   host: Host;
-  city: string,
+  city: string;
 };
