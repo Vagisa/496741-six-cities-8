@@ -1,8 +1,6 @@
 import { Offer } from '../../types/offers';
 
-export type MainProps = {
-  offers: Offer[];
-  placeCount: number;
-  favorites: number[];
+export type FavoritePlaceCardProps = {
+  offer: Offer;
   onFavoritesClick: (offerId: number) => void;
 }

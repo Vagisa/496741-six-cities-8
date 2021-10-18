@@ -1,6 +1,6 @@
 import { Offer } from '../../types/offers';
 
-export type MainProps = {
+export type PlacesListProps = {
   offers: Offer[];
   placeCount: number;
   favorites: number[];

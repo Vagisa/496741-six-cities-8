@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { useState } from 'react';
 
 import Favorites from '../favorites/favorites';
 import Login from '../login/login';
@@ -10,23 +11,46 @@ import Property from '../property/property';
 import { AppProps } from './types';
 import { AppRoute, AuthorizationStatus } from '../../const';
 
-function App({placeCount}: AppProps): JSX.Element {
+function App({placeCount, offers}: AppProps): JSX.Element {
+  const [favorites, setFavorites] = useState<number[]>([11, 12, 10, 13]);
+  const onFavoritesClick = (offerId: number): void => {
+    if(favorites.includes(offerId)) {
+      setFavorites(favorites.filter((id) => id !== offerId));
+    } else {
+      setFavorites([...favorites, offerId]);
+    }
+  };
+
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path={AppRoute.Main}>
-          <Main placeCount={placeCount} />
+          <Main
+            placeCount={placeCount}
+            offers={offers}
+            favorites={favorites}
+            onFavoritesClick={onFavoritesClick}
+          />
         </Route>
         <Route exact path={AppRoute.SignIn}>
           <Login />
         </Route>
         <PrivateRoute exact path={AppRoute.Favorites}
-          render={() => <Favorites />}
-          authorizationStatus={AuthorizationStatus.NoAuth}
+          render={() => (
+            <Favorites
+              offers={offers}
+              favorites={favorites}
+              onFavoritesClick={onFavoritesClick}
+            />)}
+          authorizationStatus={AuthorizationStatus.Auth}
         >
         </PrivateRoute>
         <Route exact path={AppRoute.Room}>
-          <Property />
+          <Property
+            offers={offers}
+            favorites={favorites}
+            onFavoritesClick={onFavoritesClick}
+          />
         </Route>
         <Route>
           <NotFound />
