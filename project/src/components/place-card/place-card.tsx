@@ -4,7 +4,7 @@ import { PlaceCardProps } from './types';
 
 function PlaceCard({offer, onMouseOver, isFavorite, onFavoritesClick}: PlaceCardProps): JSX.Element {
   return (
-    <article onMouseOver={onMouseOver} className="cities__place-card place-card">
+    <article onMouseOver={() => onMouseOver(offer.id)} className="cities__place-card place-card">
       {
         offer.isPremium &&
         <div className="place-card__mark">

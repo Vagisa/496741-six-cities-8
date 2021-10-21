@@ -1,8 +1,4 @@
-export type Location = {
-  latitude: number;
-  longitude: number;
-  zoom: number;
-}
+import { Location, City } from './cities';
 
 export type Host = {
   avatar: string;
@@ -10,10 +6,6 @@ export type Host = {
   isPro: boolean;
 }
 
-export type City = {
-  location: Location;
-  name: string;
-}
 
 export type Offer = {
   id: number;
