@@ -7,7 +7,7 @@ import { FavoritesProps } from './types';
 
 function Favorites({offers, favorites, onFavoritesClick}: FavoritesProps): JSX.Element {
   const favoriteOffers = offers.filter(({id}) => favorites.includes(id));
-  const citiesSet = new Set(favoriteOffers.map((offer) => offer.city));
+  const citiesSet = new Set(favoriteOffers.map((offer) => offer.city.name));
   const cities = [...citiesSet].sort().map((city) => (
     <li key={city} className="favorites__locations-items">
       <div className="favorites__locations locations locations--current">
@@ -18,7 +18,7 @@ function Favorites({offers, favorites, onFavoritesClick}: FavoritesProps): JSX.E
         </div>
       </div>
       <div className="favorites__places">
-        {favoriteOffers.filter((offer) => offer.city === city).map((offer) => (
+        {favoriteOffers.filter((offer) => offer.city.name === city).map((offer) => (
           <FavoritePlaceCard key={offer.id} offer={offer}
             onFavoritesClick={onFavoritesClick}
           />

@@ -1,11 +1,14 @@
 import { Link } from 'react-router-dom';
+//import { useState } from 'react';
 
 import Logo from '../logo/logo';
+import Map from '../map/map';
 import PlacesList from '../places-list/places-list';
 
 import { MainProps } from './types';
 
 function Main({placeCount, offers, favorites, onFavoritesClick}: MainProps): JSX.Element {
+  //const [selectedPoint, setSelectedPoint] = useState({});
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -81,7 +84,10 @@ function Main({placeCount, offers, favorites, onFavoritesClick}: MainProps): JSX
               onFavoritesClick={onFavoritesClick}
             />
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <Map
+                offer={offers[0]}
+                offers={offers}
+              />
             </div>
           </div>
         </div>
