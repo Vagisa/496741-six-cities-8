@@ -3,7 +3,14 @@ import { Offer } from '../types/offers';
 export const offers: Offer[] = [
   {
     id: 10,
-    city: 'Amsterdam',
+    city: {
+      location: {
+        latitude: 52.370216,
+        longitude: 4.895168,
+        zoom: 10,
+      },
+      name: 'Amsterdam',
+    },
     gallery: [
       'img/apartment-01.jpg',
       'img/apartment-02.jpg',
@@ -39,10 +46,22 @@ export const offers: Offer[] = [
       name: 'Angelina',
       isPro: true,
     },
+    location: {
+      latitude: 52.3909553943508,
+      longitude: 4.85309666406198,
+      zoom: 8,
+    },
   },
   {
     id: 11,
-    city: 'Paris',
+    city: {
+      location: {
+        latitude: 52.370216,
+        longitude: 4.895168,
+        zoom: 10,
+      },
+      name: 'Amsterdam',
+    },
     gallery: [
       'img/room.jpg',
       'img/apartment-01.jpg',
@@ -78,10 +97,22 @@ export const offers: Offer[] = [
       name: 'Angelina',
       isPro: true,
     },
+    location: {
+      latitude: 52.369553943508,
+      longitude: 4.85309666406198,
+      zoom: 8,
+    },
   },
   {
     id: 12,
-    city: 'Amsterdam',
+    city: {
+      location: {
+        latitude: 52.370216,
+        longitude: 4.895168,
+        zoom: 10,
+      },
+      name: 'Amsterdam',
+    },
     gallery: [
       'img/apartment-02.jpg',
       'img/apartment-03.jpg',
@@ -112,10 +143,22 @@ export const offers: Offer[] = [
       name: 'Angelina',
       isPro: true,
     },
+    location: {
+      latitude: 52.3909553943508,
+      longitude: 4.929309666406198,
+      zoom: 8,
+    },
   },
   {
     id: 13,
-    city: 'Hamburg',
+    city: {
+      location: {
+        latitude: 52.370216,
+        longitude: 4.895168,
+        zoom: 10,
+      },
+      name: 'Amsterdam',
+    },
     gallery: [
       'img/apartment-03.jpg',
       'img/studio-01.jpg',
@@ -150,6 +193,11 @@ export const offers: Offer[] = [
       avatar: 'img/avatar-angelina.jpg',
       name: 'Angelina',
       isPro: true,
+    },
+    location: {
+      latitude: 52.3809553943508,
+      longitude: 4.939309666406198,
+      zoom: 8,
     },
   },
 ];

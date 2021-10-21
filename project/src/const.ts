@@ -11,6 +11,4 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
-export const EMPTY_ACTIVE_OFFER = 0;
-
 export const MAX_RATING = 5;

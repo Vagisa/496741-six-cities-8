@@ -1,17 +1,17 @@
-import { useState } from 'react';
-
 import PlaceCard from '../place-card/place-card';
 
-import { EMPTY_ACTIVE_OFFER } from '../../const';
 import { PlacesListProps } from './types';
 
-function PlacesList({placeCount, offers, favorites, onFavoritesClick}: PlacesListProps): JSX.Element {
-
-  const [activeOffer, setActiveOffer] = useState(EMPTY_ACTIVE_OFFER);
+function PlacesList({
+  placeCount,
+  offers,
+  favorites,
+  onFavoritesClick,
+  onOfferItemHover,
+}: PlacesListProps): JSX.Element {
 
   return (
     <section className="cities__places places">
-      <p>active offer: {activeOffer}</p>
       <h2 className="visually-hidden">Places</h2>
       <b className="places__found">312 places to stay in Amsterdam</b>
       <form className="places__sorting" action="#" method="get">
@@ -37,7 +37,7 @@ function PlacesList({placeCount, offers, favorites, onFavoritesClick}: PlacesLis
               <PlaceCard
                 isFavorite={favorites.includes(offer.id)}
                 offer={offer}
-                onMouseOver={() => setActiveOffer(offer.id)}
+                onMouseOver={onOfferItemHover}
                 onFavoritesClick={onFavoritesClick}
                 key={offer.id}
               />

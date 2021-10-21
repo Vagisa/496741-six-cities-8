@@ -1,11 +1,25 @@
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
 
 import Logo from '../logo/logo';
+import Map from '../map/map';
 import PlacesList from '../places-list/places-list';
 
+//import { EMPTY_ACTIVE_OFFER } from '../../const';
 import { MainProps } from './types';
+import { Offer } from '../../types/offers';
+import { cities } from '../../mocks/cities';
 
 function Main({placeCount, offers, favorites, onFavoritesClick}: MainProps): JSX.Element {
+
+  const [activeOffer, setActiveOffer] = useState<Offer | undefined>(undefined);
+  const [activeCity, setActiveCity] = useState(cities[3]);
+  const onOfferItemHover = (offerItemId: number) => {
+    const currentPoint = offers.find((offer) =>
+      offer.id === offerItemId,
+    );
+    setActiveOffer(currentPoint);
+  };
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -39,36 +53,15 @@ function Main({placeCount, offers, favorites, onFavoritesClick}: MainProps): JSX
         <div className="tabs">
           <section className="locations container">
             <ul className="locations__list tabs__list">
-              <li className="locations__item">
-                <Link className="locations__item-link tabs__item" to="/">
-                  <span>Paris</span>
-                </Link>
-              </li>
-              <li className="locations__item">
-                <Link className="locations__item-link tabs__item" to="/">
-                  <span>Cologne</span>
-                </Link>
-              </li>
-              <li className="locations__item">
-                <Link className="locations__item-link tabs__item" to="/">
-                  <span>Brussels</span>
-                </Link>
-              </li>
-              <li className="locations__item">
-                <Link className="locations__item-link tabs__item tabs__item--active" to="/">
-                  <span>Amsterdam</span>
-                </Link>
-              </li>
-              <li className="locations__item">
-                <Link className="locations__item-link tabs__item" to="/">
-                  <span>Hamburg</span>
-                </Link>
-              </li>
-              <li className="locations__item">
-                <Link className="locations__item-link tabs__item" to="/">
-                  <span>Dusseldorf</span>
-                </Link>
-              </li>
+              {cities.map((city) => (
+                <li key={city.name} onClick={() => setActiveCity(city)} className="locations__item">
+                  <Link className={`locations__item-link tabs__item
+                  ${activeCity.name === city.name ? 'tabs__item--active' : ''} `} to="/"
+                  >
+                    <span>{city.name}</span>
+                  </Link>
+                </li>
+              ))}
             </ul>
           </section>
         </div>
@@ -79,9 +72,14 @@ function Main({placeCount, offers, favorites, onFavoritesClick}: MainProps): JSX
               offers={offers}
               favorites={favorites}
               onFavoritesClick={onFavoritesClick}
+              onOfferItemHover = {onOfferItemHover}
             />
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <Map
+                city={activeCity}
+                offers={offers}
+                activeOffer = {activeOffer}
+              />
             </div>
           </div>
         </div>
