@@ -7,19 +7,13 @@ import PlacesList from '../places-list/places-list';
 
 //import { EMPTY_ACTIVE_OFFER } from '../../const';
 import { MainProps } from './types';
-import { Offer } from '../../types/offers';
 import { cities } from '../../mocks/cities';
+import { PlaceCardMode } from '../../const';
 
-function Main({placeCount, offers, favorites, onFavoritesClick}: MainProps): JSX.Element {
+function Main({placeCount, offers, favorites, activeOffer, onFavoritesClick, onOfferItemHover}: MainProps): JSX.Element {
 
-  const [activeOffer, setActiveOffer] = useState<Offer | undefined>(undefined);
   const [activeCity, setActiveCity] = useState(cities[3]);
-  const onOfferItemHover = (offerItemId: number) => {
-    const currentPoint = offers.find((offer) =>
-      offer.id === offerItemId,
-    );
-    setActiveOffer(currentPoint);
-  };
+
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -72,7 +66,8 @@ function Main({placeCount, offers, favorites, onFavoritesClick}: MainProps): JSX
               offers={offers}
               favorites={favorites}
               onFavoritesClick={onFavoritesClick}
-              onOfferItemHover = {onOfferItemHover}
+              onOfferItemHover={onOfferItemHover}
+              mode={PlaceCardMode.Cities}
             />
             <div className="cities__right-section">
               <section className="cities__map map">

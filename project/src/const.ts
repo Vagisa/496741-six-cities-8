@@ -11,4 +11,9 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
+export enum PlaceCardMode {
+  Cities = 'cities',
+  NearPlaces = 'near-places',
+}
+
 export const MAX_RATING = 5;
