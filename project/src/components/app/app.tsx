@@ -11,7 +11,7 @@ import Property from '../property/property';
 import { AppProps } from './types';
 import { AppRoute, AuthorizationStatus } from '../../const';
 
-function App({placeCount, offers}: AppProps): JSX.Element {
+function App({placeCount, offers, reviews}: AppProps): JSX.Element {
   const [favorites, setFavorites] = useState<number[]>([11, 12, 10, 13]);
   const onFavoritesClick = (offerId: number): void => {
     if(favorites.includes(offerId)) {
@@ -48,6 +48,7 @@ function App({placeCount, offers}: AppProps): JSX.Element {
         <Route exact path={AppRoute.Room}>
           <Property
             offers={offers}
+            reviews={reviews}
             favorites={favorites}
             onFavoritesClick={onFavoritesClick}
           />

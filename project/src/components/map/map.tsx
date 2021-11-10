@@ -43,12 +43,10 @@ function Map({city, offers, activeOffer}: MapProps): JSX.Element {
   ]);
 
   return (
-    <section className="cities__map map">
-      <div
-        style={{height: '100%'}}
-        ref={mapRef}
-      />
-    </section>
+    <div
+      style={{height: '100%'}}
+      ref={mapRef}
+    />
   );
 }
 

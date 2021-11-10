@@ -42,7 +42,8 @@ export const offers: Offer[] = [
       'Cabel TV',
       'Fridge'],
     host: {
-      avatar: 'img/avatar-angelina.jpg',
+      id: 1,
+      avatarUrl: 'img/avatar-angelina.jpg',
       name: 'Angelina',
       isPro: true,
     },
@@ -93,7 +94,8 @@ export const offers: Offer[] = [
       'Cabel TV',
       'Fridge'],
     host: {
-      avatar: 'img/avatar-angelina.jpg',
+      id: 2,
+      avatarUrl: 'img/avatar-angelina.jpg',
       name: 'Angelina',
       isPro: true,
     },
@@ -139,7 +141,8 @@ export const offers: Offer[] = [
       'Heating',
       'Coffee machine'],
     host: {
-      avatar: 'img/avatar-angelina.jpg',
+      id: 3,
+      avatarUrl: 'img/avatar-angelina.jpg',
       name: 'Angelina',
       isPro: true,
     },
@@ -190,7 +193,8 @@ export const offers: Offer[] = [
       'Cabel TV',
       'Fridge'],
     host: {
-      avatar: 'img/avatar-angelina.jpg',
+      id: 5,
+      avatarUrl: 'img/avatar-angelina.jpg',
       name: 'Angelina',
       isPro: true,
     },

@@ -75,11 +75,13 @@ function Main({placeCount, offers, favorites, onFavoritesClick}: MainProps): JSX
               onOfferItemHover = {onOfferItemHover}
             />
             <div className="cities__right-section">
-              <Map
-                city={activeCity}
-                offers={offers}
-                activeOffer = {activeOffer}
-              />
+              <section className="cities__map map">
+                <Map
+                  city={activeCity}
+                  offers={offers}
+                  activeOffer = {activeOffer}
+                />
+              </section>
             </div>
           </div>
         </div>
