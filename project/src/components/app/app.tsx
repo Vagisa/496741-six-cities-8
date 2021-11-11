@@ -10,15 +10,25 @@ import Property from '../property/property';
 
 import { AppProps } from './types';
 import { AppRoute, AuthorizationStatus } from '../../const';
+import { Offer } from '../../types/offers';
 
-function App({placeCount, offers}: AppProps): JSX.Element {
+function App({placeCount, offers, reviews}: AppProps): JSX.Element {
+  const [activeOffer, setActiveOffer] = useState<Offer | undefined>(undefined);
   const [favorites, setFavorites] = useState<number[]>([11, 12, 10, 13]);
+
   const onFavoritesClick = (offerId: number): void => {
     if(favorites.includes(offerId)) {
       setFavorites(favorites.filter((id) => id !== offerId));
     } else {
       setFavorites([...favorites, offerId]);
     }
+  };
+
+  const onOfferItemHover = (offerItemId: number) => {
+    const currentPoint = offers.find((offer) =>
+      offer.id === offerItemId,
+    );
+    setActiveOffer(currentPoint);
   };
 
   return (
@@ -28,8 +38,10 @@ function App({placeCount, offers}: AppProps): JSX.Element {
           <Main
             placeCount={placeCount}
             offers={offers}
+            activeOffer={activeOffer}
             favorites={favorites}
             onFavoritesClick={onFavoritesClick}
+            onOfferItemHover={onOfferItemHover}
           />
         </Route>
         <Route exact path={AppRoute.SignIn}>
@@ -48,8 +60,11 @@ function App({placeCount, offers}: AppProps): JSX.Element {
         <Route exact path={AppRoute.Room}>
           <Property
             offers={offers}
+            activeOffer={activeOffer}
+            reviews={reviews}
             favorites={favorites}
             onFavoritesClick={onFavoritesClick}
+            onOfferItemHover={onOfferItemHover}
           />
         </Route>
         <Route>

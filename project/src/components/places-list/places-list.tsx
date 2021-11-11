@@ -8,6 +8,7 @@ function PlacesList({
   favorites,
   onFavoritesClick,
   onOfferItemHover,
+  mode,
 }: PlacesListProps): JSX.Element {
 
   return (
@@ -40,6 +41,7 @@ function PlacesList({
                 onMouseOver={onOfferItemHover}
                 onFavoritesClick={onFavoritesClick}
                 key={offer.id}
+                mode={mode}
               />
             ))
         }

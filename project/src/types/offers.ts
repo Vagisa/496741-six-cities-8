@@ -1,11 +1,5 @@
 import { Location, City } from './cities';
-
-export type Host = {
-  avatar: string;
-  name: string;
-  isPro: boolean;
-}
-
+import { User } from './user';
 
 export type Offer = {
   id: number;
@@ -20,6 +14,6 @@ export type Offer = {
   maxAdults: number;
   price: number;
   advantages: string[];
-  host: Host;
+  host: User;
   location: Location;
 };
