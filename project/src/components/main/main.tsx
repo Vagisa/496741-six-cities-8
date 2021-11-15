@@ -1,18 +1,45 @@
+import { connect, ConnectedProps } from 'react-redux';
+import { Dispatch } from 'redux';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
 
 import Logo from '../logo/logo';
 import Map from '../map/map';
 import PlacesList from '../places-list/places-list';
 
-//import { EMPTY_ACTIVE_OFFER } from '../../const';
+import { changeCity } from '../../store/action';
 import { MainProps } from './types';
 import { cities } from '../../mocks/cities';
 import { PlaceCardMode } from '../../const';
+import { State } from '../../types/state';
+import { Actions } from '../../types/action';
+import { City } from '../../types/cities';
 
-function Main({placeCount, offers, favorites, activeOffer, onFavoritesClick, onOfferItemHover}: MainProps): JSX.Element {
+const mapStateToProps = ({city}: State) => ({
+  city,
+});
 
-  const [activeCity, setActiveCity] = useState(cities[3]);
+const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
+  setActiveCity(activeCity: City) {
+    dispatch(changeCity(activeCity));
+  },
+});
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type ConnectedComponentProps = PropsFromRedux & MainProps;
+
+function Main(props: ConnectedComponentProps): JSX.Element {
+
+  const {
+    city,
+    setActiveCity,
+    placeCount,
+    offers,
+    activeOffer,
+    favorites,
+    onFavoritesClick,
+    onOfferItemHover} = props;
 
   return (
     <div className="page page--gray page--main">
@@ -47,12 +74,12 @@ function Main({placeCount, offers, favorites, activeOffer, onFavoritesClick, onO
         <div className="tabs">
           <section className="locations container">
             <ul className="locations__list tabs__list">
-              {cities.map((city) => (
-                <li key={city.name} onClick={() => setActiveCity(city)} className="locations__item">
+              {cities.map((activeCity) => (
+                <li key={activeCity.name} onClick={() => setActiveCity(activeCity)} className="locations__item">
                   <Link className={`locations__item-link tabs__item
-                  ${activeCity.name === city.name ? 'tabs__item--active' : ''} `} to="/"
+                  ${city.name === activeCity.name ? 'tabs__item--active' : ''} `} to="/"
                   >
-                    <span>{city.name}</span>
+                    <span>{activeCity.name}</span>
                   </Link>
                 </li>
               ))}
@@ -72,7 +99,7 @@ function Main({placeCount, offers, favorites, activeOffer, onFavoritesClick, onO
             <div className="cities__right-section">
               <section className="cities__map map">
                 <Map
-                  city={activeCity}
+                  city={city}
                   offers={offers}
                   activeOffer = {activeOffer}
                 />
@@ -85,4 +112,5 @@ function Main({placeCount, offers, favorites, activeOffer, onFavoritesClick, onO
   );
 }
 
-export default Main;
+export {Main};
+export default connector(Main);
