@@ -1,10 +1,24 @@
+import { connect, ConnectedProps } from 'react-redux';
 import leaflet from 'leaflet';
 import { useEffect, useRef } from 'react';
-
-import { MapProps } from './types';
 import useMap from './use-map';
 
-function Map({city, offers, activeOffer}: MapProps): JSX.Element {
+import { State } from '../../types/state';
+import { MapProps } from './types';
+
+const mapStateToProps = ({city, offers, activeOffer}: State) => ({
+  city,
+  offers,
+  activeOffer,
+});
+
+const connector = connect(mapStateToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type ConnectedComponentProps = PropsFromRedux & MapProps;
+
+
+function Map({city, offers, activeOffer}: ConnectedComponentProps): JSX.Element {
   const mapRef = useRef<HTMLDivElement>(null);
   const map = useMap(mapRef, city);
 
@@ -50,4 +64,5 @@ function Map({city, offers, activeOffer}: MapProps): JSX.Element {
   );
 }
 
-export default Map;
+export {Map};
+export default connector(Map);

@@ -1,18 +1,20 @@
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
 
+import ConnectedCitiesList from '../cities-list/cities-list';
+import ConnectedPlacesList from '../places-list/places-list';
 import Logo from '../logo/logo';
-import Map from '../map/map';
-import PlacesList from '../places-list/places-list';
+import ConnectedMap from '../map/map';
 
-//import { EMPTY_ACTIVE_OFFER } from '../../const';
 import { MainProps } from './types';
-import { cities } from '../../mocks/cities';
 import { PlaceCardMode } from '../../const';
 
-function Main({placeCount, offers, favorites, activeOffer, onFavoritesClick, onOfferItemHover}: MainProps): JSX.Element {
+function Main(props: MainProps): JSX.Element {
 
-  const [activeCity, setActiveCity] = useState(cities[3]);
+  const {
+    placeCount,
+    favorites,
+    onFavoritesClick,
+    onOfferItemHover} = props;
 
   return (
     <div className="page page--gray page--main">
@@ -44,26 +46,11 @@ function Main({placeCount, offers, favorites, activeOffer, onFavoritesClick, onO
 
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
-        <div className="tabs">
-          <section className="locations container">
-            <ul className="locations__list tabs__list">
-              {cities.map((city) => (
-                <li key={city.name} onClick={() => setActiveCity(city)} className="locations__item">
-                  <Link className={`locations__item-link tabs__item
-                  ${activeCity.name === city.name ? 'tabs__item--active' : ''} `} to="/"
-                  >
-                    <span>{city.name}</span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </section>
-        </div>
+        <ConnectedCitiesList />
         <div className="cities">
           <div className="cities__places-container container">
-            <PlacesList
+            <ConnectedPlacesList
               placeCount={placeCount}
-              offers={offers}
               favorites={favorites}
               onFavoritesClick={onFavoritesClick}
               onOfferItemHover={onOfferItemHover}
@@ -71,11 +58,7 @@ function Main({placeCount, offers, favorites, activeOffer, onFavoritesClick, onO
             />
             <div className="cities__right-section">
               <section className="cities__map map">
-                <Map
-                  city={activeCity}
-                  offers={offers}
-                  activeOffer = {activeOffer}
-                />
+                <ConnectedMap />
               </section>
             </div>
           </div>

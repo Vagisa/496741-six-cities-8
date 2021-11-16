@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { useState } from 'react';
+import { connect, ConnectedProps } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import Favorites from '../favorites/favorites';
 import Login from '../login/login';
@@ -8,21 +9,42 @@ import NotFound from '../not-found/not-found';
 import PrivateRoute from '../private-route/private-route';
 import Property from '../property/property';
 
+import { Actions } from '../../types/action';
 import { AppProps } from './types';
 import { AppRoute, AuthorizationStatus } from '../../const';
+import { changeActiveOffer, toggleFavorite } from '../../store/action';
 import { Offer } from '../../types/offers';
+import { State } from '../../types/state';
 
-function App({placeCount, offers, reviews}: AppProps): JSX.Element {
-  const [activeOffer, setActiveOffer] = useState<Offer | undefined>(undefined);
-  const [favorites, setFavorites] = useState<number[]>([11, 12, 10, 13]);
+const mapStateToProps = ({activeOffer, offers, favorites}: State) => ({
+  activeOffer,
+  offers,
+  favorites,
+});
 
-  const onFavoritesClick = (offerId: number): void => {
-    if(favorites.includes(offerId)) {
-      setFavorites(favorites.filter((id) => id !== offerId));
-    } else {
-      setFavorites([...favorites, offerId]);
-    }
-  };
+const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
+  setActiveOffer(offer: Offer | undefined) {
+    dispatch(changeActiveOffer(offer));
+  },
+  onFavoritesClick(offerId: number) {
+    dispatch(toggleFavorite(offerId));
+  },
+});
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type ConnectedComponentProps = PropsFromRedux & AppProps;
+
+function App(props: ConnectedComponentProps): JSX.Element {
+  const {
+    placeCount,
+    activeOffer,
+    offers,
+    setActiveOffer,
+    favorites,
+    onFavoritesClick,
+    reviews} = props;
 
   const onOfferItemHover = (offerItemId: number) => {
     const currentPoint = offers.find((offer) =>
@@ -37,8 +59,6 @@ function App({placeCount, offers, reviews}: AppProps): JSX.Element {
         <Route exact path={AppRoute.Main}>
           <Main
             placeCount={placeCount}
-            offers={offers}
-            activeOffer={activeOffer}
             favorites={favorites}
             onFavoritesClick={onFavoritesClick}
             onOfferItemHover={onOfferItemHover}
@@ -75,4 +95,5 @@ function App({placeCount, offers, reviews}: AppProps): JSX.Element {
   );
 }
 
-export default App;
+export {App};
+export default connector(App);

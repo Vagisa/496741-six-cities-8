@@ -22,6 +22,8 @@ function useMap(mapRef: RefObject<HTMLElement>, city: City ): leaflet.Map | null
         },
       ).addTo(instance);
       setMap(instance);
+    } else {
+      map?.panTo(leaflet.latLng(city.location.latitude, city.location.longitude));
     }
   }, [mapRef, map, city]);
 
