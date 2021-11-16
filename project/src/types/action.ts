@@ -5,6 +5,7 @@ export enum ActionType {
   СhangeСity = 'changeCity',
   FillOffersList = 'fillOffersList',
   ChangeActiveOffer = 'changeActiveOffer',
+  ToggleFavorite = 'toggleFavorite',
 }
 
 export type ChangeCityAction = {
@@ -22,4 +23,13 @@ export type ChangeActiveOfferAction = {
   payload: Offer | undefined;
 }
 
-export type Actions = ChangeCityAction | FillOffersListAction | ChangeActiveOfferAction;
+export type ToggleFavoriteAction = {
+  type: ActionType.ToggleFavorite;
+  payload: number;
+}
+
+export type Actions =
+  ChangeCityAction
+  | FillOffersListAction
+  | ChangeActiveOfferAction
+  | ToggleFavoriteAction;

@@ -1,7 +1,6 @@
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { connect, ConnectedProps } from 'react-redux';
 import { Dispatch } from 'redux';
-import { useState } from 'react';
 
 import Favorites from '../favorites/favorites';
 import Login from '../login/login';
@@ -13,18 +12,22 @@ import Property from '../property/property';
 import { Actions } from '../../types/action';
 import { AppProps } from './types';
 import { AppRoute, AuthorizationStatus } from '../../const';
-import { changeActiveOffer } from '../../store/action';
+import { changeActiveOffer, toggleFavorite } from '../../store/action';
 import { Offer } from '../../types/offers';
 import { State } from '../../types/state';
 
-const mapStateToProps = ({activeOffer, offers}: State) => ({
+const mapStateToProps = ({activeOffer, offers, favorites}: State) => ({
   activeOffer,
   offers,
+  favorites,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
   setActiveOffer(offer: Offer | undefined) {
     dispatch(changeActiveOffer(offer));
+  },
+  onFavoritesClick(offerId: number) {
+    dispatch(toggleFavorite(offerId));
   },
 });
 
@@ -39,16 +42,9 @@ function App(props: ConnectedComponentProps): JSX.Element {
     activeOffer,
     offers,
     setActiveOffer,
+    favorites,
+    onFavoritesClick,
     reviews} = props;
-  const [favorites, setFavorites] = useState<number[]>([11, 12, 10, 13]);
-
-  const onFavoritesClick = (offerId: number): void => {
-    if(favorites.includes(offerId)) {
-      setFavorites(favorites.filter((id) => id !== offerId));
-    } else {
-      setFavorites([...favorites, offerId]);
-    }
-  };
 
   const onOfferItemHover = (offerItemId: number) => {
     const currentPoint = offers.find((offer) =>

@@ -2,7 +2,8 @@ import {
   ActionType,
   ChangeCityAction,
   FillOffersListAction,
-  ChangeActiveOfferAction } from '../types/action';
+  ChangeActiveOfferAction,
+  ToggleFavoriteAction } from '../types/action';
 import { City } from '../types/cities';
 import { Offer } from '../types/offers';
 
@@ -19,4 +20,9 @@ export const fillOffersList = (offers: Offer[]): FillOffersListAction => ({
 export const changeActiveOffer = (activeOffer: Offer | undefined): ChangeActiveOfferAction => ({
   type: ActionType.ChangeActiveOffer,
   payload: activeOffer,
+});
+
+export const toggleFavorite = (favoriteId: number): ToggleFavoriteAction => ({
+  type: ActionType.ToggleFavorite,
+  payload: favoriteId,
 });
