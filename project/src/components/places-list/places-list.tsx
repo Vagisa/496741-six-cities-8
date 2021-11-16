@@ -1,20 +1,34 @@
+import { connect, ConnectedProps } from 'react-redux';
 import PlaceCard from '../place-card/place-card';
 
 import { PlacesListProps } from './types';
+import { State } from '../../types/state';
+
+const mapStateToProps = ({city, offers}: State) => ({
+  city,
+  offers,
+});
+
+const connector = connect(mapStateToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type ConnectedComponentProps = PropsFromRedux & PlacesListProps;
 
 function PlacesList({
+  city,
   placeCount,
   offers,
   favorites,
   onFavoritesClick,
   onOfferItemHover,
   mode,
-}: PlacesListProps): JSX.Element {
+}: ConnectedComponentProps): JSX.Element {
 
+  const offersFiltered = offers.filter((offer) => offer.city.name === city.name);
   return (
     <section className="cities__places places">
       <h2 className="visually-hidden">Places</h2>
-      <b className="places__found">312 places to stay in Amsterdam</b>
+      <b className="places__found">{offersFiltered.length} places to stay in {city.name}</b>
       <form className="places__sorting" action="#" method="get">
         <span className="places__sorting-caption">Sort by</span>
         <span className="places__sorting-type" tabIndex={0}>
@@ -32,7 +46,7 @@ function PlacesList({
       </form>
       <div className="cities__places-list places__list tabs__content">
         {
-          offers
+          offersFiltered
             .slice(0, placeCount)
             .map((offer) => (
               <PlaceCard
@@ -50,4 +64,5 @@ function PlacesList({
   );
 }
 
-export default PlacesList;
+export {PlacesList};
+export default connector(PlacesList);

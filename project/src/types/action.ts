@@ -1,8 +1,10 @@
 import { City } from './cities';
+import { Offer } from './offers';
 
 export enum ActionType {
   СhangeСity = 'changeCity',
   FillOffersList = 'fillOffersList',
+  ChangeActiveOffer = 'changeActiveOffer',
 }
 
 export type ChangeCityAction = {
@@ -12,6 +14,12 @@ export type ChangeCityAction = {
 
 export type FillOffersListAction = {
   type: ActionType.FillOffersList;
+  payload: Offer[];
 }
 
-export type Actions = ChangeCityAction | FillOffersListAction;
+export type ChangeActiveOfferAction = {
+  type: ActionType.ChangeActiveOffer;
+  payload: Offer;
+}
+
+export type Actions = ChangeCityAction | FillOffersListAction | ChangeActiveOfferAction;

@@ -37,8 +37,6 @@ function App({placeCount, offers, reviews}: AppProps): JSX.Element {
         <Route exact path={AppRoute.Main}>
           <Main
             placeCount={placeCount}
-            offers={offers}
-            activeOffer={activeOffer}
             favorites={favorites}
             onFavoritesClick={onFavoritesClick}
             onOfferItemHover={onOfferItemHover}

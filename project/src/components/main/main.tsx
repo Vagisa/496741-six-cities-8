@@ -1,42 +1,17 @@
-import { connect, ConnectedProps } from 'react-redux';
-import { Dispatch } from 'redux';
 import { Link } from 'react-router-dom';
 
+import ConnectedCitiesList from '../cities-list/cities-list';
+import ConnectedPlacesList from '../places-list/places-list';
 import Logo from '../logo/logo';
-import Map from '../map/map';
-import PlacesList from '../places-list/places-list';
+import ConnectedMap from '../map/map';
 
-import { changeCity } from '../../store/action';
 import { MainProps } from './types';
-import { cities } from '../../mocks/cities';
 import { PlaceCardMode } from '../../const';
-import { State } from '../../types/state';
-import { Actions } from '../../types/action';
-import { City } from '../../types/cities';
 
-const mapStateToProps = ({city}: State) => ({
-  city,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
-  setActiveCity(activeCity: City) {
-    dispatch(changeCity(activeCity));
-  },
-});
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = PropsFromRedux & MainProps;
-
-function Main(props: ConnectedComponentProps): JSX.Element {
+function Main(props: MainProps): JSX.Element {
 
   const {
-    city,
-    setActiveCity,
     placeCount,
-    offers,
-    activeOffer,
     favorites,
     onFavoritesClick,
     onOfferItemHover} = props;
@@ -71,26 +46,11 @@ function Main(props: ConnectedComponentProps): JSX.Element {
 
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
-        <div className="tabs">
-          <section className="locations container">
-            <ul className="locations__list tabs__list">
-              {cities.map((activeCity) => (
-                <li key={activeCity.name} onClick={() => setActiveCity(activeCity)} className="locations__item">
-                  <Link className={`locations__item-link tabs__item
-                  ${city.name === activeCity.name ? 'tabs__item--active' : ''} `} to="/"
-                  >
-                    <span>{activeCity.name}</span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </section>
-        </div>
+        <ConnectedCitiesList />
         <div className="cities">
           <div className="cities__places-container container">
-            <PlacesList
+            <ConnectedPlacesList
               placeCount={placeCount}
-              offers={offers}
               favorites={favorites}
               onFavoritesClick={onFavoritesClick}
               onOfferItemHover={onOfferItemHover}
@@ -98,11 +58,7 @@ function Main(props: ConnectedComponentProps): JSX.Element {
             />
             <div className="cities__right-section">
               <section className="cities__map map">
-                <Map
-                  city={city}
-                  offers={offers}
-                  activeOffer = {activeOffer}
-                />
+                <ConnectedMap />
               </section>
             </div>
           </div>
@@ -112,5 +68,4 @@ function Main(props: ConnectedComponentProps): JSX.Element {
   );
 }
 
-export {Main};
-export default connector(Main);
+export default Main;

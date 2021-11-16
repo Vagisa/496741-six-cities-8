@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { useParams } from 'react-router';
 
 import Logo from '../logo/logo';
-import Map from '../map/map';
+import ConnectedMap from '../map/map';
 import NotFound from '../not-found/not-found';
 import PlaceCard from '../place-card/place-card';
 import ReviewsList from '../reviews-list/reviews-list';
@@ -133,11 +133,7 @@ function Property({offers, reviews, favorites, onFavoritesClick, onOfferItemHove
             </div>
           </div>
           <section className="property__map map">
-            <Map
-              city={offer.city}
-              offers={offers}
-              activeOffer={offer}
-            />
+            <ConnectedMap />
           </section>
         </section>
         <div className="container">
