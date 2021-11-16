@@ -1,5 +1,3 @@
-import { Offer } from '../../types/offers';
-
 export type MainProps = {
   placeCount: number;
   favorites: number[];
