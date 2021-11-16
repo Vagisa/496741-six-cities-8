@@ -1,4 +1,6 @@
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { connect, ConnectedProps } from 'react-redux';
+import { Dispatch } from 'redux';
 import { useState } from 'react';
 
 import Favorites from '../favorites/favorites';
@@ -8,12 +10,36 @@ import NotFound from '../not-found/not-found';
 import PrivateRoute from '../private-route/private-route';
 import Property from '../property/property';
 
+import { Actions } from '../../types/action';
 import { AppProps } from './types';
 import { AppRoute, AuthorizationStatus } from '../../const';
+import { changeActiveOffer } from '../../store/action';
 import { Offer } from '../../types/offers';
+import { State } from '../../types/state';
 
-function App({placeCount, offers, reviews}: AppProps): JSX.Element {
-  const [activeOffer, setActiveOffer] = useState<Offer | undefined>(undefined);
+const mapStateToProps = ({activeOffer, offers}: State) => ({
+  activeOffer,
+  offers,
+});
+
+const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
+  setActiveOffer(offer: Offer | undefined) {
+    dispatch(changeActiveOffer(offer));
+  },
+});
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type ConnectedComponentProps = PropsFromRedux & AppProps;
+
+function App(props: ConnectedComponentProps): JSX.Element {
+  const {
+    placeCount,
+    activeOffer,
+    offers,
+    setActiveOffer,
+    reviews} = props;
   const [favorites, setFavorites] = useState<number[]>([11, 12, 10, 13]);
 
   const onFavoritesClick = (offerId: number): void => {
@@ -73,4 +99,5 @@ function App({placeCount, offers, reviews}: AppProps): JSX.Element {
   );
 }
 
-export default App;
+export {App};
+export default connector(App);

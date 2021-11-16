@@ -4,7 +4,6 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import App from './components/app/app';
-import { offers } from './mocks/offers';
 import { reviews } from './mocks/reviews';
 import { reducer } from './store/reducer';
 
@@ -19,7 +18,6 @@ ReactDOM.render(
     <Provider store = {store}>
       <App
         placeCount={Setting.PLACE_COUNT}
-        offers={offers}
         reviews={reviews}
       />
     </Provider>

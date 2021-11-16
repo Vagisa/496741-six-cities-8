@@ -16,7 +16,7 @@ export const fillOffersList = (offers: Offer[]): FillOffersListAction => ({
   payload: offers,
 });
 
-export const changeActiveOffer = (activeOffer: Offer): ChangeActiveOfferAction => ({
+export const changeActiveOffer = (activeOffer: Offer | undefined): ChangeActiveOfferAction => ({
   type: ActionType.ChangeActiveOffer,
   payload: activeOffer,
 });

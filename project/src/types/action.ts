@@ -19,7 +19,7 @@ export type FillOffersListAction = {
 
 export type ChangeActiveOfferAction = {
   type: ActionType.ChangeActiveOffer;
-  payload: Offer;
+  payload: Offer | undefined;
 }
 
 export type Actions = ChangeCityAction | FillOffersListAction | ChangeActiveOfferAction;
