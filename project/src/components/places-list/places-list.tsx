@@ -1,12 +1,18 @@
 import { connect, ConnectedProps } from 'react-redux';
+
 import PlaceCard from '../place-card/place-card';
+import ConnectedSortingOptions from '../sorting-options/sorting-options';
 
 import { PlacesListProps } from './types';
 import { State } from '../../types/state';
+import { SortTypeOptions } from '../../const';
+import { Offer } from '../../types/offers';
 
-const mapStateToProps = ({city, offers}: State) => ({
+const mapStateToProps = ({city, offers, sortOption, favorites}: State) => ({
   city,
   offers,
+  sortOption,
+  favorites,
 });
 
 const connector = connect(mapStateToProps);
@@ -14,36 +20,37 @@ const connector = connect(mapStateToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type ConnectedComponentProps = PropsFromRedux & PlacesListProps;
 
+function getSortFunc(sortOption: SortTypeOptions): (first: Offer, second: Offer) => number {
+  switch (sortOption) {
+    case SortTypeOptions.Popular:
+      return (first: Offer, second: Offer) => 0;
+    case SortTypeOptions.PriceLowToHigh:
+      return (first: Offer, second: Offer) => first.price - second.price;
+    case SortTypeOptions.PriceHighToLow:
+      return (first: Offer, second: Offer) => second.price - first.price;
+    case SortTypeOptions.TopRatedFirst:
+      return (first: Offer, second: Offer) => second.rating - first.rating;
+  }
+}
+
 function PlacesList({
   city,
   placeCount,
   offers,
+  sortOption,
   favorites,
   onFavoritesClick,
   onOfferItemHover,
   mode,
 }: ConnectedComponentProps): JSX.Element {
-
-  const offersFiltered = offers.filter((offer) => offer.city.name === city.name);
+  const offersFiltered = offers
+    .filter((offer) => offer.city.name === city.name)
+    .sort(getSortFunc(sortOption));
   return (
     <section className="cities__places places">
       <h2 className="visually-hidden">Places</h2>
       <b className="places__found">{offersFiltered.length} places to stay in {city.name}</b>
-      <form className="places__sorting" action="#" method="get">
-        <span className="places__sorting-caption">Sort by</span>
-        <span className="places__sorting-type" tabIndex={0}>
-          Popular
-          <svg className="places__sorting-arrow" width="7" height="4">
-            <use xlinkHref="#icon-arrow-select"></use>
-          </svg>
-        </span>
-        <ul className="places__options places__options--custom places__options--opened">
-          <li className="places__option places__option--active" tabIndex={0}>Popular</li>
-          <li className="places__option" tabIndex={0}>Price: low to high</li>
-          <li className="places__option" tabIndex={0}>Price: high to low</li>
-          <li className="places__option" tabIndex={0}>Top rated first</li>
-        </ul>
-      </form>
+      <ConnectedSortingOptions />
       <div className="cities__places-list places__list tabs__content">
         {
           offersFiltered

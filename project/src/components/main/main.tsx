@@ -12,7 +12,6 @@ function Main(props: MainProps): JSX.Element {
 
   const {
     placeCount,
-    favorites,
     onFavoritesClick,
     onOfferItemHover} = props;
 
@@ -51,7 +50,6 @@ function Main(props: MainProps): JSX.Element {
           <div className="cities__places-container container">
             <ConnectedPlacesList
               placeCount={placeCount}
-              favorites={favorites}
               onFavoritesClick={onFavoritesClick}
               onOfferItemHover={onOfferItemHover}
               mode={PlaceCardMode.Cities}
