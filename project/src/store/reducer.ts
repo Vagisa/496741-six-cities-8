@@ -1,13 +1,14 @@
 import { ActionType, Actions } from '../types/action';
 import { State } from '../types/state';
 import { offers } from '../mocks/offers';
-import { cities } from '../const';
+import { cities, SortTypeOptions } from '../const';
 
 const initialState: State = {
   city: cities[0],
   offers: offers,
   activeOffer: undefined,
   favorites: [11, 12, 10, 13],
+  sortOption: SortTypeOptions.Popular,
 };
 
 const reducer = (state: State = initialState, action: Actions): State => {
@@ -24,6 +25,8 @@ const reducer = (state: State = initialState, action: Actions): State => {
       } else {
         return {...state, favorites: [...state.favorites, action.payload]};
       }
+    case ActionType.ChangeSortType:
+      return {...state, sortOption: action.payload};
     default:
       return state;
   }

@@ -1,3 +1,4 @@
+import { SortTypeOptions } from '../const';
 import { ActionType } from '../types/action';
 import { City } from '../types/cities';
 import { Offer } from '../types/offers';
@@ -20,4 +21,9 @@ export const changeActiveOffer = (activeOffer: Offer | undefined) => ({
 export const toggleFavorite = (favoriteId: number) => ({
   type: ActionType.ToggleFavorite,
   payload: favoriteId,
+} as const);
+
+export const changeSortType = (sortOption: SortTypeOptions) => ({
+  type: ActionType.ChangeSortType,
+  payload: sortOption,
 } as const);

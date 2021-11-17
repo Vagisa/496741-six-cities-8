@@ -2,7 +2,8 @@ import {
   changeCity,
   fillOffersList,
   changeActiveOffer,
-  toggleFavorite
+  toggleFavorite,
+  changeSortType
 } from '../store/action';
 
 export enum ActionType {
@@ -10,10 +11,12 @@ export enum ActionType {
   FillOffersList = 'fillOffersList',
   ChangeActiveOffer = 'changeActiveOffer',
   ToggleFavorite = 'toggleFavorite',
+  ChangeSortType = 'changeSortType',
 }
 
 export type Actions =
   | ReturnType<typeof changeCity>
   | ReturnType<typeof fillOffersList>
   | ReturnType<typeof changeActiveOffer>
-  | ReturnType<typeof toggleFavorite>;
+  | ReturnType<typeof toggleFavorite>
+  | ReturnType<typeof changeSortType>;
