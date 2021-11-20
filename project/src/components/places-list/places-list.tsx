@@ -5,7 +5,7 @@ import ConnectedSortingOptions from '../sorting-options/sorting-options';
 
 import { PlacesListProps } from './types';
 import { State } from '../../types/state';
-import { SortTypeOptions, PLACE_COUNT } from '../../const';
+import { SortTypeOptions } from '../../const';
 import { Offer } from '../../types/offers';
 
 const mapStateToProps = ({city, offers, sortOption, favorites}: State) => ({
@@ -53,7 +53,7 @@ function PlacesList({
       <div className="cities__places-list places__list tabs__content">
         {
           offersFiltered
-            .slice(0, PLACE_COUNT)
+            .slice()
             .map((offer) => (
               <PlaceCard
                 isFavorite={favorites.includes(offer.id)}
