@@ -16,7 +16,7 @@ function PlaceCard({offer, onMouseOver, isFavorite = false, onFavoritesClick, mo
       }
       <div className={`${mode}__image-wrapper place-card__image-wrapper`}>
         <Link to="/">
-          <img className="place-card__image" src={offer.gallery[0]}
+          <img className="place-card__image" src={offer.previewImage}
             width="260" height="200" alt="Place"
           />
         </Link>
@@ -45,7 +45,7 @@ function PlaceCard({offer, onMouseOver, isFavorite = false, onFavoritesClick, mo
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={`/offer/${offer.id}`}>{offer.heading}</Link>
+          <Link to={`/hotels/${offer.id}`}>{offer.title}</Link>
         </h2>
         <p className="place-card__type">{offer.type}</p>
       </div>

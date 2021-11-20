@@ -11,7 +11,6 @@ import { PlaceCardMode } from '../../const';
 function Main(props: MainProps): JSX.Element {
 
   const {
-    placeCount,
     onFavoritesClick,
     onOfferItemHover} = props;
 
@@ -49,7 +48,6 @@ function Main(props: MainProps): JSX.Element {
         <div className="cities">
           <div className="cities__places-container container">
             <ConnectedPlacesList
-              placeCount={placeCount}
               onFavoritesClick={onFavoritesClick}
               onOfferItemHover={onOfferItemHover}
               mode={PlaceCardMode.Cities}

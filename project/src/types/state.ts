@@ -1,4 +1,4 @@
-import { SortTypeOptions } from '../const';
+import { AuthorizationStatus, SortTypeOptions } from '../const';
 import { City } from './cities';
 import { Offer } from './offers';
 
@@ -8,4 +8,6 @@ export type State = {
   activeOffer: Offer | undefined,
   favorites: number[],
   sortOption: SortTypeOptions,
-}
+  authorizationStatus: AuthorizationStatus,
+  isDataLoaded: boolean,
+};

@@ -2,9 +2,13 @@
   "name": "project",
   "version": "0.1.0",
   "private": true,
+  "babel": {
+    "plugins": ["@emotion"]
+  },
   "dependencies": {
     "@reduxjs/toolkit": "^1.5.0",
     "axios": "^0.21.1",
+    "camelcase-keys": "^7.0.1",
     "dayjs": "^1.10.7",
     "history": "^4.10.1",
     "leaflet": "^1.7.1",
@@ -13,6 +17,7 @@
     "react-redux": "^7.2.2",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
+    "react-spinners": "^0.11.0",
     "reselect": "^4.0.0"
   },
   "scripts": {

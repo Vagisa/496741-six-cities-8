@@ -1,9 +1,14 @@
+import { ThunkAction, ThunkDispatch } from 'redux-thunk';
+import { AxiosInstance } from 'axios';
+import { State } from './state';
 import {
   changeCity,
   fillOffersList,
   changeActiveOffer,
   toggleFavorite,
-  changeSortType
+  changeSortType,
+  requireAuthorization,
+  requireLogout
 } from '../store/action';
 
 export enum ActionType {
@@ -12,6 +17,8 @@ export enum ActionType {
   ChangeActiveOffer = 'changeActiveOffer',
   ToggleFavorite = 'toggleFavorite',
   ChangeSortType = 'changeSortType',
+  RequireAuthorization = 'requireAuthorization',
+  RequireLogout = 'requireLogout',
 }
 
 export type Actions =
@@ -19,4 +26,10 @@ export type Actions =
   | ReturnType<typeof fillOffersList>
   | ReturnType<typeof changeActiveOffer>
   | ReturnType<typeof toggleFavorite>
-  | ReturnType<typeof changeSortType>;
+  | ReturnType<typeof changeSortType>
+  | ReturnType<typeof requireAuthorization>
+  | ReturnType<typeof requireLogout>;
+
+export type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Actions>;
+
+export type ThunkAppDispatch = ThunkDispatch<State, AxiosInstance, Actions>;

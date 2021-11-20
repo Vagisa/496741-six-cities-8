@@ -49,7 +49,7 @@ function Property({offers, reviews, favorites, onFavoritesClick, onOfferItemHove
         <section className="property">
           <div className="property__gallery-container container">
             <div className="property__gallery">
-              {offer.gallery.map((image) => (
+              {offer.images.map((image) => (
                 <div key={image} className="property__image-wrapper">
                   <img className="property__image" src={image} alt="Studio"/>
                 </div>
@@ -64,7 +64,7 @@ function Property({offers, reviews, favorites, onFavoritesClick, onOfferItemHove
               </div>}
               <div className="property__name-wrapper">
                 <h1 className="property__name">
-                  {offer.heading}
+                  {offer.title}
                 </h1>
                 <button onClick={() => onFavoritesClick(offer.id)}
                   className={`property__bookmark-button ${isFavorite && 'property__bookmark-button--active'} button`} type="button"
@@ -87,7 +87,7 @@ function Property({offers, reviews, favorites, onFavoritesClick, onOfferItemHove
                   {offer.type}
                 </li>
                 <li className="property__feature property__feature--bedrooms">
-                  {offer.bedroomsCount} Bedrooms
+                  {offer.bedrooms} Bedrooms
                 </li>
                 <li className="property__feature property__feature--adults">
                   Max {offer.maxAdults} adults
@@ -100,7 +100,7 @@ function Property({offers, reviews, favorites, onFavoritesClick, onOfferItemHove
               <div className="property__inside">
                 <h2 className="property__inside-title">What&apos;s inside</h2>
                 <ul className="property__inside-list">
-                  {offer.advantages.map((advantage) => (
+                  {offer.goods.map((advantage) => (
                     <li key={advantage} className="property__inside-item">
                       {advantage}
                     </li>
@@ -122,11 +122,9 @@ function Property({offers, reviews, favorites, onFavoritesClick, onOfferItemHove
                   </span>}
                 </div>
                 <div className="property__description">
-                  {offer.description.map((paragraph) => (
-                    <p key={paragraph} className="property__text">
-                      {paragraph}
-                    </p>
-                  ))}
+                  <p className="property__text">
+                    {offer.description}
+                  </p>
                 </div>
               </div>
               <ReviewsList reviews={reviews} />

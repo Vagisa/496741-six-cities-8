@@ -3,6 +3,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import { Dispatch } from 'redux';
 
 import Favorites from '../favorites/favorites';
+import LoadingScreen from '../loading-screen/loading-screen';
 import Login from '../login/login';
 import Main from '../main/main';
 import NotFound from '../not-found/not-found';
@@ -13,13 +14,16 @@ import { Actions } from '../../types/action';
 import { AppProps } from './types';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { changeActiveOffer, toggleFavorite } from '../../store/action';
+import { isCheckedAuth } from '../../six-sities';
 import { Offer } from '../../types/offers';
 import { State } from '../../types/state';
 
-const mapStateToProps = ({activeOffer, offers, favorites}: State) => ({
+const mapStateToProps = ({activeOffer, offers, favorites, authorizationStatus, isDataLoaded}: State) => ({
   activeOffer,
   offers,
   favorites,
+  authorizationStatus,
+  isDataLoaded,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
@@ -38,13 +42,15 @@ type ConnectedComponentProps = PropsFromRedux & AppProps;
 
 function App(props: ConnectedComponentProps): JSX.Element {
   const {
-    placeCount,
     activeOffer,
     offers,
     setActiveOffer,
     favorites,
     onFavoritesClick,
-    reviews} = props;
+    reviews,
+    authorizationStatus,
+    isDataLoaded,
+  } = props;
 
   const onOfferItemHover = (offerItemId: number) => {
     const currentPoint = offers.find((offer) =>
@@ -53,12 +59,17 @@ function App(props: ConnectedComponentProps): JSX.Element {
     setActiveOffer(currentPoint);
   };
 
+  if (isCheckedAuth(authorizationStatus) || !isDataLoaded) {
+    return (
+      <LoadingScreen />
+    );
+  }
+
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path={AppRoute.Main}>
           <Main
-            placeCount={placeCount}
             favorites={favorites}
             onFavoritesClick={onFavoritesClick}
             onOfferItemHover={onOfferItemHover}
