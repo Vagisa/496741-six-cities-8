@@ -1,10 +1,18 @@
 import { City } from './types/cities';
 
+export const PLACE_COUNT = 5;
+
 export enum AppRoute {
   Main = '/',
   SignIn = '/login',
-  Favorites = '/favorites',
-  Room = '/offer/:id',
+  Favorites = '/favorite',
+  Room = '/hotels/:id',
+}
+
+export enum APIRoute {
+  Offers = '/hotels',
+  Login = '/login',
+  Logout = '/logout',
 }
 
 export enum AuthorizationStatus {

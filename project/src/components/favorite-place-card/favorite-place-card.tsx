@@ -7,7 +7,7 @@ function FavoritePlaceCard({offer, onFavoritesClick}: FavoritePlaceCardProps): J
     <article className="favorites__card place-card">
       <div className="favorites__image-wrapper place-card__image-wrapper">
         <Link to="/">
-          <img className="place-card__image" src={offer.gallery[0]}
+          <img className="place-card__image" src={offer.previewImage}
             width="150" height="110" alt="Place"
           />
         </Link>
@@ -34,7 +34,7 @@ function FavoritePlaceCard({offer, onFavoritesClick}: FavoritePlaceCardProps): J
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to="/">{offer.heading}</Link>
+          <Link to="/">{offer.title}</Link>
         </h2>
         <p className="place-card__type">{offer.type}</p>
       </div>
