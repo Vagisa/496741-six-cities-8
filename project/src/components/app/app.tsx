@@ -1,18 +1,19 @@
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { connect, ConnectedProps } from 'react-redux';
 import { Dispatch } from 'redux';
+import { Router as BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import Favorites from '../favorites/favorites';
 import LoadingScreen from '../loading-screen/loading-screen';
 import Login from '../login/login';
-import Main from '../main/main';
+import ConnectedMain from '../main/main';
 import NotFound from '../not-found/not-found';
 import PrivateRoute from '../private-route/private-route';
 import Property from '../property/property';
 
 import { Actions } from '../../types/action';
 import { AppProps } from './types';
-import { AppRoute, AuthorizationStatus } from '../../const';
+import { AppRoute } from '../../const';
+import browserHistory from '../../brouser-history';
 import { changeActiveOffer, toggleFavorite } from '../../store/action';
 import { isCheckedAuth } from '../../six-sities';
 import { Offer } from '../../types/offers';
@@ -66,11 +67,10 @@ function App(props: ConnectedComponentProps): JSX.Element {
   }
 
   return (
-    <BrowserRouter>
+    <BrowserRouter history={browserHistory}>
       <Switch>
         <Route exact path={AppRoute.Main}>
-          <Main
-            favorites={favorites}
+          <ConnectedMain
             onFavoritesClick={onFavoritesClick}
             onOfferItemHover={onOfferItemHover}
           />
@@ -85,7 +85,6 @@ function App(props: ConnectedComponentProps): JSX.Element {
               favorites={favorites}
               onFavoritesClick={onFavoritesClick}
             />)}
-          authorizationStatus={AuthorizationStatus.Auth}
         >
         </PrivateRoute>
         <Route exact path={AppRoute.Room}>

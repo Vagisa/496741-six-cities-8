@@ -8,7 +8,9 @@ import {
   toggleFavorite,
   changeSortType,
   requireAuthorization,
-  requireLogout
+  requireLogout,
+  redirectToRoute,
+  setAuthInfo
 } from '../store/action';
 
 export enum ActionType {
@@ -19,6 +21,8 @@ export enum ActionType {
   ChangeSortType = 'changeSortType',
   RequireAuthorization = 'requireAuthorization',
   RequireLogout = 'requireLogout',
+  RedirectToRoute = 'redirectToRoute',
+  SetAuthInfo = 'setAuthInfo',
 }
 
 export type Actions =
@@ -28,7 +32,9 @@ export type Actions =
   | ReturnType<typeof toggleFavorite>
   | ReturnType<typeof changeSortType>
   | ReturnType<typeof requireAuthorization>
-  | ReturnType<typeof requireLogout>;
+  | ReturnType<typeof requireLogout>
+  | ReturnType<typeof redirectToRoute>
+  | ReturnType<typeof setAuthInfo>;
 
 export type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Actions>;
 

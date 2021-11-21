@@ -1,7 +1,5 @@
 import { City } from './types/cities';
 
-export const PLACE_COUNT = 5;
-
 export enum AppRoute {
   Main = '/',
   SignIn = '/login',

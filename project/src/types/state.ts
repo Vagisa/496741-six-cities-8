@@ -1,4 +1,5 @@
 import { AuthorizationStatus, SortTypeOptions } from '../const';
+import { AuthInfo } from './auth-info';
 import { City } from './cities';
 import { Offer } from './offers';
 
@@ -10,4 +11,5 @@ export type State = {
   sortOption: SortTypeOptions,
   authorizationStatus: AuthorizationStatus,
   isDataLoaded: boolean,
+  authInfo: AuthInfo | null,
 };

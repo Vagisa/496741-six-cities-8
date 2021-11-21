@@ -1,8 +1,9 @@
 import { ActionType } from '../types/action';
-import { AuthorizationStatus } from '../const';
+import { AppRoute, AuthorizationStatus } from '../const';
 import { City } from '../types/cities';
 import { Offer } from '../types/offers';
 import { SortTypeOptions } from '../const';
+import { AuthInfo } from '../types/auth-info';
 
 export const changeCity = (city: City) => ({
   type: ActionType.СhangeСity,
@@ -36,4 +37,14 @@ export const requireAuthorization = (authStatus: AuthorizationStatus) => ({
 
 export const requireLogout = () => ({
   type: ActionType.RequireLogout,
+} as const);
+
+export const redirectToRoute = (url: AppRoute) => ({
+  type: ActionType.RedirectToRoute,
+  payload: url,
+} as const);
+
+export const setAuthInfo = (authInfo: AuthInfo | null) => ({
+  type: ActionType.SetAuthInfo,
+  payload: authInfo,
 } as const);
