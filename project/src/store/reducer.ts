@@ -4,6 +4,7 @@ import { cities, SortTypeOptions, AuthorizationStatus } from '../const';
 
 const initialState: State = {
   city: cities[0],
+  offer: undefined,
   offers: [],
   activeOffer: undefined,
   favorites: [],
@@ -17,6 +18,8 @@ const reducer = (state: State = initialState, action: Actions): State => {
   switch (action.type) {
     case ActionType.СhangeСity:
       return {...state, city: action.payload};
+    case ActionType.SetOffer:
+      return {...state, offer: action.payload};
     case ActionType.FillOffersList:
       return {...state, offers: action.payload};
     case ActionType.ChangeActiveOffer:

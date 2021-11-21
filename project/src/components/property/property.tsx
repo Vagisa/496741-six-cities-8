@@ -1,21 +1,60 @@
+import { connect, ConnectedProps } from 'react-redux';
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router';
 
-import Logo from '../logo/logo';
 import ConnectedMap from '../map/map';
+import Logo from '../logo/logo';
 import NotFound from '../not-found/not-found';
 import PlaceCard from '../place-card/place-card';
 import ReviewsList from '../reviews-list/reviews-list';
 
+import { ThunkAppDispatch } from '../../types/action';
 import { PropertyProps } from './types';
 import { PlaceCardMode } from '../../const';
+import { State } from '../../types/state';
+import { toggleFavorite } from '../../store/action';
+import { fetchCurrentOfferAction } from '../../store/api-actions';
 
-function Property({offers, reviews, favorites, onFavoritesClick, onOfferItemHover}: PropertyProps): JSX.Element {
+const mapStateToProps = ({offer, offers, activeOffer, favorites}: State) => ({
+  offer,
+  offers,
+  activeOffer,
+  favorites,
+});
+
+const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
+  onFavoritesClick(offerId: number) {
+    dispatch(toggleFavorite(offerId));
+  },
+  loadOffer(offerId: string) {
+    dispatch(fetchCurrentOfferAction(offerId));
+  },
+});
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type ConnectedComponentProps = PropsFromRedux & PropertyProps;
+
+function Property(props: ConnectedComponentProps): JSX.Element {
+  const {
+    offer,
+    offers,
+    reviews,
+    favorites,
+    loadOffer,
+    onFavoritesClick,
+    onOfferItemHover,
+  } = props;
+
   const {id} = useParams<{id: string}>();
-  const offer = offers.find((item) => item.id.toString() === id);
+  useEffect(() => loadOffer(id), [id, loadOffer]);
+
   if (!offer) {
     return <NotFound />;
   }
+
   const isFavorite = favorites.includes(offer.id);
   return (
     <div className="page">
@@ -161,4 +200,5 @@ function Property({offers, reviews, favorites, onFavoritesClick, onOfferItemHove
   );
 }
 
-export default Property;
+export {Property};
+export default connector(Property);

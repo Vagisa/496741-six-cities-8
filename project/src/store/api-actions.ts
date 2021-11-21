@@ -8,7 +8,8 @@ import {
   redirectToRoute,
   requireAuthorization,
   requireLogout,
-  setAuthInfo} from './action';
+  setAuthInfo,
+  setOffer} from './action';
 import { Offer } from '../types/offers';
 import {
   saveToken,
@@ -16,6 +17,11 @@ import {
 import { ThunkActionResult } from '../types/action';
 import { AuthInfo } from '../types/auth-info';
 
+export const fetchCurrentOfferAction = (offerId: string): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    const {data} = await api.get<Offer>(APIRoute.Offer + offerId);
+    dispatch(setOffer(data));
+  };
 
 export const fetchOffersAction = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {

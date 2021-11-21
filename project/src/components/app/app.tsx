@@ -8,7 +8,7 @@ import Login from '../login/login';
 import ConnectedMain from '../main/main';
 import NotFound from '../not-found/not-found';
 import PrivateRoute from '../private-route/private-route';
-import Property from '../property/property';
+import ConnectedProperty from '../property/property';
 
 import { Actions } from '../../types/action';
 import { AppProps } from './types';
@@ -43,7 +43,6 @@ type ConnectedComponentProps = PropsFromRedux & AppProps;
 
 function App(props: ConnectedComponentProps): JSX.Element {
   const {
-    activeOffer,
     offers,
     setActiveOffer,
     favorites,
@@ -88,12 +87,8 @@ function App(props: ConnectedComponentProps): JSX.Element {
         >
         </PrivateRoute>
         <Route exact path={AppRoute.Room}>
-          <Property
-            offers={offers}
-            activeOffer={activeOffer}
+          <ConnectedProperty
             reviews={reviews}
-            favorites={favorites}
-            onFavoritesClick={onFavoritesClick}
             onOfferItemHover={onOfferItemHover}
           />
         </Route>

@@ -5,6 +5,7 @@ import { Offer } from './offers';
 
 export type State = {
   city: City,
+  offer: Offer | undefined,
   offers: Offer[],
   activeOffer: Offer | undefined,
   favorites: number[],

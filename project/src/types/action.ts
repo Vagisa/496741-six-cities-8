@@ -3,6 +3,7 @@ import { AxiosInstance } from 'axios';
 import { State } from './state';
 import {
   changeCity,
+  setOffer,
   fillOffersList,
   changeActiveOffer,
   toggleFavorite,
@@ -15,6 +16,7 @@ import {
 
 export enum ActionType {
   СhangeСity = 'changeCity',
+  SetOffer = 'setOffer',
   FillOffersList = 'fillOffersList',
   ChangeActiveOffer = 'changeActiveOffer',
   ToggleFavorite = 'toggleFavorite',
@@ -27,6 +29,7 @@ export enum ActionType {
 
 export type Actions =
   | ReturnType<typeof changeCity>
+  | ReturnType<typeof setOffer>
   | ReturnType<typeof fillOffersList>
   | ReturnType<typeof changeActiveOffer>
   | ReturnType<typeof toggleFavorite>

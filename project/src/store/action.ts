@@ -10,6 +10,11 @@ export const changeCity = (city: City) => ({
   payload: city,
 } as const);
 
+export const setOffer = (offer: Offer) => ({
+  type: ActionType.SetOffer,
+  payload: offer,
+} as const);
+
 export const fillOffersList = (offers: Offer[]) => ({
   type: ActionType.FillOffersList,
   payload: offers,
