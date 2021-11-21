@@ -1,9 +1,21 @@
-import { ThunkActionResult } from '../types/action';
-import { fillOffersList, requireAuthorization, requireLogout } from './action';
-import { saveToken, dropToken, Token } from '../services/token';
-import { APIRoute, AuthorizationStatus } from '../const';
-import { Offer } from '../types/offers';
+import {
+  APIRoute,
+  AuthorizationStatus,
+  AppRoute } from '../const';
 import { AuthData } from '../types/auth-data';
+import {
+  fillOffersList,
+  redirectToRoute,
+  requireAuthorization,
+  requireLogout,
+  setAuthInfo} from './action';
+import { Offer } from '../types/offers';
+import {
+  saveToken,
+  dropToken} from '../services/token';
+import { ThunkActionResult } from '../types/action';
+import { AuthInfo } from '../types/auth-info';
+
 
 export const fetchOffersAction = (): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
@@ -21,9 +33,11 @@ export const checkAuthAction = (): ThunkActionResult =>
 
 export const loginAction = ({login: email, password}: AuthData): ThunkActionResult =>
   async (dispatch, _getState, api) => {
-    const {data: {token}} = await api.post<{token: Token}>(APIRoute.Login, {email, password});
-    saveToken(token);
+    const {data} = await api.post<AuthInfo>(APIRoute.Login, {email, password});
+    saveToken(data.token);
+    dispatch(setAuthInfo(data));
     dispatch(requireAuthorization(AuthorizationStatus.Auth));
+    dispatch(redirectToRoute(AppRoute.Main));
   };
 
 export const logoutAction = (): ThunkActionResult =>
@@ -31,4 +45,6 @@ export const logoutAction = (): ThunkActionResult =>
     api.delete(APIRoute.Logout);
     dropToken();
     dispatch(requireLogout());
+    dispatch(setAuthInfo(null));
+    dispatch(redirectToRoute(AppRoute.Main));
   };

@@ -1,12 +1,10 @@
 import { connect, ConnectedProps } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
-import { useHistory } from 'react-router';
 import { FormEvent } from 'react';
 
 import Logo from '../logo/logo';
 
-import { AppRoute } from '../../const';
 import { AuthData } from '../../types/auth-data';
 import { loginAction } from '../../store/api-actions';
 import { ThunkAppDispatch } from '../../types/action';
@@ -26,7 +24,6 @@ function Login(props: PropsFromRedux): JSX.Element {
 
   const [login, setLogin] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const history = useHistory();
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
@@ -84,7 +81,6 @@ function Login(props: PropsFromRedux): JSX.Element {
                 />
               </div>
               <button
-                onClick={() => history.push(AppRoute.Main)}
                 className="login__submit form__submit button"
                 type="submit"
               >
