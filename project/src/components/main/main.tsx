@@ -65,7 +65,7 @@ function Main(props: ConnectedComponentProps): JSX.Element {
             ${isEmptyOfferList ? 'cities__places-container--empty' : ''}
             container`}
           >
-            {isEmptyOfferList ? <MainEmpty /> :
+            {isEmptyOfferList ? <MainEmpty city={city}/> :
               <>
                 <ConnectedPlacesList
                   onFavoritesClick={onFavoritesClick}
