@@ -1,17 +1,44 @@
+import { connect, ConnectedProps } from 'react-redux';
+
 import ConnectedCitiesList from '../cities-list/cities-list';
 import ConnectedHeaderNav from '../header-nav/header-nav';
 import ConnectedPlacesList from '../places-list/places-list';
 import ConnectedMap from '../map/map';
 import Logo from '../logo/logo';
+import MainEmpty from '../main-empty/main-empty';
 
-import { PlaceCardMode } from '../../const';
 import { MainProps } from './types';
+import { PlaceCardMode } from '../../const';
+import { State } from '../../types/state';
+import { City } from '../../types/cities';
+import { Offer } from '../../types/offers';
 
-function Main(props: MainProps): JSX.Element {
+const mapStateToProps = ({city, offers}: State) => ({
+  city,
+  offers,
+});
+
+const connector = connect(mapStateToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type ConnectedComponentProps = PropsFromRedux & MainProps;
+
+function Main(props: ConnectedComponentProps): JSX.Element {
   const {
+    city,
+    offers,
     onFavoritesClick,
     onOfferItemHover,
   } = props;
+
+  const checksAvailableRooms = (cityToSearch: City, offersList: Offer[]): boolean => {
+    const offersFiltered = offersList
+      .filter((offer) => offer.city.name === cityToSearch.name);
+
+    return offersFiltered.length === 0;
+  };
+
+  const isEmptyOfferList = checksAvailableRooms(city, offers);
 
   return (
     <div className="page page--gray page--main">
@@ -26,21 +53,31 @@ function Main(props: MainProps): JSX.Element {
         </div>
       </header>
 
-      <main className="page__main page__main--index">
+      <main
+        className={`page__main page__main--index
+        ${isEmptyOfferList ? 'page__main--index-empty' : ''}`}
+      >
         <h1 className="visually-hidden">Cities</h1>
         <ConnectedCitiesList />
         <div className="cities">
-          <div className="cities__places-container container">
-            <ConnectedPlacesList
-              onFavoritesClick={onFavoritesClick}
-              onOfferItemHover={onOfferItemHover}
-              mode={PlaceCardMode.Cities}
-            />
-            <div className="cities__right-section">
-              <section className="cities__map map">
-                <ConnectedMap />
-              </section>
-            </div>
+          <div
+            className={`cities__places-container
+            ${isEmptyOfferList ? 'cities__places-container--empty' : ''}
+            container`}
+          >
+            {isEmptyOfferList ? <MainEmpty /> :
+              <>
+                <ConnectedPlacesList
+                  onFavoritesClick={onFavoritesClick}
+                  onOfferItemHover={onOfferItemHover}
+                  mode={PlaceCardMode.Cities}
+                />
+                <div className="cities__right-section">
+                  <section className="cities__map map">
+                    <ConnectedMap />
+                  </section>
+                </div>
+              </>}
           </div>
         </div>
       </main>
@@ -48,4 +85,5 @@ function Main(props: MainProps): JSX.Element {
   );
 }
 
-export default Main;
+export {Main};
+export default connector(Main);

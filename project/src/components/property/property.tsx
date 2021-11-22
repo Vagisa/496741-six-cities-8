@@ -4,17 +4,17 @@ import { useParams } from 'react-router';
 
 import ConnectedHeaderNav from '../header-nav/header-nav';
 import ConnectedMap from '../map/map';
+import ConnectedReviewsList from '../reviews-list/reviews-list';
 import Logo from '../logo/logo';
 import NotFound from '../not-found/not-found';
 import PlaceCard from '../place-card/place-card';
-import ReviewsList from '../reviews-list/reviews-list';
 
 import { ThunkAppDispatch } from '../../types/action';
 import { PropertyProps } from './types';
 import { PlaceCardMode } from '../../const';
 import { State } from '../../types/state';
 import { toggleFavorite } from '../../store/action';
-import { fetchCurrentOfferAction } from '../../store/api-actions';
+import { fetchCommentsAction, fetchCurrentOfferAction } from '../../store/api-actions';
 
 const mapStateToProps = ({offer, offers, activeOffer, favorites}: State) => ({
   offer,
@@ -29,6 +29,7 @@ const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
   },
   loadOffer(offerId: string) {
     dispatch(fetchCurrentOfferAction(offerId));
+    dispatch(fetchCommentsAction(offerId));
   },
 });
 
@@ -41,7 +42,6 @@ function Property(props: ConnectedComponentProps): JSX.Element {
   const {
     offer,
     offers,
-    reviews,
     favorites,
     loadOffer,
     onFavoritesClick,
@@ -151,7 +151,7 @@ function Property(props: ConnectedComponentProps): JSX.Element {
                   </p>
                 </div>
               </div>
-              <ReviewsList reviews={reviews} />
+              <ConnectedReviewsList />
             </div>
           </div>
           <section className="property__map map">

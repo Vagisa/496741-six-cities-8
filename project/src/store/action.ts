@@ -1,9 +1,10 @@
 import { ActionType } from '../types/action';
 import { AppRoute, AuthorizationStatus } from '../const';
+import { AuthInfo } from '../types/auth-info';
 import { City } from '../types/cities';
 import { Offer } from '../types/offers';
+import { Review } from '../types/review';
 import { SortTypeOptions } from '../const';
-import { AuthInfo } from '../types/auth-info';
 
 export const changeCity = (city: City) => ({
   type: ActionType.СhangeСity,
@@ -52,4 +53,9 @@ export const redirectToRoute = (url: AppRoute) => ({
 export const setAuthInfo = (authInfo: AuthInfo | null) => ({
   type: ActionType.SetAuthInfo,
   payload: authInfo,
+} as const);
+
+export const setComments = (comments: Review[]) => ({
+  type: ActionType.SetComments,
+  payload: comments,
 } as const);

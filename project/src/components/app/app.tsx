@@ -2,13 +2,13 @@ import { connect, ConnectedProps } from 'react-redux';
 import { Dispatch } from 'redux';
 import { Router as BrowserRouter, Route, Switch } from 'react-router-dom';
 
+import ConnectedMain from '../main/main';
+import ConnectedProperty from '../property/property';
 import Favorites from '../favorites/favorites';
 import LoadingScreen from '../loading-screen/loading-screen';
 import Login from '../login/login';
-import Main from '../main/main';
 import NotFound from '../not-found/not-found';
 import PrivateRoute from '../private-route/private-route';
-import ConnectedProperty from '../property/property';
 
 import { Actions } from '../../types/action';
 import { AppProps } from './types';
@@ -47,7 +47,6 @@ function App(props: ConnectedComponentProps): JSX.Element {
     setActiveOffer,
     favorites,
     onFavoritesClick,
-    reviews,
     authorizationStatus,
     isDataLoaded,
   } = props;
@@ -69,7 +68,7 @@ function App(props: ConnectedComponentProps): JSX.Element {
     <BrowserRouter history={browserHistory}>
       <Switch>
         <Route exact path={AppRoute.Main}>
-          <Main
+          <ConnectedMain
             onFavoritesClick={onFavoritesClick}
             onOfferItemHover={onOfferItemHover}
           />
@@ -88,7 +87,6 @@ function App(props: ConnectedComponentProps): JSX.Element {
         </PrivateRoute>
         <Route exact path={AppRoute.Room}>
           <ConnectedProperty
-            reviews={reviews}
             onOfferItemHover={onOfferItemHover}
           />
         </Route>

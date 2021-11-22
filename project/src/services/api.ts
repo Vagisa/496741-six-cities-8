@@ -19,7 +19,7 @@ export const createAPI = (onUnauthorized: UnauthorizedCallback): AxiosInstance =
 
   api.interceptors.response.use(
     (response: AxiosResponse) => (
-      {...response, data: camelcaseKeys(response.data)}
+      {...response, data: camelcaseKeys(response.data, {deep: true})}
     ),
 
     (error: AxiosError) => {

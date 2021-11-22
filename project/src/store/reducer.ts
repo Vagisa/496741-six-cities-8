@@ -12,6 +12,7 @@ const initialState: State = {
   authorizationStatus: AuthorizationStatus.Unknown,
   isDataLoaded: false,
   authInfo: null,
+  comments: [],
 };
 
 const reducer = (state: State = initialState, action: Actions): State => {
@@ -38,6 +39,8 @@ const reducer = (state: State = initialState, action: Actions): State => {
       return {...state, authorizationStatus: AuthorizationStatus.NoAuth};
     case ActionType.SetAuthInfo:
       return {...state, authInfo: action.payload};
+    case ActionType.SetComments:
+      return {...state, comments: action.payload};
     default:
       return state;
   }

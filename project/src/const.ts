@@ -1,5 +1,9 @@
 import { City } from './types/cities';
 
+export const MAX_RATING = 5;
+
+export const NUMBER_DISPLAYED_COMMENTS = 10;
+
 export enum AppRoute {
   Main = '/',
   SignIn = '/login',
@@ -12,6 +16,7 @@ export enum APIRoute {
   Offers = '/hotels',
   Login = '/login',
   Logout = '/logout',
+  Comments = '/comments/',
 }
 
 export enum AuthorizationStatus {
@@ -31,8 +36,6 @@ export enum SortTypeOptions {
   PriceHighToLow = 'Price: high to low',
   TopRatedFirst = 'Top rated first',
 }
-
-export const MAX_RATING = 5;
 
 export const cities: City[] = [
   {

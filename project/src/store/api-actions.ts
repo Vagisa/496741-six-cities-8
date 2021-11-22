@@ -9,6 +9,7 @@ import {
   requireAuthorization,
   requireLogout,
   setAuthInfo,
+  setComments,
   setOffer} from './action';
 import { Offer } from '../types/offers';
 import {
@@ -16,11 +17,18 @@ import {
   dropToken} from '../services/token';
 import { ThunkActionResult } from '../types/action';
 import { AuthInfo } from '../types/auth-info';
+import { Review } from '../types/review';
 
 export const fetchCurrentOfferAction = (offerId: string): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     const {data} = await api.get<Offer>(APIRoute.Offer + offerId);
     dispatch(setOffer(data));
+  };
+
+export const fetchCommentsAction = (offerId: string): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    const {data} = await api.get<Review[]>(APIRoute.Comments + offerId);
+    dispatch(setComments(data));
   };
 
 export const fetchOffersAction = (): ThunkActionResult =>
