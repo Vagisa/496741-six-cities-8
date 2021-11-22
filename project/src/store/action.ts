@@ -1,13 +1,20 @@
 import { ActionType } from '../types/action';
 import { AppRoute, AuthorizationStatus } from '../const';
+import { AuthInfo } from '../types/auth-info';
 import { City } from '../types/cities';
 import { Offer } from '../types/offers';
+import { Review } from '../types/review';
 import { SortTypeOptions } from '../const';
-import { AuthInfo } from '../types/auth-info';
+import { CommentData } from '../types/comment-data';
 
 export const changeCity = (city: City) => ({
   type: ActionType.СhangeСity,
   payload: city,
+} as const);
+
+export const setOffer = (offer: Offer) => ({
+  type: ActionType.SetOffer,
+  payload: offer,
 } as const);
 
 export const fillOffersList = (offers: Offer[]) => ({
@@ -47,4 +54,19 @@ export const redirectToRoute = (url: AppRoute) => ({
 export const setAuthInfo = (authInfo: AuthInfo | null) => ({
   type: ActionType.SetAuthInfo,
   payload: authInfo,
+} as const);
+
+export const setComments = (comments: Review[]) => ({
+  type: ActionType.SetComments,
+  payload: comments,
+} as const);
+
+export const postComment = (comment: CommentData | null) => ({
+  type: ActionType.PostComment,
+  payload: comment,
+} as const);
+
+export const setOffersNearby = (offersNearby: Offer[]) => ({
+  type: ActionType.SetOffersNearby,
+  payload: offersNearby,
 } as const);

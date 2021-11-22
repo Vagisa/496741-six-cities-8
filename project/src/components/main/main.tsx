@@ -1,42 +1,44 @@
 import { connect, ConnectedProps } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 import ConnectedCitiesList from '../cities-list/cities-list';
+import ConnectedHeaderNav from '../header-nav/header-nav';
 import ConnectedPlacesList from '../places-list/places-list';
-import Logo from '../logo/logo';
 import ConnectedMap from '../map/map';
+import Logo from '../logo/logo';
+import MainEmpty from '../main-empty/main-empty';
 
-import { AppRoute, AuthorizationStatus, PlaceCardMode } from '../../const';
 import { MainProps } from './types';
+import { PlaceCardMode } from '../../const';
 import { State } from '../../types/state';
-import { logoutAction } from '../../store/api-actions';
-import { ThunkAppDispatch } from '../../types/action';
+import { City } from '../../types/cities';
+import { Offer } from '../../types/offers';
 
-const mapStateToProps = ({authorizationStatus, authInfo}: State) => ({
-  authorizationStatus,
-  authInfo,
+const mapStateToProps = ({city, offers}: State) => ({
+  city,
+  offers,
 });
 
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  onLogout() {
-    dispatch(logoutAction());
-  },
-});
-
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
+const connector = connect(mapStateToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type ConnectedComponentProps = PropsFromRedux & MainProps;
 
 function Main(props: ConnectedComponentProps): JSX.Element {
   const {
-    authorizationStatus,
-    authInfo,
+    city,
+    offers,
     onFavoritesClick,
     onOfferItemHover,
-    onLogout,
   } = props;
+
+  const checksAvailableRooms = (cityToSearch: City, offersList: Offer[]): boolean => {
+    const offersFiltered = offersList
+      .filter((offer) => offer.city.name === cityToSearch.name);
+
+    return offersFiltered.length === 0;
+  };
+
+  const isEmptyOfferList = checksAvailableRooms(city, offers);
 
   return (
     <div className="page page--gray page--main">
@@ -46,53 +48,36 @@ function Main(props: ConnectedComponentProps): JSX.Element {
             <div className="header__left">
               <Logo />
             </div>
-            <nav className="header__nav">
-              <ul className="header__nav-list">
-                {authorizationStatus === AuthorizationStatus.Auth ? (
-                  <>
-                    <li className="header__nav-item user">
-                      <Link className="header__nav-link header__nav-link--profile" to={AppRoute.Favorites}>
-                        <div className="header__avatar-wrapper user__avatar-wrapper">
-                        </div>
-                        <span className="header__user-name user__name">{authInfo?.email}</span>
-                      </Link>
-                    </li>
-                    <li className="header__nav-item">
-                      <Link onClick={onLogout} className="header__nav-link" to="/">
-                        <span className="header__signout">Sign out</span>
-                      </Link>
-                    </li>
-                  </>
-                ) : (
-                  <li className="header__nav-item user">
-                    <Link className="header__nav-link header__nav-link--profile" to={AppRoute.SignIn}>
-                      <div className="header__avatar-wrapper user__avatar-wrapper">
-                      </div>
-                      <span className="header__login">Sign in</span>
-                    </Link>
-                  </li>
-                )}
-              </ul>
-            </nav>
+            <ConnectedHeaderNav />
           </div>
         </div>
       </header>
 
-      <main className="page__main page__main--index">
+      <main
+        className={`page__main page__main--index
+        ${isEmptyOfferList ? 'page__main--index-empty' : ''}`}
+      >
         <h1 className="visually-hidden">Cities</h1>
         <ConnectedCitiesList />
         <div className="cities">
-          <div className="cities__places-container container">
-            <ConnectedPlacesList
-              onFavoritesClick={onFavoritesClick}
-              onOfferItemHover={onOfferItemHover}
-              mode={PlaceCardMode.Cities}
-            />
-            <div className="cities__right-section">
-              <section className="cities__map map">
-                <ConnectedMap />
-              </section>
-            </div>
+          <div
+            className={`cities__places-container
+            ${isEmptyOfferList ? 'cities__places-container--empty' : ''}
+            container`}
+          >
+            {isEmptyOfferList ? <MainEmpty city={city}/> :
+              <>
+                <ConnectedPlacesList
+                  onFavoritesClick={onFavoritesClick}
+                  onOfferItemHover={onOfferItemHover}
+                  mode={PlaceCardMode.Cities}
+                />
+                <div className="cities__right-section">
+                  <section className="cities__map map">
+                    <ConnectedMap offers={offers} />
+                  </section>
+                </div>
+              </>}
           </div>
         </div>
       </main>

@@ -1,22 +1,66 @@
-import { Link } from 'react-router-dom';
+import { connect, ConnectedProps } from 'react-redux';
+import { useEffect } from 'react';
 import { useParams } from 'react-router';
 
-import Logo from '../logo/logo';
+import ConnectedHeaderNav from '../header-nav/header-nav';
 import ConnectedMap from '../map/map';
+import ConnectedReviewsList from '../reviews-list/reviews-list';
+import Logo from '../logo/logo';
 import NotFound from '../not-found/not-found';
 import PlaceCard from '../place-card/place-card';
-import ReviewsList from '../reviews-list/reviews-list';
 
+import { NUMBER_DISPLAYED_NEARBY_OFFERS } from '../../const';
+import { ThunkAppDispatch } from '../../types/action';
 import { PropertyProps } from './types';
 import { PlaceCardMode } from '../../const';
+import { State } from '../../types/state';
+import { toggleFavorite } from '../../store/action';
+import { fetchCommentsAction, fetchCurrentOfferAction, fetchOffersNearbyAction } from '../../store/api-actions';
 
-function Property({offers, reviews, favorites, onFavoritesClick, onOfferItemHover}: PropertyProps): JSX.Element {
+const mapStateToProps = ({offer, offers, activeOffer, favorites, offersNearby}: State) => ({
+  offer,
+  offers,
+  activeOffer,
+  favorites,
+  offersNearby,
+});
+
+const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
+  onFavoritesClick(offerId: number) {
+    dispatch(toggleFavorite(offerId));
+  },
+  loadOffer(offerId: string) {
+    dispatch(fetchCurrentOfferAction(offerId));
+    dispatch(fetchCommentsAction(offerId));
+    dispatch(fetchOffersNearbyAction(offerId));
+  },
+});
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type ConnectedComponentProps = PropsFromRedux & PropertyProps;
+
+function Property(props: ConnectedComponentProps): JSX.Element {
+  const {
+    offer,
+    favorites,
+    offersNearby,
+    loadOffer,
+    onFavoritesClick,
+    onOfferItemHover,
+  } = props;
+
   const {id} = useParams<{id: string}>();
-  const offer = offers.find((item) => item.id.toString() === id);
+  useEffect(() => loadOffer(id), [id, loadOffer]);
+
   if (!offer) {
     return <NotFound />;
   }
+
   const isFavorite = favorites.includes(offer.id);
+  const displayedOffersNearby = offersNearby.slice(0, NUMBER_DISPLAYED_NEARBY_OFFERS);
+
   return (
     <div className="page">
       <header className="header">
@@ -25,22 +69,7 @@ function Property({offers, reviews, favorites, onFavoritesClick, onOfferItemHove
             <div className="header__left">
               <Logo />
             </div>
-            <nav className="header__nav">
-              <ul className="header__nav-list">
-                <li className="header__nav-item user">
-                  <Link className="header__nav-link header__nav-link--profile" to="/">
-                    <div className="header__avatar-wrapper user__avatar-wrapper">
-                    </div>
-                    <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                  </Link>
-                </li>
-                <li className="header__nav-item">
-                  <Link className="header__nav-link" to="/">
-                    <span className="header__signout">Sign out</span>
-                  </Link>
-                </li>
-              </ul>
-            </nav>
+            <ConnectedHeaderNav />
           </div>
         </div>
       </header>
@@ -127,11 +156,11 @@ function Property({offers, reviews, favorites, onFavoritesClick, onOfferItemHove
                   </p>
                 </div>
               </div>
-              <ReviewsList reviews={reviews} />
+              <ConnectedReviewsList offerId={id}/>
             </div>
           </div>
           <section className="property__map map">
-            <ConnectedMap />
+            <ConnectedMap offers={displayedOffersNearby}/>
           </section>
         </section>
         <div className="container">
@@ -139,9 +168,7 @@ function Property({offers, reviews, favorites, onFavoritesClick, onOfferItemHove
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
               {
-                offers
-                  .filter((elem) => (elem.id !== offer.id))
-                  .slice(0, 3)
+                displayedOffersNearby
                   .map((nearOffer) => (
                     <PlaceCard
                       isFavorite={favorites.includes(offer.id)}
@@ -161,4 +188,5 @@ function Property({offers, reviews, favorites, onFavoritesClick, onOfferItemHove
   );
 }
 
-export default Property;
+export {Property};
+export default connector(Property);

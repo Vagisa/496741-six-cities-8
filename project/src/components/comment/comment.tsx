@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { ReviewProps } from './types';
 
-function Review({review}: ReviewProps): JSX.Element {
+function Comment({review}: ReviewProps): JSX.Element {
   const {
     comment,
     date,
@@ -33,4 +33,4 @@ function Review({review}: ReviewProps): JSX.Element {
   );
 }
 
-export default Review;
+export default Comment;

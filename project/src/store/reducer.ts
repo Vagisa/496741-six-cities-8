@@ -4,6 +4,7 @@ import { cities, SortTypeOptions, AuthorizationStatus } from '../const';
 
 const initialState: State = {
   city: cities[0],
+  offer: undefined,
   offers: [],
   activeOffer: undefined,
   favorites: [],
@@ -11,12 +12,17 @@ const initialState: State = {
   authorizationStatus: AuthorizationStatus.Unknown,
   isDataLoaded: false,
   authInfo: null,
+  comments: [],
+  comment: null,
+  offersNearby: [],
 };
 
 const reducer = (state: State = initialState, action: Actions): State => {
   switch (action.type) {
     case ActionType.СhangeСity:
       return {...state, city: action.payload};
+    case ActionType.SetOffer:
+      return {...state, offer: action.payload};
     case ActionType.FillOffersList:
       return {...state, offers: action.payload};
     case ActionType.ChangeActiveOffer:
@@ -35,6 +41,12 @@ const reducer = (state: State = initialState, action: Actions): State => {
       return {...state, authorizationStatus: AuthorizationStatus.NoAuth};
     case ActionType.SetAuthInfo:
       return {...state, authInfo: action.payload};
+    case ActionType.SetComments:
+      return {...state, comments: action.payload};
+    case ActionType.PostComment:
+      return {...state, comment: action.payload};
+    case ActionType.SetOffersNearby:
+      return {...state, offersNearby: action.payload};
     default:
       return state;
   }

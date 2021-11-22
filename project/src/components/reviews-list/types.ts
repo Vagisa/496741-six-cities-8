@@ -1,5 +1,6 @@
 import { Review } from '../../types/review';
 
 export type ReviewsListProps = {
-  reviews: Review[];
+  offerId: string,
+  comments: Review[],
 };
