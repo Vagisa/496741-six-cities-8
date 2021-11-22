@@ -9,18 +9,20 @@ import Logo from '../logo/logo';
 import NotFound from '../not-found/not-found';
 import PlaceCard from '../place-card/place-card';
 
+import { NUMBER_DISPLAYED_NEARBY_OFFERS } from '../../const';
 import { ThunkAppDispatch } from '../../types/action';
 import { PropertyProps } from './types';
 import { PlaceCardMode } from '../../const';
 import { State } from '../../types/state';
 import { toggleFavorite } from '../../store/action';
-import { fetchCommentsAction, fetchCurrentOfferAction } from '../../store/api-actions';
+import { fetchCommentsAction, fetchCurrentOfferAction, fetchOffersNearbyAction } from '../../store/api-actions';
 
-const mapStateToProps = ({offer, offers, activeOffer, favorites}: State) => ({
+const mapStateToProps = ({offer, offers, activeOffer, favorites, offersNearby}: State) => ({
   offer,
   offers,
   activeOffer,
   favorites,
+  offersNearby,
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
@@ -30,6 +32,7 @@ const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
   loadOffer(offerId: string) {
     dispatch(fetchCurrentOfferAction(offerId));
     dispatch(fetchCommentsAction(offerId));
+    dispatch(fetchOffersNearbyAction(offerId));
   },
 });
 
@@ -41,8 +44,8 @@ type ConnectedComponentProps = PropsFromRedux & PropertyProps;
 function Property(props: ConnectedComponentProps): JSX.Element {
   const {
     offer,
-    offers,
     favorites,
+    offersNearby,
     loadOffer,
     onFavoritesClick,
     onOfferItemHover,
@@ -163,9 +166,8 @@ function Property(props: ConnectedComponentProps): JSX.Element {
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
               {
-                offers
-                  .filter((elem) => (elem.id !== offer.id))
-                  .slice(0, 3)
+                offersNearby
+                  .slice(0, NUMBER_DISPLAYED_NEARBY_OFFERS)
                   .map((nearOffer) => (
                     <PlaceCard
                       isFavorite={favorites.includes(offer.id)}

@@ -10,7 +10,8 @@ import {
   requireLogout,
   setAuthInfo,
   setComments,
-  setOffer} from './action';
+  setOffer,
+  setOffersNearby} from './action';
 import { Offer } from '../types/offers';
 import {
   saveToken,
@@ -29,6 +30,12 @@ export const fetchCommentsAction = (offerId: string): ThunkActionResult =>
   async (dispatch, _getState, api): Promise<void> => {
     const {data} = await api.get<Review[]>(APIRoute.Comments + offerId);
     dispatch(setComments(data));
+  };
+
+export const fetchOffersNearbyAction = (offerId: string): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    const {data} = await api.get<Offer[]>(APIRoute.Offer + offerId + APIRoute.OffersNearby);
+    dispatch(setOffersNearby(data));
   };
 
 export const fetchOffersAction = (): ThunkActionResult =>

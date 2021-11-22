@@ -59,3 +59,8 @@ export const setComments = (comments: Review[]) => ({
   type: ActionType.SetComments,
   payload: comments,
 } as const);
+
+export const setOffersNearby = (offersNearby: Offer[]) => ({
+  type: ActionType.SetOffersNearby,
+  payload: offersNearby,
+} as const);

@@ -15,4 +15,5 @@ export type State = {
   isDataLoaded: boolean,
   authInfo: AuthInfo | null,
   comments: Review[],
+  offersNearby: Offer[],
 };

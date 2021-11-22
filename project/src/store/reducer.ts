@@ -13,6 +13,7 @@ const initialState: State = {
   isDataLoaded: false,
   authInfo: null,
   comments: [],
+  offersNearby: [],
 };
 
 const reducer = (state: State = initialState, action: Actions): State => {
@@ -41,6 +42,8 @@ const reducer = (state: State = initialState, action: Actions): State => {
       return {...state, authInfo: action.payload};
     case ActionType.SetComments:
       return {...state, comments: action.payload};
+    case ActionType.SetOffersNearby:
+      return {...state, offersNearby: action.payload};
     default:
       return state;
   }
