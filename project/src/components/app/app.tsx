@@ -5,7 +5,7 @@ import { Router as BrowserRouter, Route, Switch } from 'react-router-dom';
 import Favorites from '../favorites/favorites';
 import LoadingScreen from '../loading-screen/loading-screen';
 import Login from '../login/login';
-import ConnectedMain from '../main/main';
+import Main from '../main/main';
 import NotFound from '../not-found/not-found';
 import PrivateRoute from '../private-route/private-route';
 import ConnectedProperty from '../property/property';
@@ -69,7 +69,7 @@ function App(props: ConnectedComponentProps): JSX.Element {
     <BrowserRouter history={browserHistory}>
       <Switch>
         <Route exact path={AppRoute.Main}>
-          <ConnectedMain
+          <Main
             onFavoritesClick={onFavoritesClick}
             onOfferItemHover={onOfferItemHover}
           />
