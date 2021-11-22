@@ -13,6 +13,7 @@ import {
   redirectToRoute,
   setAuthInfo,
   setComments,
+  postComment,
   setOffersNearby
 } from '../store/action';
 
@@ -28,6 +29,7 @@ export enum ActionType {
   RedirectToRoute = 'redirectToRoute',
   SetAuthInfo = 'setAuthInfo',
   SetComments = 'setComments',
+  PostComment = 'postComment',
   SetOffersNearby = 'setOffersNearby',
 }
 
@@ -43,7 +45,8 @@ export type Actions =
   | ReturnType<typeof redirectToRoute>
   | ReturnType<typeof setAuthInfo>
   | ReturnType<typeof setComments>
-  | ReturnType<typeof setOffersNearby>;
+  | ReturnType<typeof setOffersNearby>
+  | ReturnType<typeof postComment>;
 
 export type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Actions>;
 

@@ -59,6 +59,8 @@ function Property(props: ConnectedComponentProps): JSX.Element {
   }
 
   const isFavorite = favorites.includes(offer.id);
+  const displayedOffersNearby = offersNearby.slice(0, NUMBER_DISPLAYED_NEARBY_OFFERS);
+
   return (
     <div className="page">
       <header className="header">
@@ -154,11 +156,11 @@ function Property(props: ConnectedComponentProps): JSX.Element {
                   </p>
                 </div>
               </div>
-              <ConnectedReviewsList />
+              <ConnectedReviewsList offerId={id}/>
             </div>
           </div>
           <section className="property__map map">
-            <ConnectedMap />
+            <ConnectedMap offers={displayedOffersNearby}/>
           </section>
         </section>
         <div className="container">
@@ -166,8 +168,7 @@ function Property(props: ConnectedComponentProps): JSX.Element {
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
               {
-                offersNearby
-                  .slice(0, NUMBER_DISPLAYED_NEARBY_OFFERS)
+                displayedOffersNearby
                   .map((nearOffer) => (
                     <PlaceCard
                       isFavorite={favorites.includes(offer.id)}

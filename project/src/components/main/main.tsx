@@ -74,7 +74,7 @@ function Main(props: ConnectedComponentProps): JSX.Element {
                 />
                 <div className="cities__right-section">
                   <section className="cities__map map">
-                    <ConnectedMap />
+                    <ConnectedMap offers={offers} />
                   </section>
                 </div>
               </>}

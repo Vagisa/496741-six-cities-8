@@ -1,14 +1,15 @@
 import { connect, ConnectedProps } from 'react-redux';
 
-import CommentForm from '../comment-form/comment-form';
+import ConnectedCommentForm from '../comment-form/comment-form';
 import Comment from '../comment/comment';
 
-import { NUMBER_DISPLAYED_COMMENTS } from '../../const';
+import { AuthorizationStatus, NUMBER_DISPLAYED_COMMENTS } from '../../const';
 import { ReviewsListProps } from './types';
 import { State } from '../../types/state';
 import { Review } from '../../types/review';
 
-const mapStateToProps = ({comments}: State) => ({
+const mapStateToProps = ({authorizationStatus, comments}: State) => ({
+  authorizationStatus,
   comments,
 });
 
@@ -17,7 +18,7 @@ const connector = connect(mapStateToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 type ConnectedComponentProps = PropsFromRedux & ReviewsListProps;
 
-function ReviewsList({comments}: ConnectedComponentProps): JSX.Element {
+function ReviewsList({offerId, authorizationStatus, comments}: ConnectedComponentProps): JSX.Element {
 
   const sortedComments = comments.sort((first: Review, second: Review) => second.date > first.date ? 1 : -1);
 
@@ -37,7 +38,8 @@ function ReviewsList({comments}: ConnectedComponentProps): JSX.Element {
           />
         ))}
       </ul>
-      <CommentForm />
+      {authorizationStatus === AuthorizationStatus.Auth &&
+        <ConnectedCommentForm offerId={offerId} />}
     </section>
   );
 }

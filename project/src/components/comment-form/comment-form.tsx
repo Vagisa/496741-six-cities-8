@@ -1,7 +1,26 @@
+import { connect, ConnectedProps } from 'react-redux';
 import React, { useState } from 'react';
-import { MAX_RATING } from '../../const';
 
-function CommentForm(): JSX.Element {
+import { CommentData } from '../../types/comment-data';
+import { MAX_RATING } from '../../const';
+import { postCommentAction, fetchCommentsAction } from '../../store/api-actions';
+import { ThunkAppDispatch } from '../../types/action';
+import { CommentFormProps } from './types';
+
+const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
+  onSubmitComment (comment: CommentData, id: string) {
+    dispatch(postCommentAction(id, comment));
+    dispatch(fetchCommentsAction(id));
+  },
+});
+
+const connector = connect(null, mapDispatchToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type ConnectedComponentProps = PropsFromRedux & CommentFormProps;
+
+function CommentForm(props: ConnectedComponentProps): JSX.Element {
+  const {offerId, onSubmitComment} = props;
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState(0);
   const stars = (new Array(MAX_RATING)).fill(null).map((_, index) => index + 1).reverse();
@@ -9,7 +28,17 @@ function CommentForm(): JSX.Element {
     setRating(parseInt(evt.target.value, 10));
   };
   return(
-    <form className="reviews__form form" action="#" method="post">
+    <form
+      onSubmit={(evt) => {
+        evt.preventDefault();
+        onSubmitComment({ comment, rating }, offerId);
+        setComment('');
+        setRating(0);
+      }}
+      className="reviews__form form"
+      action="#"
+      method="post"
+    >
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
         {stars.map((value) => (
@@ -29,6 +58,8 @@ function CommentForm(): JSX.Element {
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
         value={comment}
+        minLength={50}
+        maxLength={300}
         onChange={(evt) => {setComment(evt.target.value);}}
       >
       </textarea>
@@ -37,10 +68,17 @@ function CommentForm(): JSX.Element {
         <p className="reviews__help">
           To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" type="submit" disabled >Submit</button>
+        <button
+          className="reviews__submit form__submit button"
+          type="submit"
+          disabled={(comment.length < 50 || comment.length > 300 || rating === 0)}
+        >
+          Submit
+        </button>
       </div>
     </form>
   );
 }
 
-export default CommentForm;
+export {CommentForm};
+export default connector(CommentForm);

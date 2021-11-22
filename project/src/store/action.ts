@@ -5,6 +5,7 @@ import { City } from '../types/cities';
 import { Offer } from '../types/offers';
 import { Review } from '../types/review';
 import { SortTypeOptions } from '../const';
+import { CommentData } from '../types/comment-data';
 
 export const changeCity = (city: City) => ({
   type: ActionType.СhangeСity,
@@ -58,6 +59,11 @@ export const setAuthInfo = (authInfo: AuthInfo | null) => ({
 export const setComments = (comments: Review[]) => ({
   type: ActionType.SetComments,
   payload: comments,
+} as const);
+
+export const postComment = (comment: CommentData | null) => ({
+  type: ActionType.PostComment,
+  payload: comment,
 } as const);
 
 export const setOffersNearby = (offersNearby: Offer[]) => ({

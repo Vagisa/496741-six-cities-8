@@ -3,15 +3,18 @@ import {
   AuthorizationStatus,
   AppRoute } from '../const';
 import { AuthData } from '../types/auth-data';
+import { CommentData } from '../types/comment-data';
 import {
   fillOffersList,
+  postComment,
   redirectToRoute,
   requireAuthorization,
   requireLogout,
   setAuthInfo,
   setComments,
   setOffer,
-  setOffersNearby} from './action';
+  setOffersNearby
+} from './action';
 import { Offer } from '../types/offers';
 import {
   saveToken,
@@ -50,6 +53,12 @@ export const checkAuthAction = (): ThunkActionResult =>
       .then(() => {
         dispatch(requireAuthorization(AuthorizationStatus.Auth));
       });
+  };
+
+export const postCommentAction = (id: string, {comment, rating}: CommentData): ThunkActionResult =>
+  async (dispatch, _getState, api) => {
+    const {data} = await api.post<Review>(APIRoute.Comments + id, {comment, rating});
+    dispatch(postComment(data));
   };
 
 export const loginAction = ({login: email, password}: AuthData): ThunkActionResult =>
