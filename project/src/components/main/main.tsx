@@ -13,9 +13,9 @@ import { State } from '../../types/state';
 import { City } from '../../types/cities';
 import { Offer } from '../../types/offers';
 
-const mapStateToProps = ({city, offers}: State) => ({
-  city,
-  offers,
+const mapStateToProps = ({OFFERS}: State) => ({
+  city: OFFERS.city,
+  offers: OFFERS.offers,
 });
 
 const connector = connect(mapStateToProps);

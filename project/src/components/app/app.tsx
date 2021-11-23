@@ -19,12 +19,12 @@ import { isCheckedAuth } from '../../six-sities';
 import { Offer } from '../../types/offers';
 import { State } from '../../types/state';
 
-const mapStateToProps = ({activeOffer, offers, favorites, authorizationStatus, isDataLoaded}: State) => ({
-  activeOffer,
-  offers,
-  favorites,
-  authorizationStatus,
-  isDataLoaded,
+const mapStateToProps = ({OFFERS, USER}: State) => ({
+  activeOffer: OFFERS.activeOffer,
+  offers: OFFERS.offers,
+  favorites: USER.favorites,
+  authorizationStatus: USER.authorizationStatus,
+  isDataLoaded: USER.isDataLoaded,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({

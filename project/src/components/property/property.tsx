@@ -17,12 +17,12 @@ import { State } from '../../types/state';
 import { toggleFavorite } from '../../store/action';
 import { fetchCommentsAction, fetchCurrentOfferAction, fetchOffersNearbyAction } from '../../store/api-actions';
 
-const mapStateToProps = ({offer, offers, activeOffer, favorites, offersNearby}: State) => ({
-  offer,
-  offers,
-  activeOffer,
-  favorites,
-  offersNearby,
+const mapStateToProps = ({OFFERS, PROPERTY, USER}: State) => ({
+  offer: PROPERTY.offer,
+  offers: OFFERS.offers,
+  activeOffer: OFFERS.activeOffer,
+  favorites: USER.favorites,
+  offersNearby: PROPERTY.offersNearby,
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({

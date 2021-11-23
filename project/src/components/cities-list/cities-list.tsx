@@ -10,8 +10,8 @@ import { State } from '../../types/state';
 import { changeCity } from '../../store/action';
 
 
-const mapStateToProps = ({city}: State) => ({
-  city,
+const mapStateToProps = ({OFFERS}: State) => ({
+  city: OFFERS.city,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({

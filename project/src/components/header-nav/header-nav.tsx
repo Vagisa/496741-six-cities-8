@@ -6,9 +6,9 @@ import { logoutAction } from '../../store/api-actions';
 import { State } from '../../types/state';
 import { ThunkAppDispatch } from '../../types/action';
 
-const mapStateToProps = ({authorizationStatus, authInfo}: State) => ({
-  authorizationStatus,
-  authInfo,
+const mapStateToProps = ({USER}: State) => ({
+  authorizationStatus: USER.authorizationStatus,
+  authInfo: USER.authInfo,
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({

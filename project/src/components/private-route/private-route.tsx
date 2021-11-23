@@ -5,8 +5,8 @@ import { AppRoute, AuthorizationStatus } from '../../const';
 import { PrivateRouteProps } from './types';
 import { State } from '../../types/state';
 
-const mapStateToProps = ({authorizationStatus}: State) => ({
-  authorizationStatus,
+const mapStateToProps = ({USER}: State) => ({
+  authorizationStatus: USER.authorizationStatus,
 });
 
 const connector = connect(mapStateToProps);

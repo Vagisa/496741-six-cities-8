@@ -10,7 +10,7 @@ import { AuthorizationStatus} from './const';
 import { createAPI } from './services/api';
 import { checkAuthAction, fetchOffersAction } from './store/api-actions';
 import { redirect } from './store/middlewares/redirect';
-import { reducer } from './store/reducer';
+import { rootReducer } from './store/root-reducer';
 import { requireAuthorization } from './store/action';
 import { reviews } from './mocks/reviews';
 import { ThunkAppDispatch } from './types/action';
@@ -20,7 +20,7 @@ const api = createAPI(
 );
 
 const store = createStore(
-  reducer,
+  rootReducer,
   composeWithDevTools(
     applyMiddleware(thunk.withExtraArgument(api)),
     applyMiddleware(redirect),

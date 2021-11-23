@@ -8,11 +8,11 @@ import { State } from '../../types/state';
 import { SortTypeOptions } from '../../const';
 import { Offer } from '../../types/offers';
 
-const mapStateToProps = ({city, offers, sortOption, favorites}: State) => ({
-  city,
-  offers,
-  sortOption,
-  favorites,
+const mapStateToProps = ({OFFERS, USER}: State) => ({
+  city: OFFERS.city,
+  offers: OFFERS.offers,
+  sortOption: OFFERS.sortOption,
+  favorites: USER.favorites,
 });
 
 const connector = connect(mapStateToProps);

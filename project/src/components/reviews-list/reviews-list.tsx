@@ -8,9 +8,9 @@ import { ReviewsListProps } from './types';
 import { State } from '../../types/state';
 import { Review } from '../../types/review';
 
-const mapStateToProps = ({authorizationStatus, comments}: State) => ({
-  authorizationStatus,
-  comments,
+const mapStateToProps = ({USER, PROPERTY}: State) => ({
+  authorizationStatus: USER.authorizationStatus,
+  comments: PROPERTY.comments,
 });
 
 const connector = connect(mapStateToProps);
