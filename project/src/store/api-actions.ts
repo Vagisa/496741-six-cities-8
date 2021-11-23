@@ -49,10 +49,9 @@ export const fetchOffersAction = (): ThunkActionResult =>
 
 export const checkAuthAction = (): ThunkActionResult =>
   async (dispatch, _getState, api) => {
-    await api.get(APIRoute.Login)
-      .then(() => {
-        dispatch(requireAuthorization(AuthorizationStatus.Auth));
-      });
+    const {data} = await api.get<AuthInfo>(APIRoute.Login);
+    dispatch(setAuthInfo(data));
+    dispatch(requireAuthorization(AuthorizationStatus.Auth));
   };
 
 export const postCommentAction = (id: string, {comment, rating}: CommentData): ThunkActionResult =>
