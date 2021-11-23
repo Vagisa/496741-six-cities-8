@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { Dispatch } from 'redux';
 
-import { Actions } from '../../types/action';
 import { changeSortType } from '../../store/action';
 import { SortingOptionsProps } from './types';
 import { State } from '../../types/state';
@@ -13,7 +12,7 @@ const mapStateToProps = (state: State) => ({
   sortOption: getSortOption(state),
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
+const mapDispatchToProps = (dispatch: Dispatch) => ({
   onSortTypeChange(sortOption: SortTypeOptions) {
     dispatch(changeSortType(sortOption));
   },

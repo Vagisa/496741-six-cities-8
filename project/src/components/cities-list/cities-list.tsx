@@ -2,7 +2,6 @@ import { connect, ConnectedProps } from 'react-redux';
 import { Dispatch } from 'redux';
 import { Link } from 'react-router-dom';
 
-import { Actions } from '../../types/action';
 import { CitiesListProps } from './types';
 import { cities } from '../../const';
 import { City } from '../../types/cities';
@@ -15,7 +14,7 @@ const mapStateToProps = (state: State) => ({
   city: getCity(state),
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
+const mapDispatchToProps = (dispatch: Dispatch) => ({
   setActiveCity(activeCity: City) {
     dispatch(changeCity(activeCity));
   },

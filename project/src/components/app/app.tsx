@@ -10,7 +10,6 @@ import Login from '../login/login';
 import NotFound from '../not-found/not-found';
 import PrivateRoute from '../private-route/private-route';
 
-import { Actions } from '../../types/action';
 import { AppProps } from './types';
 import { AppRoute } from '../../const';
 import browserHistory from '../../brouser-history';
@@ -29,7 +28,7 @@ const mapStateToProps = (state: State) => ({
   isDataLoaded: getLoadedDataStatus(state),
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
+const mapDispatchToProps = (dispatch: Dispatch) => ({
   setActiveOffer(offer: Offer | undefined) {
     dispatch(changeActiveOffer(offer));
   },
