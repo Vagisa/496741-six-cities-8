@@ -1,28 +1,19 @@
-import { connect, ConnectedProps } from 'react-redux';
+import { useSelector} from 'react-redux';
 
-import ConnectedCommentForm from '../comment-form/comment-form';
+import CommentForm from '../comment-form/comment-form';
 import Comment from '../comment/comment';
 
 import { AuthorizationStatus, NUMBER_DISPLAYED_COMMENTS } from '../../const';
 import { ReviewsListProps } from './types';
-import { State } from '../../types/state';
 import { Review } from '../../types/review';
 import { getAuthorizationStatus } from '../../store/user/selectors';
 import { getComments } from '../../store/property/selectors';
 
-const mapStateToProps = (state: State) => ({
-  authorizationStatus: getAuthorizationStatus(state),
-  comments: getComments(state),
-});
+function ReviewsList({offerId}: ReviewsListProps): JSX.Element {
+  const authorizationStatus = useSelector(getAuthorizationStatus);
+  const comments = useSelector(getComments);
 
-const connector = connect(mapStateToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = PropsFromRedux & ReviewsListProps;
-
-function ReviewsList({offerId, authorizationStatus, comments}: ConnectedComponentProps): JSX.Element {
-
-  const sortedComments = comments.sort((first: Review, second: Review) => second.date > first.date ? 1 : -1);
+  const sortedComments = comments.slice().sort((first: Review, second: Review) => second.date > first.date ? 1 : -1);
 
   return (
     <section className="property__reviews reviews">
@@ -41,10 +32,9 @@ function ReviewsList({offerId, authorizationStatus, comments}: ConnectedComponen
         ))}
       </ul>
       {authorizationStatus === AuthorizationStatus.Auth &&
-        <ConnectedCommentForm offerId={offerId} />}
+        <CommentForm offerId={offerId} />}
     </section>
   );
 }
 
-export {ReviewsList};
-export default connector(ReviewsList);
+export default ReviewsList;

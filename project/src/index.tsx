@@ -11,7 +11,6 @@ import { checkAuthAction, fetchOffersAction } from './store/api-actions';
 import { redirect } from './store/middlewares/redirect';
 import { rootReducer } from './store/root-reducer';
 import { requireAuthorization } from './store/action';
-import { reviews } from './mocks/reviews';
 
 const api = createAPI(
   () => store.dispatch(requireAuthorization(AuthorizationStatus.NoAuth)),
@@ -33,9 +32,7 @@ store.dispatch(fetchOffersAction());
 ReactDOM.render(
   <React.StrictMode>
     <Provider store = {store}>
-      <App
-        reviews={reviews}
-      />
+      <App />
     </Provider>
   </React.StrictMode>,
   document.getElementById('root'));

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import ConnectedHeaderNav from '../header-nav/header-nav';
+import HeaderNav from '../header-nav/header-nav';
 import FavoritePlaceCard from '../favorite-place-card/favorite-place-card';
 import Logo from '../logo/logo';
 
@@ -35,7 +35,7 @@ function Favorites({offers, favorites, onFavoritesClick}: FavoritesProps): JSX.E
             <div className="header__left">
               <Logo />
             </div>
-            <ConnectedHeaderNav />
+            <HeaderNav />
           </div>
         </div>
       </header>

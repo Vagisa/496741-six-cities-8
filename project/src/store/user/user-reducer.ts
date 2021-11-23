@@ -1,6 +1,8 @@
-import { ActionType, Actions } from '../../types/action';
+import { createReducer } from '@reduxjs/toolkit';
+
 import { AuthorizationStatus } from '../../const';
 import { User } from '../../types/state';
+import { requireAuthorization, requireLogout, setAuthInfo, toggleFavorite } from '../action';
 
 const initialState: User = {
   authorizationStatus: AuthorizationStatus.Unknown,
@@ -9,23 +11,25 @@ const initialState: User = {
   isDataLoaded: false,
 };
 
-const userReducer = (state = initialState, action: Actions): User => {
-  switch (action.type) {
-    case ActionType.ToggleFavorite:
+const userReducer = createReducer(initialState, (builder) => {
+  builder
+    .addCase(toggleFavorite, (state, action) => {
       if(state.favorites.includes(action.payload)) {
-        return {...state, favorites: state.favorites.filter((id) => id !== action.payload)};
+        state.favorites = state.favorites.filter((id) => id !== action.payload);
       } else {
-        return {...state, favorites: [...state.favorites, action.payload]};
+        state.favorites = [...state.favorites, action.payload];
       }
-    case ActionType.RequireAuthorization:
-      return {...state, authorizationStatus: action.payload, isDataLoaded: true};
-    case ActionType.RequireLogout:
-      return {...state, authorizationStatus: AuthorizationStatus.NoAuth};
-    case ActionType.SetAuthInfo:
-      return {...state, authInfo: action.payload};
-    default:
-      return state;
-  }
-};
+    })
+    .addCase(requireAuthorization, (state, action) => {
+      state.authorizationStatus = action.payload;
+      state.isDataLoaded = true;
+    })
+    .addCase(requireLogout, (state) => {
+      state.authorizationStatus = AuthorizationStatus.NoAuth;
+    })
+    .addCase(setAuthInfo, (state, action) => {
+      state.authInfo = action.payload;
+    });
+});
 
 export {userReducer};

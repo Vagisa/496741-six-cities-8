@@ -7,7 +7,6 @@ import { City } from '../types/cities';
 import { Offer } from '../types/offers';
 import { Review } from '../types/review';
 import { SortTypeOptions } from '../const';
-import { CommentData } from '../types/comment-data';
 
 export const changeCity = createAction(
   ActionType.СhangeСity,
@@ -78,13 +77,6 @@ export const setComments = createAction(
   ActionType.SetComments,
   (comments: Review[]) => ({
     payload: comments,
-  }),
-);
-
-export const postComment = createAction(
-  ActionType.PostComment,
-  (comment: CommentData | null) => ({
-    payload: comment,
   }),
 );
 

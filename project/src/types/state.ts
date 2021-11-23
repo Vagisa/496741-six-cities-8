@@ -1,7 +1,6 @@
 import { AuthorizationStatus, SortTypeOptions } from '../const';
 import { AuthInfo } from './auth-info';
 import { City } from './cities';
-import { CommentData } from './comment-data';
 import { Offer } from './offers';
 import { Review } from './review';
 import { RootState } from '../store/root-reducer';
@@ -16,7 +15,6 @@ export type Offers = {
 export type Property = {
   offer: Offer | undefined,
   comments: Review[],
-  comment: CommentData | null,
   offersNearby: Offer[],
 };
 

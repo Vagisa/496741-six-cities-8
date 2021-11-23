@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 
 import Logo from '../logo/logo';
-import ConnectedHeaderNav from '../header-nav/header-nav';
+import HeaderNav from '../header-nav/header-nav';
 
 function NotFound (): JSX.Element {
   return (
@@ -12,7 +12,7 @@ function NotFound (): JSX.Element {
             <div className="header__left">
               <Logo />
             </div>
-            <ConnectedHeaderNav />
+            <HeaderNav />
           </div>
         </div>
       </header>

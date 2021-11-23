@@ -1,26 +1,19 @@
-import { connect, ConnectedProps } from 'react-redux';
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 import { CommentData } from '../../types/comment-data';
 import { MAX_RATING } from '../../const';
-import { postCommentAction, fetchCommentsAction } from '../../store/api-actions';
-import { ThunkAppDispatch } from '../../types/action';
+import { postCommentAction } from '../../store/api-actions';
 import { CommentFormProps } from './types';
 
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  onSubmitComment (comment: CommentData, id: string) {
+function CommentForm({offerId}: CommentFormProps): JSX.Element {
+
+  const dispatch = useDispatch();
+
+  const onSubmitComment = (comment: CommentData, id: string) => {
     dispatch(postCommentAction(id, comment));
-    dispatch(fetchCommentsAction(id));
-  },
-});
+  };
 
-const connector = connect(null, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = PropsFromRedux & CommentFormProps;
-
-function CommentForm(props: ConnectedComponentProps): JSX.Element {
-  const {offerId, onSubmitComment} = props;
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState(0);
   const stars = (new Array(MAX_RATING)).fill(null).map((_, index) => index + 1).reverse();
@@ -42,14 +35,14 @@ function CommentForm(props: ConnectedComponentProps): JSX.Element {
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
         {stars.map((value) => (
-          <>
+          <div key={value}>
             <input onChange={handleRatingChange} checked={rating === value} className="form__rating-input visually-hidden" name="rating" value={value} id={`${value}-stars`} type="radio"/>
             <label htmlFor={`${value}-stars`} className="reviews__rating-label form__rating-label" title="perfect">
               <svg className="form__star-image" width="37" height="33">
                 <use xlinkHref="#icon-star"></use>
               </svg>
             </label>
-          </>
+          </div>
         ))}
       </div>
       <textarea
@@ -79,5 +72,4 @@ function CommentForm(props: ConnectedComponentProps): JSX.Element {
   );
 }
 
-export {CommentForm};
-export default connector(CommentForm);
+export default CommentForm;

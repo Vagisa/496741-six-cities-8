@@ -1,24 +1,15 @@
-import { connect, ConnectedProps } from 'react-redux';
 import leaflet from 'leaflet';
+import { useSelector } from 'react-redux';
 import { useEffect, useRef } from 'react';
 import useMap from './use-map';
 
-import { State } from '../../types/state';
 import { MapProps } from './types';
 import { getActiveOffer, getCity } from '../../store/offers/selectors';
 
-const mapStateToProps = (state: State) => ({
-  city: getCity(state),
-  activeOffer: getActiveOffer(state),
-});
 
-const connector = connect(mapStateToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = PropsFromRedux & MapProps;
-
-
-function Map({city, offers, activeOffer}: ConnectedComponentProps): JSX.Element {
+function Map({offers}: MapProps): JSX.Element {
+  const city = useSelector(getCity);
+  const activeOffer = useSelector(getActiveOffer);
   const mapRef = useRef<HTMLDivElement>(null);
   const map = useMap(mapRef, city);
 
@@ -64,5 +55,4 @@ function Map({city, offers, activeOffer}: ConnectedComponentProps): JSX.Element 
   );
 }
 
-export {Map};
-export default connector(Map);
+export default Map;

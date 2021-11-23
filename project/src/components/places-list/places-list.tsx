@@ -1,26 +1,13 @@
-import { connect, ConnectedProps } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import PlaceCard from '../place-card/place-card';
-import ConnectedSortingOptions from '../sorting-options/sorting-options';
+import SortingOptions from '../sorting-options/sorting-options';
 
 import { PlacesListProps } from './types';
-import { State } from '../../types/state';
 import { SortTypeOptions } from '../../const';
 import { Offer } from '../../types/offers';
 import { getCity, getOffers, getSortOption } from '../../store/offers/selectors';
 import { getFavorites } from '../../store/user/selectors';
-
-const mapStateToProps = (state: State) => ({
-  city: getCity(state),
-  offers: getOffers(state),
-  sortOption: getSortOption(state),
-  favorites: getFavorites(state),
-});
-
-const connector = connect(mapStateToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = PropsFromRedux & PlacesListProps;
 
 function getSortFunc(sortOption: SortTypeOptions): (first: Offer, second: Offer) => number {
   switch (sortOption) {
@@ -36,14 +23,14 @@ function getSortFunc(sortOption: SortTypeOptions): (first: Offer, second: Offer)
 }
 
 function PlacesList({
-  city,
-  offers,
-  sortOption,
-  favorites,
   onFavoritesClick,
   onOfferItemHover,
   mode,
-}: ConnectedComponentProps): JSX.Element {
+}: PlacesListProps): JSX.Element {
+  const city = useSelector(getCity);
+  const offers = useSelector(getOffers);
+  const sortOption = useSelector(getSortOption);
+  const favorites = useSelector(getFavorites);
   const offersFiltered = offers
     .filter((offer) => offer.city.name === city.name)
     .sort(getSortFunc(sortOption));
@@ -51,7 +38,7 @@ function PlacesList({
     <section className="cities__places places">
       <h2 className="visually-hidden">Places</h2>
       <b className="places__found">{offersFiltered.length} places to stay in {city.name}</b>
-      <ConnectedSortingOptions />
+      <SortingOptions />
       <div className="cities__places-list places__list tabs__content">
         {
           offersFiltered
@@ -72,5 +59,4 @@ function PlacesList({
   );
 }
 
-export {PlacesList};
-export default connector(PlacesList);
+export default PlacesList;
