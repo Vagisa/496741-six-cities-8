@@ -4,9 +4,10 @@ import { Route, Redirect } from 'react-router';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { PrivateRouteProps } from './types';
 import { State } from '../../types/state';
+import { getAuthorizationStatus } from '../../store/user/selectors';
 
-const mapStateToProps = ({USER}: State) => ({
-  authorizationStatus: USER.authorizationStatus,
+const mapStateToProps = (state: State) => ({
+  authorizationStatus: getAuthorizationStatus(state),
 });
 
 const connector = connect(mapStateToProps);

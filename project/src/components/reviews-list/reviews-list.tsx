@@ -7,10 +7,12 @@ import { AuthorizationStatus, NUMBER_DISPLAYED_COMMENTS } from '../../const';
 import { ReviewsListProps } from './types';
 import { State } from '../../types/state';
 import { Review } from '../../types/review';
+import { getAuthorizationStatus } from '../../store/user/selectors';
+import { getComments } from '../../store/property/selectors';
 
-const mapStateToProps = ({USER, PROPERTY}: State) => ({
-  authorizationStatus: USER.authorizationStatus,
-  comments: PROPERTY.comments,
+const mapStateToProps = (state: State) => ({
+  authorizationStatus: getAuthorizationStatus(state),
+  comments: getComments(state),
 });
 
 const connector = connect(mapStateToProps);

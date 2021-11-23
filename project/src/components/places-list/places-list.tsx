@@ -7,12 +7,14 @@ import { PlacesListProps } from './types';
 import { State } from '../../types/state';
 import { SortTypeOptions } from '../../const';
 import { Offer } from '../../types/offers';
+import { getCity, getOffers, getSortOption } from '../../store/offers/selectors';
+import { getFavorites } from '../../store/user/selectors';
 
-const mapStateToProps = ({OFFERS, USER}: State) => ({
-  city: OFFERS.city,
-  offers: OFFERS.offers,
-  sortOption: OFFERS.sortOption,
-  favorites: USER.favorites,
+const mapStateToProps = (state: State) => ({
+  city: getCity(state),
+  offers: getOffers(state),
+  sortOption: getSortOption(state),
+  favorites: getFavorites(state),
 });
 
 const connector = connect(mapStateToProps);

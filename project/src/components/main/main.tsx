@@ -12,10 +12,11 @@ import { PlaceCardMode } from '../../const';
 import { State } from '../../types/state';
 import { City } from '../../types/cities';
 import { Offer } from '../../types/offers';
+import { getCity, getOffers } from '../../store/offers/selectors';
 
-const mapStateToProps = ({OFFERS}: State) => ({
-  city: OFFERS.city,
-  offers: OFFERS.offers,
+const mapStateToProps = (state: State) => ({
+  city: getCity(state),
+  offers: getOffers(state),
 });
 
 const connector = connect(mapStateToProps);

@@ -7,9 +7,10 @@ import { changeSortType } from '../../store/action';
 import { SortingOptionsProps } from './types';
 import { State } from '../../types/state';
 import { SortTypeOptions } from '../../const';
+import { getSortOption } from '../../store/offers/selectors';
 
-const mapStateToProps = ({OFFERS}: State) => ({
-  sortOption: OFFERS.sortOption,
+const mapStateToProps = (state: State) => ({
+  sortOption: getSortOption(state),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({

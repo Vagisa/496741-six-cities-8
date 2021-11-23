@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
-import { offersReducer } from './offers-reducer/offers-reducer';
-import { propertyReducer } from './property-reducer/properti-reducer';
-import { userReducer } from './user-reducer/user-reducer';
+import { offersReducer } from './offers/offers-reducer';
+import { propertyReducer } from './property/properti-reducer';
+import { userReducer } from './user/user-reducer';
 
 export enum NameSpace {
   offers = 'OFFERS',

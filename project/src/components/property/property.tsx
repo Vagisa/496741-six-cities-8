@@ -16,13 +16,16 @@ import { PlaceCardMode } from '../../const';
 import { State } from '../../types/state';
 import { toggleFavorite } from '../../store/action';
 import { fetchCommentsAction, fetchCurrentOfferAction, fetchOffersNearbyAction } from '../../store/api-actions';
+import { getOffer, getOffersNearby } from '../../store/property/selectors';
+import { getActiveOffer, getOffers } from '../../store/offers/selectors';
+import { getFavorites } from '../../store/user/selectors';
 
-const mapStateToProps = ({OFFERS, PROPERTY, USER}: State) => ({
-  offer: PROPERTY.offer,
-  offers: OFFERS.offers,
-  activeOffer: OFFERS.activeOffer,
-  favorites: USER.favorites,
-  offersNearby: PROPERTY.offersNearby,
+const mapStateToProps = (state: State) => ({
+  offer: getOffer(state),
+  offers: getOffers(state),
+  activeOffer: getActiveOffer(state),
+  favorites: getFavorites(state),
+  offersNearby: getOffersNearby(state),
 });
 
 const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({

@@ -5,10 +5,11 @@ import useMap from './use-map';
 
 import { State } from '../../types/state';
 import { MapProps } from './types';
+import { getActiveOffer, getCity } from '../../store/offers/selectors';
 
-const mapStateToProps = ({OFFERS}: State) => ({
-  city: OFFERS.city,
-  activeOffer: OFFERS.activeOffer,
+const mapStateToProps = (state: State) => ({
+  city: getCity(state),
+  activeOffer: getActiveOffer(state),
 });
 
 const connector = connect(mapStateToProps);

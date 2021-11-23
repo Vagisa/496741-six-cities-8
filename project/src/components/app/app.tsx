@@ -18,13 +18,15 @@ import { changeActiveOffer, toggleFavorite } from '../../store/action';
 import { isCheckedAuth } from '../../six-sities';
 import { Offer } from '../../types/offers';
 import { State } from '../../types/state';
+import { getActiveOffer, getOffers } from '../../store/offers/selectors';
+import { getAuthorizationStatus, getFavorites, getLoadedDataStatus } from '../../store/user/selectors';
 
-const mapStateToProps = ({OFFERS, USER}: State) => ({
-  activeOffer: OFFERS.activeOffer,
-  offers: OFFERS.offers,
-  favorites: USER.favorites,
-  authorizationStatus: USER.authorizationStatus,
-  isDataLoaded: USER.isDataLoaded,
+const mapStateToProps = (state: State) => ({
+  activeOffer: getActiveOffer(state),
+  offers: getOffers(state),
+  favorites: getFavorites(state),
+  authorizationStatus: getAuthorizationStatus(state),
+  isDataLoaded: getLoadedDataStatus(state),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({

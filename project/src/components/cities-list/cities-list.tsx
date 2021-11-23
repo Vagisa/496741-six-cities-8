@@ -8,10 +8,11 @@ import { cities } from '../../const';
 import { City } from '../../types/cities';
 import { State } from '../../types/state';
 import { changeCity } from '../../store/action';
+import { getCity } from '../../store/offers/selectors';
 
 
-const mapStateToProps = ({OFFERS}: State) => ({
-  city: OFFERS.city,
+const mapStateToProps = (state: State) => ({
+  city: getCity(state),
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
