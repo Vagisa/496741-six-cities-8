@@ -1,3 +1,4 @@
+import React from 'react';
 import { Router as BrowserRouter, Route, Switch } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -13,7 +14,6 @@ import { AppRoute } from '../../const';
 import browserHistory from '../../brouser-history';
 import { changeActiveOffer, toggleFavorite } from '../../store/action';
 import { isCheckedAuth } from '../../six-sities';
-import { Offer } from '../../types/offers';
 import { getOffers } from '../../store/offers/selectors';
 import { getAuthorizationStatus, getFavorites, getLoadedDataStatus } from '../../store/user/selectors';
 
@@ -25,20 +25,22 @@ function App(): JSX.Element {
 
   const dispatch = useDispatch();
 
-  const setActiveOffer = (offer: Offer | undefined) => {
-    dispatch(changeActiveOffer(offer));
-  };
+  const onFavoritesClick = React.useCallback(
+    (offerId: number) => {
+      dispatch(toggleFavorite(offerId));
+    },
+    [dispatch],
+  );
 
-  const onFavoritesClick = (offerId: number) => {
-    dispatch(toggleFavorite(offerId));
-  };
-
-  const onOfferItemHover = (offerItemId: number) => {
-    const currentPoint = offers.find((offer) =>
-      offer.id === offerItemId,
-    );
-    setActiveOffer(currentPoint);
-  };
+  const onOfferItemHover = React.useCallback(
+    (offerItemId: number) => {
+      const currentPoint = offers.find((offer) =>
+        offer.id === offerItemId,
+      );
+      dispatch(changeActiveOffer(currentPoint));
+    },
+    [dispatch, offers],
+  );
 
   if (isCheckedAuth(authorizationStatus) || !isDataLoaded) {
     return (

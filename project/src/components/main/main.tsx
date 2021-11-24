@@ -1,10 +1,9 @@
 import { useSelector } from 'react-redux';
 
 import CitiesList from '../cities-list/cities-list';
-import HeaderNav from '../header-nav/header-nav';
+import Header from '../header/header';
 import PlacesList from '../places-list/places-list';
 import Map from '../map/map';
-import Logo from '../logo/logo';
 import MainEmpty from '../main-empty/main-empty';
 
 import { MainProps } from './types';
@@ -33,16 +32,7 @@ function Main(props: MainProps): JSX.Element {
 
   return (
     <div className="page page--gray page--main">
-      <header className="header">
-        <div className="container">
-          <div className="header__wrapper">
-            <div className="header__left">
-              <Logo />
-            </div>
-            <HeaderNav />
-          </div>
-        </div>
-      </header>
+      <Header/>
 
       <main
         className={`page__main page__main--index

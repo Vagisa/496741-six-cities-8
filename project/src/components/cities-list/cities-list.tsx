@@ -1,10 +1,11 @@
-import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { cities } from '../../const';
 import { City } from '../../types/cities';
 import { changeCity } from '../../store/action';
+
 import { getCity } from '../../store/offers/selectors';
+import { Link } from 'react-router-dom';
 
 function CitiesList(): JSX.Element {
   const city = useSelector(getCity);
@@ -20,7 +21,8 @@ function CitiesList(): JSX.Element {
           {cities.map((activeCity) => (
             <li key={activeCity.name} onClick={() => setActiveCity(activeCity)} className="locations__item">
               <Link className={`locations__item-link tabs__item
-              ${city.name === activeCity.name ? 'tabs__item--active' : ''} `} to="/"
+              ${city.name === activeCity.name ? 'tabs__item--active' : ''} `}
+              to="/"
               >
                 <span>{activeCity.name}</span>
               </Link>
