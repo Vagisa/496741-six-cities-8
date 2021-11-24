@@ -12,8 +12,11 @@ import {
   setAuthInfo,
   setComments,
   setOffer,
-  setOffersNearby
+  setOffersNearby,
+  setFavorite,
+  updateOffer
 } from './action';
+import { getAuthorizationStatus } from '../store/user/selectors';
 import { Offer } from '../types/offers';
 import {
   saveToken,
@@ -75,4 +78,21 @@ export const logoutAction = (): ThunkActionResult =>
     dispatch(requireLogout());
     dispatch(setAuthInfo(null));
     dispatch(redirectToRoute(AppRoute.Main));
+  };
+
+export const fetchFavoriteAction = (): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    const {data} = await api.get<Offer[]>(APIRoute.Favorite);
+    dispatch(setFavorite(data));
+  };
+
+export const postFavoriteAction = (offer: Offer): ThunkActionResult =>
+  async (dispatch, getState, api) => {
+    if (getAuthorizationStatus(getState()) !== AuthorizationStatus.Auth) {
+      dispatch(redirectToRoute(AppRoute.SignIn));
+      return;
+    }
+    const newStatus = Number(!offer.isFavorite);
+    const {data} = await api.post<Offer>(`${APIRoute.Favorite}/${offer.id}/${newStatus}`);
+    dispatch(updateOffer(data));
   };

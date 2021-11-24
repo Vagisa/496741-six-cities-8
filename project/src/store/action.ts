@@ -22,6 +22,13 @@ export const setOffer = createAction(
   }),
 );
 
+export const updateOffer = createAction(
+  ActionType.UpdateOffer,
+  (offer: Offer) => ({
+    payload: offer,
+  }),
+);
+
 export const fillOffersList = createAction(
   ActionType.FillOffersList,
   (offers: Offer[]) => ({
@@ -36,10 +43,10 @@ export const changeActiveOffer = createAction(
   }),
 );
 
-export const toggleFavorite = createAction(
-  ActionType.ToggleFavorite,
-  (favoriteId: number) => ({
-    payload: favoriteId,
+export const setFavorite = createAction(
+  ActionType.SetFavorite,
+  (offers: Offer[]) => ({
+    payload: offers,
   }),
 );
 

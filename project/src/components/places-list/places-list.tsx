@@ -1,4 +1,4 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import PlaceCard from '../place-card/place-card';
 import SortingOptions from '../sorting-options/sorting-options';
@@ -7,7 +7,9 @@ import { PlacesListProps } from './types';
 import { SortTypeOptions } from '../../const';
 import { Offer } from '../../types/offers';
 import { getCity, getOffers, getSortOption } from '../../store/offers/selectors';
-import { getFavorites } from '../../store/user/selectors';
+import { getAuthorizationStatus } from '../../store/user/selectors';
+import { useEffect } from 'react';
+import { fetchOffersAction } from '../../store/api-actions';
 
 function getSortFunc(sortOption: SortTypeOptions): (first: Offer, second: Offer) => number {
   switch (sortOption) {
@@ -22,18 +24,20 @@ function getSortFunc(sortOption: SortTypeOptions): (first: Offer, second: Offer)
   }
 }
 
-function PlacesList({
-  onFavoritesClick,
-  onOfferItemHover,
-  mode,
-}: PlacesListProps): JSX.Element {
+function PlacesList({ onOfferItemHover, mode }: PlacesListProps): JSX.Element {
   const city = useSelector(getCity);
   const offers = useSelector(getOffers);
   const sortOption = useSelector(getSortOption);
-  const favorites = useSelector(getFavorites);
+  const authorizationStatus = useSelector(getAuthorizationStatus);
   const offersFiltered = offers
     .filter((offer) => offer.city.name === city.name)
     .sort(getSortFunc(sortOption));
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchOffersAction());
+  }, [authorizationStatus, dispatch]);
+
   return (
     <section className="cities__places places">
       <h2 className="visually-hidden">Places</h2>
@@ -45,10 +49,8 @@ function PlacesList({
             .slice()
             .map((offer) => (
               <PlaceCard
-                isFavorite={favorites.includes(offer.id)}
                 offer={offer}
                 onMouseOver={onOfferItemHover}
-                onFavoritesClick={onFavoritesClick}
                 key={offer.id}
                 mode={mode}
               />

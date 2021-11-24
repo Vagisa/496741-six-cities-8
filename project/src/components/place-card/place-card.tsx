@@ -1,9 +1,19 @@
 import { Link } from 'react-router-dom';
-import { PlaceCardMode } from '../../const';
+import React from 'react';
+import { useDispatch } from 'react-redux';
 
+import { APIRoute, PlaceCardMode } from '../../const';
+import { postFavoriteAction } from '../../store/api-actions';
 import { PlaceCardProps } from './types';
 
-function PlaceCard({offer, onMouseOver, isFavorite = false, onFavoritesClick, mode}: PlaceCardProps): JSX.Element {
+function PlaceCard({offer, onMouseOver, mode}: PlaceCardProps): JSX.Element {
+  const dispatch = useDispatch();
+  const onFavoritesClick = React.useCallback(
+    () => {
+      dispatch(postFavoriteAction(offer));
+    },
+    [offer, dispatch],
+  );
   return (
     <article onMouseOver={() => onMouseOver(offer.id)}
       className={`${mode === PlaceCardMode.Cities ? 'cities__place-card' : 'near-places__card'} place-card`}
@@ -28,8 +38,8 @@ function PlaceCard({offer, onMouseOver, isFavorite = false, onFavoritesClick, mo
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
           <button
-            onClick={() => onFavoritesClick(offer.id)}
-            className={`place-card__bookmark-button ${isFavorite && 'place-card__bookmark-button--active'} button`}
+            onClick={() => onFavoritesClick()}
+            className={`place-card__bookmark-button ${offer.isFavorite && 'place-card__bookmark-button--active'} button`}
             type="button"
           >
             <svg className="place-card__bookmark-icon" width="18" height="19">
@@ -45,7 +55,7 @@ function PlaceCard({offer, onMouseOver, isFavorite = false, onFavoritesClick, mo
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={`/hotels/${offer.id}`}>{offer.title}</Link>
+          <Link to={`${APIRoute.Offer}${offer.id}`}>{offer.title}</Link>
         </h2>
         <p className="place-card__type">{offer.type}</p>
       </div>

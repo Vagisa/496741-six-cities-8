@@ -12,22 +12,22 @@ import PlaceCard from '../place-card/place-card';
 import { NUMBER_DISPLAYED_NEARBY_OFFERS } from '../../const';
 import { PropertyProps } from './types';
 import { PlaceCardMode } from '../../const';
-import { toggleFavorite } from '../../store/action';
-import { fetchCommentsAction, fetchCurrentOfferAction, fetchOffersNearbyAction } from '../../store/api-actions';
+import { fetchCommentsAction, fetchCurrentOfferAction, fetchOffersNearbyAction, postFavoriteAction } from '../../store/api-actions';
 import { getOffer, getOffersNearby } from '../../store/property/selectors';
-import { getFavorites } from '../../store/user/selectors';
 
 function Property({onOfferItemHover}: PropertyProps): JSX.Element {
 
 
   const offer = useSelector(getOffer);
-  const favorites = useSelector(getFavorites);
   const offersNearby = useSelector(getOffersNearby);
 
   const dispatch = useDispatch();
 
-  const onFavoritesClick = (offerId: number) => {
-    dispatch(toggleFavorite(offerId));
+  const onFavoritesClick = () => {
+    if (!offer) {
+      return;
+    }
+    dispatch(postFavoriteAction(offer));
   };
 
   const {id} = useParams<{id: string}>();
@@ -42,7 +42,6 @@ function Property({onOfferItemHover}: PropertyProps): JSX.Element {
     return <NotFound />;
   }
 
-  const isFavorite = favorites.includes(offer.id);
   const displayedOffersNearby = offersNearby.slice(0, NUMBER_DISPLAYED_NEARBY_OFFERS);
 
   return (
@@ -79,8 +78,8 @@ function Property({onOfferItemHover}: PropertyProps): JSX.Element {
                 <h1 className="property__name">
                   {offer.title}
                 </h1>
-                <button onClick={() => onFavoritesClick(offer.id)}
-                  className={`property__bookmark-button ${isFavorite && 'property__bookmark-button--active'} button`} type="button"
+                <button onClick={() => onFavoritesClick()}
+                  className={`property__bookmark-button ${offer.isFavorite && 'property__bookmark-button--active'} button`} type="button"
                 >
                   <svg className="property__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>
@@ -155,10 +154,8 @@ function Property({onOfferItemHover}: PropertyProps): JSX.Element {
                 displayedOffersNearby
                   .map((nearOffer) => (
                     <PlaceCard
-                      isFavorite={favorites.includes(offer.id)}
                       offer={nearOffer}
                       onMouseOver={onOfferItemHover}
-                      onFavoritesClick={onFavoritesClick}
                       key={nearOffer.id}
                       mode={PlaceCardMode.NearPlaces}
                     />
