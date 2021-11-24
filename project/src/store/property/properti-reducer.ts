@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
 
 import { Property } from '../../types/state';
-import { setComments, setOffer, setOffersNearby } from '../action';
+import { setComments, setOffer, setOffersNearby, updateOffer } from '../action';
 
 const initialState: Property = {
   offer: undefined,
@@ -19,6 +19,9 @@ const propertyReducer = createReducer(initialState, (builder) => {
     })
     .addCase(setOffersNearby, (state, action) => {
       state.offersNearby = action.payload;
+    })
+    .addCase(updateOffer, (state, action) => {
+      state.offer = action.payload;
     });
 });
 

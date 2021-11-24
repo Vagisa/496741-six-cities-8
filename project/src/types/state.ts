@@ -21,7 +21,7 @@ export type Property = {
 export type User = {
   authorizationStatus: AuthorizationStatus,
   authInfo: AuthInfo | null,
-  favorites: number[],
+  favorites: Offer[],
   isDataLoaded: boolean,
 };
 

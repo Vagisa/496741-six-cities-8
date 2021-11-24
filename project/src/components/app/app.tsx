@@ -12,25 +12,17 @@ import PrivateRoute from '../private-route/private-route';
 
 import { AppRoute } from '../../const';
 import browserHistory from '../../brouser-history';
-import { changeActiveOffer, toggleFavorite } from '../../store/action';
+import { changeActiveOffer } from '../../store/action';
 import { isCheckedAuth } from '../../six-sities';
 import { getOffers } from '../../store/offers/selectors';
-import { getAuthorizationStatus, getFavorites, getLoadedDataStatus } from '../../store/user/selectors';
+import { getAuthorizationStatus, getLoadedDataStatus } from '../../store/user/selectors';
 
 function App(): JSX.Element {
   const offers = useSelector(getOffers);
-  const favorites = useSelector(getFavorites);
   const authorizationStatus = useSelector(getAuthorizationStatus);
   const isDataLoaded = useSelector(getLoadedDataStatus);
 
   const dispatch = useDispatch();
-
-  const onFavoritesClick = React.useCallback(
-    (offerId: number) => {
-      dispatch(toggleFavorite(offerId));
-    },
-    [dispatch],
-  );
 
   const onOfferItemHover = React.useCallback(
     (offerItemId: number) => {
@@ -53,7 +45,6 @@ function App(): JSX.Element {
       <Switch>
         <Route exact path={AppRoute.Main}>
           <Main
-            onFavoritesClick={onFavoritesClick}
             onOfferItemHover={onOfferItemHover}
           />
         </Route>
@@ -62,11 +53,7 @@ function App(): JSX.Element {
         </Route>
         <PrivateRoute exact path={AppRoute.Favorites}
           render={() => (
-            <Favorites
-              offers={offers}
-              favorites={favorites}
-              onFavoritesClick={onFavoritesClick}
-            />)}
+            <Favorites />)}
         >
         </PrivateRoute>
         <Route exact path={AppRoute.Room}>

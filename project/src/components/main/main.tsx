@@ -14,7 +14,6 @@ import { getCity, getOffers } from '../../store/offers/selectors';
 
 function Main(props: MainProps): JSX.Element {
   const {
-    onFavoritesClick,
     onOfferItemHover,
   } = props;
 
@@ -49,7 +48,6 @@ function Main(props: MainProps): JSX.Element {
             {isEmptyOfferList ? <MainEmpty city={city}/> :
               <>
                 <PlacesList
-                  onFavoritesClick={onFavoritesClick}
                   onOfferItemHover={onOfferItemHover}
                   mode={PlaceCardMode.Cities}
                 />

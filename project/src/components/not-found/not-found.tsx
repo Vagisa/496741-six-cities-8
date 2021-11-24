@@ -16,13 +16,17 @@ function NotFound (): JSX.Element {
           </div>
         </div>
       </header>
-      <main className="page__main page__main--index" style={{margin: 'auto'}}>
+      <main
+        className="page__main page__main--index"
+        style={{margin: 'auto'}}
+      >
         <h1>
           404.
           <br />
           <small>Page not found</small>
         </h1>
         <Link to="/">Go to main page</Link>
+        <img src="img/not-faund.jpg" alt="Not-faund" />
       </main>
     </div>
   );

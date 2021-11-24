@@ -1,13 +1,21 @@
 import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 
 import HeaderNav from '../header-nav/header-nav';
 import FavoritePlaceCard from '../favorite-place-card/favorite-place-card';
 import Logo from '../logo/logo';
 
-import { FavoritesProps } from './types';
+import { getFavorites } from '../../store/user/selectors';
+import { useEffect } from 'react';
+import { fetchFavoriteAction } from '../../store/api-actions';
 
-function Favorites({offers, favorites, onFavoritesClick}: FavoritesProps): JSX.Element {
-  const favoriteOffers = offers.filter(({id}) => favorites.includes(id));
+function Favorites(): JSX.Element {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchFavoriteAction());
+  }, [dispatch]);
+
+  const favoriteOffers = useSelector(getFavorites);
   const citiesSet = new Set(favoriteOffers.map((offer) => offer.city.name));
   const cities = [...citiesSet].sort().map((city) => (
     <li key={city} className="favorites__locations-items">
@@ -20,9 +28,7 @@ function Favorites({offers, favorites, onFavoritesClick}: FavoritesProps): JSX.E
       </div>
       <div className="favorites__places">
         {favoriteOffers.filter((offer) => offer.city.name === city).map((offer) => (
-          <FavoritePlaceCard key={offer.id} offer={offer}
-            onFavoritesClick={onFavoritesClick}
-          />
+          <FavoritePlaceCard key={offer.id} offer={offer} />
         ))}
       </div>
     </li>

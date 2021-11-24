@@ -1,8 +1,19 @@
 import { Link } from 'react-router-dom';
+import React from 'react';
+import { useDispatch } from 'react-redux';
 
 import { FavoritePlaceCardProps } from './types';
+import { postFavoriteAction } from '../../store/api-actions';
+import { AppRoute } from '../../const';
 
-function FavoritePlaceCard({offer, onFavoritesClick}: FavoritePlaceCardProps): JSX.Element {
+function FavoritePlaceCard({offer}: FavoritePlaceCardProps): JSX.Element {
+  const dispatch = useDispatch();
+  const onFavoritesClick = React.useCallback(
+    () => {
+      dispatch(postFavoriteAction(offer));
+    },
+    [offer, dispatch],
+  );
   return (
     <article className="favorites__card place-card">
       <div className="favorites__image-wrapper place-card__image-wrapper">
@@ -18,7 +29,7 @@ function FavoritePlaceCard({offer, onFavoritesClick}: FavoritePlaceCardProps): J
             <b className="place-card__price-value">&euro;{offer.price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button onClick={() => onFavoritesClick(offer.id)}
+          <button onClick={() => onFavoritesClick()}
             className="place-card__bookmark-button place-card__bookmark-button--active button" type="button"
           >
             <svg className="place-card__bookmark-icon" width="18" height="19">
@@ -34,7 +45,7 @@ function FavoritePlaceCard({offer, onFavoritesClick}: FavoritePlaceCardProps): J
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to="/">{offer.title}</Link>
+          <Link to={`${AppRoute.Room.replace(':id', offer.id.toString())}`}>{offer.title}</Link>
         </h2>
         <p className="place-card__type">{offer.type}</p>
       </div>
