@@ -1,58 +1,42 @@
-import { connect, ConnectedProps } from 'react-redux';
 import { useEffect } from 'react';
 import { useParams } from 'react-router';
+import { useSelector, useDispatch } from 'react-redux';
 
-import ConnectedHeaderNav from '../header-nav/header-nav';
-import ConnectedMap from '../map/map';
-import ConnectedReviewsList from '../reviews-list/reviews-list';
+import HeaderNav from '../header-nav/header-nav';
+import Map from '../map/map';
+import ReviewsList from '../reviews-list/reviews-list';
 import Logo from '../logo/logo';
 import NotFound from '../not-found/not-found';
 import PlaceCard from '../place-card/place-card';
 
 import { NUMBER_DISPLAYED_NEARBY_OFFERS } from '../../const';
-import { ThunkAppDispatch } from '../../types/action';
 import { PropertyProps } from './types';
 import { PlaceCardMode } from '../../const';
-import { State } from '../../types/state';
 import { toggleFavorite } from '../../store/action';
 import { fetchCommentsAction, fetchCurrentOfferAction, fetchOffersNearbyAction } from '../../store/api-actions';
+import { getOffer, getOffersNearby } from '../../store/property/selectors';
+import { getFavorites } from '../../store/user/selectors';
 
-const mapStateToProps = ({offer, offers, activeOffer, favorites, offersNearby}: State) => ({
-  offer,
-  offers,
-  activeOffer,
-  favorites,
-  offersNearby,
-});
+function Property({onOfferItemHover}: PropertyProps): JSX.Element {
 
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  onFavoritesClick(offerId: number) {
+
+  const offer = useSelector(getOffer);
+  const favorites = useSelector(getFavorites);
+  const offersNearby = useSelector(getOffersNearby);
+
+  const dispatch = useDispatch();
+
+  const onFavoritesClick = (offerId: number) => {
     dispatch(toggleFavorite(offerId));
-  },
-  loadOffer(offerId: string) {
-    dispatch(fetchCurrentOfferAction(offerId));
-    dispatch(fetchCommentsAction(offerId));
-    dispatch(fetchOffersNearbyAction(offerId));
-  },
-});
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = PropsFromRedux & PropertyProps;
-
-function Property(props: ConnectedComponentProps): JSX.Element {
-  const {
-    offer,
-    favorites,
-    offersNearby,
-    loadOffer,
-    onFavoritesClick,
-    onOfferItemHover,
-  } = props;
+  };
 
   const {id} = useParams<{id: string}>();
-  useEffect(() => loadOffer(id), [id, loadOffer]);
+
+  useEffect(() => {
+    dispatch(fetchCurrentOfferAction(id));
+    dispatch(fetchCommentsAction(id));
+    dispatch(fetchOffersNearbyAction(id));
+  }, [id, dispatch]);
 
   if (!offer) {
     return <NotFound />;
@@ -69,7 +53,7 @@ function Property(props: ConnectedComponentProps): JSX.Element {
             <div className="header__left">
               <Logo />
             </div>
-            <ConnectedHeaderNav />
+            <HeaderNav />
           </div>
         </div>
       </header>
@@ -156,11 +140,11 @@ function Property(props: ConnectedComponentProps): JSX.Element {
                   </p>
                 </div>
               </div>
-              <ConnectedReviewsList offerId={id}/>
+              <ReviewsList offerId={id}/>
             </div>
           </div>
           <section className="property__map map">
-            <ConnectedMap offers={displayedOffersNearby}/>
+            <Map offers={displayedOffersNearby}/>
           </section>
         </section>
         <div className="container">
@@ -188,5 +172,4 @@ function Property(props: ConnectedComponentProps): JSX.Element {
   );
 }
 
-export {Property};
-export default connector(Property);
+export default Property;

@@ -1,5 +1,5 @@
-import { connect, ConnectedProps } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { useState } from 'react';
 import { FormEvent } from 'react';
 
@@ -7,20 +7,12 @@ import Logo from '../logo/logo';
 
 import { AuthData } from '../../types/auth-data';
 import { loginAction } from '../../store/api-actions';
-import { ThunkAppDispatch } from '../../types/action';
 
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  onSubmit(authData: AuthData) {
+function Login(): JSX.Element {
+  const dispatch = useDispatch();
+  const onSubmit = (authData: AuthData) => {
     dispatch(loginAction(authData));
-  },
-});
-
-const connector = connect(null, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-function Login(props: PropsFromRedux): JSX.Element {
-  const {onSubmit} = props;
+  };
 
   const [login, setLogin] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -101,5 +93,4 @@ function Login(props: PropsFromRedux): JSX.Element {
   );
 }
 
-export {Login};
-export default connector(Login);
+export default Login;

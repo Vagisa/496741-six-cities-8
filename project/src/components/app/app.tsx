@@ -1,62 +1,46 @@
-import { connect, ConnectedProps } from 'react-redux';
-import { Dispatch } from 'redux';
+import React from 'react';
 import { Router as BrowserRouter, Route, Switch } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 
-import ConnectedMain from '../main/main';
-import ConnectedProperty from '../property/property';
+import Main from '../main/main';
+import Property from '../property/property';
 import Favorites from '../favorites/favorites';
 import LoadingScreen from '../loading-screen/loading-screen';
 import Login from '../login/login';
 import NotFound from '../not-found/not-found';
 import PrivateRoute from '../private-route/private-route';
 
-import { Actions } from '../../types/action';
-import { AppProps } from './types';
 import { AppRoute } from '../../const';
 import browserHistory from '../../brouser-history';
 import { changeActiveOffer, toggleFavorite } from '../../store/action';
 import { isCheckedAuth } from '../../six-sities';
-import { Offer } from '../../types/offers';
-import { State } from '../../types/state';
+import { getOffers } from '../../store/offers/selectors';
+import { getAuthorizationStatus, getFavorites, getLoadedDataStatus } from '../../store/user/selectors';
 
-const mapStateToProps = ({activeOffer, offers, favorites, authorizationStatus, isDataLoaded}: State) => ({
-  activeOffer,
-  offers,
-  favorites,
-  authorizationStatus,
-  isDataLoaded,
-});
+function App(): JSX.Element {
+  const offers = useSelector(getOffers);
+  const favorites = useSelector(getFavorites);
+  const authorizationStatus = useSelector(getAuthorizationStatus);
+  const isDataLoaded = useSelector(getLoadedDataStatus);
 
-const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
-  setActiveOffer(offer: Offer | undefined) {
-    dispatch(changeActiveOffer(offer));
-  },
-  onFavoritesClick(offerId: number) {
-    dispatch(toggleFavorite(offerId));
-  },
-});
+  const dispatch = useDispatch();
 
-const connector = connect(mapStateToProps, mapDispatchToProps);
+  const onFavoritesClick = React.useCallback(
+    (offerId: number) => {
+      dispatch(toggleFavorite(offerId));
+    },
+    [dispatch],
+  );
 
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = PropsFromRedux & AppProps;
-
-function App(props: ConnectedComponentProps): JSX.Element {
-  const {
-    offers,
-    setActiveOffer,
-    favorites,
-    onFavoritesClick,
-    authorizationStatus,
-    isDataLoaded,
-  } = props;
-
-  const onOfferItemHover = (offerItemId: number) => {
-    const currentPoint = offers.find((offer) =>
-      offer.id === offerItemId,
-    );
-    setActiveOffer(currentPoint);
-  };
+  const onOfferItemHover = React.useCallback(
+    (offerItemId: number) => {
+      const currentPoint = offers.find((offer) =>
+        offer.id === offerItemId,
+      );
+      dispatch(changeActiveOffer(currentPoint));
+    },
+    [dispatch, offers],
+  );
 
   if (isCheckedAuth(authorizationStatus) || !isDataLoaded) {
     return (
@@ -68,7 +52,7 @@ function App(props: ConnectedComponentProps): JSX.Element {
     <BrowserRouter history={browserHistory}>
       <Switch>
         <Route exact path={AppRoute.Main}>
-          <ConnectedMain
+          <Main
             onFavoritesClick={onFavoritesClick}
             onOfferItemHover={onOfferItemHover}
           />
@@ -86,7 +70,7 @@ function App(props: ConnectedComponentProps): JSX.Element {
         >
         </PrivateRoute>
         <Route exact path={AppRoute.Room}>
-          <ConnectedProperty
+          <Property
             onOfferItemHover={onOfferItemHover}
           />
         </Route>
@@ -98,5 +82,4 @@ function App(props: ConnectedComponentProps): JSX.Element {
   );
 }
 
-export {App};
-export default connector(App);
+export default App;

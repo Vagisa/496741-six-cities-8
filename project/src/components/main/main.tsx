@@ -1,35 +1,25 @@
-import { connect, ConnectedProps } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-import ConnectedCitiesList from '../cities-list/cities-list';
-import ConnectedHeaderNav from '../header-nav/header-nav';
-import ConnectedPlacesList from '../places-list/places-list';
-import ConnectedMap from '../map/map';
-import Logo from '../logo/logo';
+import CitiesList from '../cities-list/cities-list';
+import Header from '../header/header';
+import PlacesList from '../places-list/places-list';
+import Map from '../map/map';
 import MainEmpty from '../main-empty/main-empty';
 
 import { MainProps } from './types';
 import { PlaceCardMode } from '../../const';
-import { State } from '../../types/state';
 import { City } from '../../types/cities';
 import { Offer } from '../../types/offers';
+import { getCity, getOffers } from '../../store/offers/selectors';
 
-const mapStateToProps = ({city, offers}: State) => ({
-  city,
-  offers,
-});
-
-const connector = connect(mapStateToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = PropsFromRedux & MainProps;
-
-function Main(props: ConnectedComponentProps): JSX.Element {
+function Main(props: MainProps): JSX.Element {
   const {
-    city,
-    offers,
     onFavoritesClick,
     onOfferItemHover,
   } = props;
+
+  const city= useSelector(getCity);
+  const offers = useSelector(getOffers);
 
   const checksAvailableRooms = (cityToSearch: City, offersList: Offer[]): boolean => {
     const offersFiltered = offersList
@@ -42,23 +32,14 @@ function Main(props: ConnectedComponentProps): JSX.Element {
 
   return (
     <div className="page page--gray page--main">
-      <header className="header">
-        <div className="container">
-          <div className="header__wrapper">
-            <div className="header__left">
-              <Logo />
-            </div>
-            <ConnectedHeaderNav />
-          </div>
-        </div>
-      </header>
+      <Header/>
 
       <main
         className={`page__main page__main--index
         ${isEmptyOfferList ? 'page__main--index-empty' : ''}`}
       >
         <h1 className="visually-hidden">Cities</h1>
-        <ConnectedCitiesList />
+        <CitiesList />
         <div className="cities">
           <div
             className={`cities__places-container
@@ -67,14 +48,14 @@ function Main(props: ConnectedComponentProps): JSX.Element {
           >
             {isEmptyOfferList ? <MainEmpty city={city}/> :
               <>
-                <ConnectedPlacesList
+                <PlacesList
                   onFavoritesClick={onFavoritesClick}
                   onOfferItemHover={onOfferItemHover}
                   mode={PlaceCardMode.Cities}
                 />
                 <div className="cities__right-section">
                   <section className="cities__map map">
-                    <ConnectedMap offers={offers} />
+                    <Map offers={offers} />
                   </section>
                 </div>
               </>}
@@ -85,5 +66,4 @@ function Main(props: ConnectedComponentProps): JSX.Element {
   );
 }
 
-export {Main};
-export default connector(Main);
+export default Main;

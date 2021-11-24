@@ -1,32 +1,21 @@
-import { connect, ConnectedProps } from 'react-redux';
 import { Link } from 'react-router-dom';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { logoutAction } from '../../store/api-actions';
-import { State } from '../../types/state';
-import { ThunkAppDispatch } from '../../types/action';
+import { getAuthInfo, getAuthorizationStatus } from '../../store/user/selectors';
 
-const mapStateToProps = ({authorizationStatus, authInfo}: State) => ({
-  authorizationStatus,
-  authInfo,
-});
 
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  onLogout() {
+function HeaderNav(): JSX.Element {
+
+  const authorizationStatus = useSelector(getAuthorizationStatus);
+  const authInfo = useSelector(getAuthInfo);
+  const dispatch = useDispatch();
+  const onLogout = () => {
     dispatch(logoutAction());
-  },
-});
+  };
 
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-function HeaderNav(props: PropsFromRedux): JSX.Element {
-  const {
-    authorizationStatus,
-    authInfo,
-    onLogout,
-  } = props;
   return (
     <nav className="header__nav">
       <ul className="header__nav-list">
@@ -59,5 +48,4 @@ function HeaderNav(props: PropsFromRedux): JSX.Element {
   );
 }
 
-export {HeaderNav};
-export default connector(HeaderNav);
+export default React.memo(HeaderNav);

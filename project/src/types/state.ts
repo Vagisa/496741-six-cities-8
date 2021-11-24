@@ -1,21 +1,28 @@
 import { AuthorizationStatus, SortTypeOptions } from '../const';
 import { AuthInfo } from './auth-info';
 import { City } from './cities';
-import { CommentData } from './comment-data';
 import { Offer } from './offers';
 import { Review } from './review';
+import { RootState } from '../store/root-reducer';
 
-export type State = {
+export type Offers = {
   city: City,
-  offer: Offer | undefined,
   offers: Offer[],
   activeOffer: Offer | undefined,
-  favorites: number[],
   sortOption: SortTypeOptions,
-  authorizationStatus: AuthorizationStatus,
-  isDataLoaded: boolean,
-  authInfo: AuthInfo | null,
+};
+
+export type Property = {
+  offer: Offer | undefined,
   comments: Review[],
-  comment: CommentData | null,
   offersNearby: Offer[],
 };
+
+export type User = {
+  authorizationStatus: AuthorizationStatus,
+  authInfo: AuthInfo | null,
+  favorites: number[],
+  isDataLoaded: boolean,
+};
+
+export type State = RootState;

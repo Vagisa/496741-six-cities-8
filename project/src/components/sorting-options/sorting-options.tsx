@@ -1,29 +1,18 @@
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { useState } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
-import { Dispatch } from 'redux';
 
-import { Actions } from '../../types/action';
 import { changeSortType } from '../../store/action';
-import { SortingOptionsProps } from './types';
-import { State } from '../../types/state';
 import { SortTypeOptions } from '../../const';
+import { getSortOption } from '../../store/offers/selectors';
 
-const mapStateToProps = ({sortOption}: State) => ({
-  sortOption,
-});
+function SortingOptions(): JSX.Element {
+  const sortOption = useSelector(getSortOption);
+  const dispatch = useDispatch();
+  const onSortTypeChange = (newSortOption: SortTypeOptions) => {
+    dispatch(changeSortType(newSortOption));
+  };
 
-const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
-  onSortTypeChange(sortOption: SortTypeOptions) {
-    dispatch(changeSortType(sortOption));
-  },
-});
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type ConnectedComponentProps = PropsFromRedux & SortingOptionsProps;
-
-function SortingOptions({sortOption, onSortTypeChange}: ConnectedComponentProps): JSX.Element {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   return (
     <form className="places__sorting" action="#" method="get">
@@ -51,5 +40,4 @@ function SortingOptions({sortOption, onSortTypeChange}: ConnectedComponentProps)
   );
 }
 
-export {SortingOptions};
-export default connector(SortingOptions);
+export default React.memo(SortingOptions);

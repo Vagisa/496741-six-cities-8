@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import ConnectedHeaderNav from '../header-nav/header-nav';
+import HeaderNav from '../header-nav/header-nav';
 import Logo from '../logo/logo';
 
 function FavoritesEmpty(): JSX.Element {
@@ -12,7 +12,7 @@ function FavoritesEmpty(): JSX.Element {
             <div className="header__left">
               <Logo />
             </div>
-            <ConnectedHeaderNav />
+            <HeaderNav />
           </div>
         </div>
       </header>
