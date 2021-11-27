@@ -11,7 +11,7 @@ import NotFound from '../not-found/not-found';
 import PrivateRoute from '../private-route/private-route';
 
 import { AppRoute } from '../../const';
-import browserHistory from '../../brouser-history';
+import browserHistory from '../../browser-history';
 import { changeActiveOffer } from '../../store/action';
 import { isCheckedAuth } from '../../six-sities';
 import { getOffers } from '../../store/offers/selectors';

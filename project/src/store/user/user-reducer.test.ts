@@ -114,11 +114,13 @@ describe('Reducer: userReducer', () => {
       isDataLoaded: true,
     };
     const randomFavoriteOffer = random.arrayElement(fakeFavorites);
-    expect(userReducer(state, updateOffer(randomFavoriteOffer)))
+    const updatedOfferFromServer = {...randomFavoriteOffer, isFavorite: false};
+    const expectedFavorites = fakeFavorites.filter((offer) => offer.id !== randomFavoriteOffer.id);
+    expect(userReducer(state, updateOffer(updatedOfferFromServer)))
       .toEqual({
         authorizationStatus: AuthorizationStatus.Auth,
         authInfo: fakeAuthInfo,
-        favorites: fakeFavorites.filter((offer) => offer.id !== randomFavoriteOffer.id),
+        favorites: expectedFavorites,
         isDataLoaded: true,
       });
   });
@@ -129,12 +131,13 @@ describe('Reducer: userReducer', () => {
       favorites: fakeFavorites,
       isDataLoaded: true,
     };
-    const fakeOffer = makeFakeOffer();
+    const fakeOffer = {...makeFakeOffer(), isFavorite: true};
+    const newFavorites = [...fakeFavorites, fakeOffer];
     expect(userReducer(state, updateOffer(fakeOffer)))
       .toEqual({
         authorizationStatus: AuthorizationStatus.Auth,
         authInfo: fakeAuthInfo,
-        favorites: fakeFavorites.filter((offer) => offer.id !== fakeOffer.id),
+        favorites: newFavorites,
         isDataLoaded: true,
       });
   });
