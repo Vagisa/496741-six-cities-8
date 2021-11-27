@@ -57,9 +57,7 @@ function App(): JSX.Element {
         >
         </PrivateRoute>
         <Route exact path={AppRoute.Room}>
-          <Property
-            onOfferItemHover={onOfferItemHover}
-          />
+          <Property />
         </Route>
         <Route>
           <NotFound />
