@@ -1,18 +1,20 @@
 import { Link } from 'react-router-dom';
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { APIRoute, PlaceCardMode } from '../../const';
 import { postFavoriteAction } from '../../store/api-actions';
 import { PlaceCardProps } from './types';
+import { getAuthorizationStatus } from '../../store/user/selectors';
 
 function PlaceCard({offer, onMouseOver, mode}: PlaceCardProps): JSX.Element {
   const dispatch = useDispatch();
+  const authorizationStatus = useSelector(getAuthorizationStatus);
   const onFavoritesClick = React.useCallback(
     () => {
-      dispatch(postFavoriteAction(offer));
+      dispatch(postFavoriteAction(offer, authorizationStatus));
     },
-    [offer, dispatch],
+    [offer, dispatch, authorizationStatus],
   );
   return (
     <article onMouseOver={() => onMouseOver(offer.id)}

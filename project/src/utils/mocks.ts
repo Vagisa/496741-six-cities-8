@@ -15,7 +15,6 @@ const MAX_PRICE = 300;
 const MAX_RATING = 5;
 const PRECISION_RATING = 1;
 
-
 export const makeFakeLocation = (): Location => ({
   latitude: Number(address.latitude()),
   longitude: Number(address.longitude()),

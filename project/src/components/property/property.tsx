@@ -14,12 +14,14 @@ import { PropertyProps } from './types';
 import { PlaceCardMode } from '../../const';
 import { fetchCommentsAction, fetchCurrentOfferAction, fetchOffersNearbyAction, postFavoriteAction } from '../../store/api-actions';
 import { getOffer, getOffersNearby } from '../../store/property/selectors';
+import { getAuthorizationStatus } from '../../store/user/selectors';
 
 function Property({onOfferItemHover}: PropertyProps): JSX.Element {
 
 
   const offer = useSelector(getOffer);
   const offersNearby = useSelector(getOffersNearby);
+  const authorizationStatus = useSelector(getAuthorizationStatus);
 
   const dispatch = useDispatch();
 
@@ -27,7 +29,7 @@ function Property({onOfferItemHover}: PropertyProps): JSX.Element {
     if (!offer) {
       return;
     }
-    dispatch(postFavoriteAction(offer));
+    dispatch(postFavoriteAction(offer, authorizationStatus));
   };
 
   const {id} = useParams<{id: string}>();

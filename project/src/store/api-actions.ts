@@ -1,7 +1,8 @@
 import {
   APIRoute,
   AuthorizationStatus,
-  AppRoute } from '../const';
+  AppRoute
+} from '../const';
 import { AuthData } from '../types/auth-data';
 import { CommentData } from '../types/comment-data';
 import {
@@ -16,11 +17,11 @@ import {
   setFavorite,
   updateOffer
 } from './action';
-import { getAuthorizationStatus } from '../store/user/selectors';
 import { Offer } from '../types/offers';
 import {
   saveToken,
-  dropToken} from '../services/token';
+  dropToken
+} from '../services/token';
 import { ThunkActionResult } from '../types/action';
 import { AuthInfo } from '../types/auth-info';
 import { Review } from '../types/review';
@@ -56,9 +57,9 @@ export const checkAuthAction = (): ThunkActionResult =>
     dispatch(requireAuthorization(AuthorizationStatus.Auth));
   };
 
-export const postCommentAction = (id: string, {comment, rating}: CommentData): ThunkActionResult =>
+export const postCommentAction = (offerId: string, {comment, rating}: CommentData): ThunkActionResult =>
   async (dispatch, _getState, api) => {
-    const {data} = await api.post<Review[]>(APIRoute.Comments + id, {comment, rating});
+    const {data} = await api.post<Review[]>(APIRoute.Comments + offerId, {comment, rating});
     dispatch(setComments(data));
   };
 
@@ -86,9 +87,9 @@ export const fetchFavoriteAction = (): ThunkActionResult =>
     dispatch(setFavorite(data));
   };
 
-export const postFavoriteAction = (offer: Offer): ThunkActionResult =>
-  async (dispatch, getState, api) => {
-    if (getAuthorizationStatus(getState()) !== AuthorizationStatus.Auth) {
+export const postFavoriteAction = (offer: Offer, authorizationStatus: AuthorizationStatus): ThunkActionResult =>
+  async (dispatch, _getState, api) => {
+    if (authorizationStatus !== AuthorizationStatus.Auth) {
       dispatch(redirectToRoute(AppRoute.SignIn));
       return;
     }
