@@ -8,7 +8,7 @@ const spinnerStyle: React.CSSProperties = {
 function LoadingScreen(): JSX.Element {
   return (
     <div style={spinnerStyle}>
-      <SpinnerCircular size={200} color="#4481c3" />
+      <SpinnerCircular size={200} color="#4481c3" data-testid="Спиннер" />
     </div>
   );
 }
