@@ -45,13 +45,15 @@ function Main(props: MainProps): JSX.Element {
             ${isEmptyOfferList ? 'cities__places-container--empty' : ''}
             container`}
           >
-            {isEmptyOfferList ? <MainEmpty city={city}/> :
+            {isEmptyOfferList ? <MainEmpty city={city} /> :
               <>
                 <PlacesList
                   onOfferItemHover={onOfferItemHover}
                   mode={PlaceCardMode.Cities}
                 />
-                <div className="cities__right-section">
+                <div className="cities__right-section"
+                  data-testid="Main"
+                >
                   <section className="cities__map map">
                     <Map offers={offers} />
                   </section>
