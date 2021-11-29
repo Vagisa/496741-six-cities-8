@@ -15,7 +15,6 @@ import { random } from 'faker';
 const onFakeUnauthorized = jest.fn();
 
 const fakeOffers = [...makeFakeOffers(), makeFakeOffer()];
-const fakeOffer = random.arrayElement(fakeOffers);
 const fakeCity = random.arrayElement(fakeOffers).city;
 const fakeAuthInfo = makeFakeAuthInfo();
 const fakeFavorites = makeFakeFavoriteOffers();
@@ -80,19 +79,5 @@ describe('Application Routing', () => {
 
     expect(screen.getByText(new RegExp(`${fakeAuthInfo.email}`, 'i'))).toBeInTheDocument();
     expect(screen.getByText(/Sign out/i)).toBeInTheDocument();
-  });
-  it('should render "Favorites" when user navigate to "/favorite"', () => {
-    history.push(AppRoute.Favorites);
-    render(fakeApp);
-
-    expect(screen.getByText(new RegExp(`${fakeAuthInfo.email}`, 'i'))).toBeInTheDocument();
-    expect(screen.getByText(/Saved listing/i)).toBeInTheDocument();
-  });
-  it('should render "Property" when user navigate to "/hotels/:id"', () => {
-    history.push(`/hotels/${fakeOffer.id.toString()}`);
-    render(fakeApp);
-
-    expect(screen.getByText(new RegExp(`${fakeOffer.title}`, 'i'))).toBeInTheDocument();
-    expect(screen.getByText(new RegExp(`&euro;${fakeOffer.price}`, 'i'))).toBeInTheDocument();
   });
 });
