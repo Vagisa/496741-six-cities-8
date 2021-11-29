@@ -20,6 +20,7 @@ function PlaceCard({offer, onMouseOver, mode}: PlaceCardProps): JSX.Element {
     <article onMouseOver={() => onMouseOver && onMouseOver(offer.id)}
       className={`${mode === PlaceCardMode.Cities
         ? 'cities__place-card' : 'near-places__card'} place-card`}
+      data-testid={`${mode}-test`}
     >
       {
         offer.isPremium &&

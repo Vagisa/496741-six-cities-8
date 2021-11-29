@@ -14,6 +14,7 @@ import { PlaceCardMode } from '../../const';
 import { fetchCommentsAction, fetchCurrentOfferAction, fetchOffersNearbyAction, postFavoriteAction } from '../../store/api-actions';
 import { getOffer, getOffersNearby } from '../../store/property/selectors';
 import { getAuthorizationStatus } from '../../store/user/selectors';
+import { changeActiveOffer } from '../../store/action';
 
 function Property(): JSX.Element {
 
@@ -31,6 +32,10 @@ function Property(): JSX.Element {
   };
 
   const {id} = useParams<{id: string}>();
+
+  useEffect(() => {
+    dispatch(changeActiveOffer(offer));
+  }, [dispatch, offer]);
 
   useEffect(() => {
     dispatch(fetchCurrentOfferAction(id));

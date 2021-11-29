@@ -2,7 +2,7 @@ import { address, commerce, database, datatype, image, internet, random } from '
 import { City } from '../types/cities';
 import { Location } from '../types/cities';
 import { Offer } from '../types/offers';
-import { AuthorizationStatus, SortTypeOptions } from '../const';
+import { AuthorizationStatus, PlaceCardMode, SortTypeOptions } from '../const';
 import { User } from '../types/user';
 import { Review } from '../types/review';
 import { AuthInfo } from '../types/auth-info';
@@ -53,14 +53,14 @@ export const makeFakeOffer = (): Offer => ({
 } as Offer);
 
 export const makeFakeOffers = (): Offer[] => (
-  new Array(datatype.number(NUMBER_OF_FAKE_CASES)).fill(null).map(makeFakeOffer) as Offer[]);
+  new Array(datatype.number(NUMBER_OF_FAKE_CASES + 1)).fill(null).map(makeFakeOffer) as Offer[]);
 
 export const makeFakeOffersNearby = (): Offer[] => (
   new Array(datatype.number(NUMBER_OF_FAKE_OFFERS_NEADBY)).fill(null).map(makeFakeOffer) as Offer[]);
 
 export const makeFakeFavoriteOffers = (): Offer[] => (
-  makeFakeOffers().filter((offer) => (
-    offer.isFavorite === true)) as Offer[]);
+  makeFakeOffers().map((offer) => (
+    {...offer, isFavorite: true})) as Offer[]);
 
 export const makeFakeComment = (): Review => ({
   comment: commerce.productDescription(),
@@ -87,3 +87,6 @@ export const getRandomSortOptions = (): SortTypeOptions => (
 
 export const getAuthorizationStatus = (): AuthorizationStatus => (
   random.arrayElement(Object.values(AuthorizationStatus)) as AuthorizationStatus);
+
+export const getRandomMode = (): PlaceCardMode => (
+  random.arrayElement(Object.values(PlaceCardMode)) as PlaceCardMode);

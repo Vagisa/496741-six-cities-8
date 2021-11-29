@@ -21,7 +21,13 @@ const propertyReducer = createReducer(initialState, (builder) => {
       state.offersNearby = action.payload;
     })
     .addCase(updateOffer, (state, action) => {
-      state.offer = action.payload;
+      if (state.offer?.id === action.payload.id) {
+        state.offer = action.payload;
+      } else {
+        state.offersNearby = state.offersNearby.map((offerNearby) => (
+          offerNearby.id === action.payload.id ? action.payload : offerNearby
+        ));
+      }
     });
 });
 

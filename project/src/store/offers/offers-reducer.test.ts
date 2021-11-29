@@ -10,13 +10,14 @@ import {
 } from '../action';
 import {
   makeFakeCity,
+  makeFakeOffer,
   makeFakeOffers
 } from '../../utils/mocks';
 import { getRandomSortOptions } from '../../utils/mocks';
 import { Offer } from '../../types/offers';
 
 const fakeCity = makeFakeCity();
-const fakeOffers = makeFakeOffers();
+const fakeOffers = [...makeFakeOffers(), makeFakeOffer()];
 const fakeActiveOffer = random.arrayElement(fakeOffers);
 const fakeSortOptions = getRandomSortOptions();
 

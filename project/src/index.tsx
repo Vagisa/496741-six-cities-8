@@ -1,7 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
+import {Router as BrowserRouter} from 'react-router-dom';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import browserHistory from './browser-history';
 
 import App from './components/app/app';
 
@@ -32,7 +34,9 @@ store.dispatch(fetchOffersAction());
 ReactDOM.render(
   <React.StrictMode>
     <Provider store = {store}>
-      <App />
+      <BrowserRouter history={browserHistory}>
+        <App />
+      </BrowserRouter>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root'));

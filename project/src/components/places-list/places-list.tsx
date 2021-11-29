@@ -39,7 +39,7 @@ function PlacesList({ onOfferItemHover, mode }: PlacesListProps): JSX.Element {
   }, [authorizationStatus, dispatch]);
 
   return (
-    <section className="cities__places places">
+    <section className="cities__places places" data-testid="PlacesList">
       <h2 className="visually-hidden">Places</h2>
       <b className="places__found">{offersFiltered.length} places to stay in {city.name}</b>
       <SortingOptions />
