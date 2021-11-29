@@ -4,7 +4,7 @@ import { Offers } from '../../types/state';
 import { SortTypeOptions, cities } from '../../const';
 import { changeActiveOffer, changeCity, changeSortType, fillOffersList, updateOffer } from '../action';
 
-const initialState: Offers = {
+export const initialState: Offers = {
   city: cities[0],
   offers: [],
   activeOffer: undefined,
@@ -26,7 +26,8 @@ const offersReducer = createReducer(initialState, (builder) => {
       state.sortOption = action.payload;
     })
     .addCase(updateOffer, (state, action) => {
-      state.offers = state.offers.map((offer) => offer.id === action.payload.id ? action.payload : offer);
+      state.offers = state.offers.map((offer) =>
+        offer.id === action.payload.id ? action.payload : offer);
     });
 });
 

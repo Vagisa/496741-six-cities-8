@@ -10,16 +10,16 @@ import NotFound from '../not-found/not-found';
 import PlaceCard from '../place-card/place-card';
 
 import { NUMBER_DISPLAYED_NEARBY_OFFERS } from '../../const';
-import { PropertyProps } from './types';
 import { PlaceCardMode } from '../../const';
 import { fetchCommentsAction, fetchCurrentOfferAction, fetchOffersNearbyAction, postFavoriteAction } from '../../store/api-actions';
 import { getOffer, getOffersNearby } from '../../store/property/selectors';
+import { getAuthorizationStatus } from '../../store/user/selectors';
 
-function Property({onOfferItemHover}: PropertyProps): JSX.Element {
-
+function Property(): JSX.Element {
 
   const offer = useSelector(getOffer);
   const offersNearby = useSelector(getOffersNearby);
+  const authorizationStatus = useSelector(getAuthorizationStatus);
 
   const dispatch = useDispatch();
 
@@ -27,7 +27,7 @@ function Property({onOfferItemHover}: PropertyProps): JSX.Element {
     if (!offer) {
       return;
     }
-    dispatch(postFavoriteAction(offer));
+    dispatch(postFavoriteAction(offer, authorizationStatus));
   };
 
   const {id} = useParams<{id: string}>();
@@ -143,7 +143,7 @@ function Property({onOfferItemHover}: PropertyProps): JSX.Element {
             </div>
           </div>
           <section className="property__map map">
-            <Map offers={displayedOffersNearby}/>
+            <Map offers={[...displayedOffersNearby, offer]}/>
           </section>
         </section>
         <div className="container">
@@ -155,7 +155,6 @@ function Property({onOfferItemHover}: PropertyProps): JSX.Element {
                   .map((nearOffer) => (
                     <PlaceCard
                       offer={nearOffer}
-                      onMouseOver={onOfferItemHover}
                       key={nearOffer.id}
                       mode={PlaceCardMode.NearPlaces}
                     />

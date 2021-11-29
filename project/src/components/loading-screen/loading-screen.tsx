@@ -1,20 +1,15 @@
-import BeatLoader from 'react-spinners/BeatLoader';
-import { css } from '@emotion/react';
+import { SpinnerCircular } from 'spinners-react';
 
-const override = css`
-  display: block;
-  margin: 20% auto;
-  width: 170px;
-`;
+const spinnerStyle: React.CSSProperties = {
+  margin: '200px auto',
+  width: '200px',
+};
 
 function LoadingScreen(): JSX.Element {
   return (
-    <BeatLoader
-      color="#4481c3"
-      loading
-      css={override}
-      size={50}
-    />
+    <div style={spinnerStyle}>
+      <SpinnerCircular size={200} color="#4481c3" data-testid="Спиннер" />
+    </div>
   );
 }
 

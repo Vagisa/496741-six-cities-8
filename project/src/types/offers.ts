@@ -7,7 +7,7 @@ export type Offer = {
   images: string[];
   previewImage: string;
   title: string;
-  description: string[];
+  description: string;
   isFavorite: boolean;
   isPremium: boolean;
   type: string;
