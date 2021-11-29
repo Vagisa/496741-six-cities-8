@@ -80,6 +80,7 @@ describe('Application Routing', () => {
       </Provider>);
 
     expect(screen.queryByText(/No places to stay available/i)).toBeInTheDocument();
+    expect(screen.getByText(new RegExp(`We could not find any property available at the moment in ${fakeCity.name}`, 'i'))).toBeInTheDocument();
   });
   it('should render "Login" when user navigate to "/login"', () => {
     history.push(AppRoute.SignIn);
