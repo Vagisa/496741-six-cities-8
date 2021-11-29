@@ -119,11 +119,20 @@ describe('Application Routing', () => {
       </Provider>);
 
     expect(screen.queryByText(/Nothing yet saved./i)).toBeInTheDocument();
+    expect(screen.queryByText(/Save properties to narrow down search or plan your future trips./i)).toBeInTheDocument();
   });
   it('should render "Property" when user navigate to "/hotels/:id"', () => {
     history.push(AppRoute.Room.replace(':id', fakeOffer.id.toString()));
     render(fakeApp);
 
     expect(screen.queryByText(new RegExp(`${fakeOffer.description}`, 'i'))).toBeInTheDocument();
+    expect(screen.queryByText(/Other places in the neighbourhood/i)).toBeInTheDocument();
+  });
+  it('should render "NotFoundScreen" when user navigate to non-existent route', () => {
+    history.push('/non-existent-route');
+    render(fakeApp);
+
+    expect(screen.getByText('Page not found')).toBeInTheDocument();
+    expect(screen.getByText('Go to main page')).toBeInTheDocument();
   });
 });
