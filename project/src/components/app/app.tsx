@@ -1,5 +1,6 @@
 import React from 'react';
-import { Router as BrowserRouter, Route, Switch } from 'react-router-dom';
+import {Switch, Route} from 'react-router-dom';
+
 import { useSelector, useDispatch } from 'react-redux';
 
 import Main from '../main/main';
@@ -11,7 +12,6 @@ import NotFound from '../not-found/not-found';
 import PrivateRoute from '../private-route/private-route';
 
 import { AppRoute } from '../../const';
-import browserHistory from '../../browser-history';
 import { changeActiveOffer } from '../../store/action';
 import { isCheckedAuth } from '../../six-sities';
 import { getOffers } from '../../store/offers/selectors';
@@ -41,29 +41,27 @@ function App(): JSX.Element {
   }
 
   return (
-    <BrowserRouter history={browserHistory}>
-      <Switch>
-        <Route exact path={AppRoute.Main}>
-          <Main
-            onOfferItemHover={onOfferItemHover}
-          />
-        </Route>
-        <Route exact path={AppRoute.SignIn}>
-          <Login />
-        </Route>
-        <PrivateRoute exact path={AppRoute.Favorites}
-          render={() => (
-            <Favorites />)}
-        >
-        </PrivateRoute>
-        <Route exact path={AppRoute.Room}>
-          <Property />
-        </Route>
-        <Route>
-          <NotFound />
-        </Route>
-      </Switch>
-    </BrowserRouter>
+    <Switch>
+      <Route exact path={AppRoute.Main}>
+        <Main
+          onOfferItemHover={onOfferItemHover}
+        />
+      </Route>
+      <Route exact path={AppRoute.SignIn}>
+        <Login />
+      </Route>
+      <PrivateRoute exact path={AppRoute.Favorites}
+        render={() => (
+          <Favorites />)}
+      >
+      </PrivateRoute>
+      <Route exact path={AppRoute.Room}>
+        <Property />
+      </Route>
+      <Route>
+        <NotFound />
+      </Route>
+    </Switch>
   );
 }
 

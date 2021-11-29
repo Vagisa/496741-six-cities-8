@@ -4,17 +4,20 @@ import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../const';
-import { makeFakeAuthInfo, makeFakeFavoriteOffers, makeFakeOffer, makeFakeOffers } from '../../utils/mocks';
+import { makeFakeAuthInfo, makeFakeFavoriteOffers, makeFakeOffer, makeFakeOffers, makeFakeOffersNearby } from '../../utils/mocks';
 import App from './app';
 import { State } from '../../types/state';
 import { Action } from 'redux';
 import thunk, { ThunkDispatch } from 'redux-thunk';
 import { createAPI } from '../../services/api';
 import { random } from 'faker';
+import userEvent from '@testing-library/user-event';
 
 const onFakeUnauthorized = jest.fn();
 
 const fakeOffers = [...makeFakeOffers(), makeFakeOffer()];
+const fakeOffer = random.arrayElement(fakeOffers);
+const fakeOffersNearby = makeFakeOffersNearby();
 const fakeCity = random.arrayElement(fakeOffers).city;
 const fakeAuthInfo = makeFakeAuthInfo();
 const fakeFavorites = makeFakeFavoriteOffers();
@@ -28,6 +31,11 @@ const mockStore = configureMockStore<
   >(middlewares);
 
 const store = mockStore({
+  PROPERTY: {
+    offer: fakeOffer,
+    offersNearby: fakeOffersNearby,
+    comments: [],
+  },
   OFFERS: {offers: fakeOffers, city: fakeCity},
   USER: {
     authorizationStatus: AuthorizationStatus.Auth,
@@ -77,8 +85,45 @@ describe('Application Routing', () => {
     history.push(AppRoute.SignIn);
     render(fakeApp);
 
-    expect(screen.getByText(new RegExp(`${fakeAuthInfo.email}`, 'i')))
-      .toBeInTheDocument();
-    expect(screen.getByText(/Sign out/i)).toBeInTheDocument();
+    expect(screen.getByPlaceholderText(/Email/i)).toBeInTheDocument();
+    expect(screen.getByPlaceholderText(/Password/i)).toBeInTheDocument();
+
+    userEvent.type(screen.getByPlaceholderText(/Email/i), 'test@test');
+    userEvent.type(screen.getByPlaceholderText(/Password/i), '123456');
+
+    expect(screen.getByDisplayValue(/test@test/i)).toBeInTheDocument();
+    expect(screen.getByDisplayValue(/123456/i)).toBeInTheDocument();
+  });
+  it('should render "Favorites" when user navigate to "/favorite"', () => {
+    history.push(AppRoute.Favorites);
+    render(fakeApp);
+
+    expect(screen.queryByText(/Saved listing/i)).toBeInTheDocument();
+  });
+  it('should render "Favorites-Empty" when user navigate to "/favorite"', () => {
+    history.push(AppRoute.Favorites);
+    const fakeStore = mockStore({
+      OFFERS: {offers: fakeOffers, city: fakeCity},
+      USER: {
+        authorizationStatus: AuthorizationStatus.Auth,
+        isDataLoaded: true,
+        authInfo: fakeAuthInfo,
+        favorites: [],
+      },
+    });
+    render(
+      <Provider store={fakeStore}>
+        <Router history={history}>
+          <App />
+        </Router>
+      </Provider>);
+
+    expect(screen.queryByText(/Nothing yet saved./i)).toBeInTheDocument();
+  });
+  it('should render "Property" when user navigate to "/hotels/:id"', () => {
+    history.push(AppRoute.Room.replace(':id', fakeOffer.id.toString()));
+    render(fakeApp);
+
+    expect(screen.queryByText(new RegExp(`${fakeOffer.description}`, 'i'))).toBeInTheDocument();
   });
 });
