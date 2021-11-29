@@ -16,7 +16,7 @@ function ReviewsList({offerId}: ReviewsListProps): JSX.Element {
   const sortedComments = comments.slice().sort((first: Review, second: Review) => second.date > first.date ? 1 : -1);
 
   return (
-    <section className="property__reviews reviews">
+    <section className="property__reviews reviews" data-testid="ReviewsList">
       <h2 className="reviews__title">
         Reviews &middot;
         <span className="reviews__amount">

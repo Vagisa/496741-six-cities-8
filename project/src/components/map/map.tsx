@@ -51,6 +51,7 @@ function Map({offers}: MapProps): JSX.Element {
     <div
       style={{height: '100%'}}
       ref={mapRef}
+      data-testid="Map"
     />
   );
 }

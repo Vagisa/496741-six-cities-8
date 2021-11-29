@@ -2,7 +2,7 @@ import { address, commerce, database, datatype, image, internet, random } from '
 import { City } from '../types/cities';
 import { Location } from '../types/cities';
 import { Offer } from '../types/offers';
-import { AuthorizationStatus, SortTypeOptions } from '../const';
+import { AuthorizationStatus, PlaceCardMode, SortTypeOptions } from '../const';
 import { User } from '../types/user';
 import { Review } from '../types/review';
 import { AuthInfo } from '../types/auth-info';
@@ -87,3 +87,6 @@ export const getRandomSortOptions = (): SortTypeOptions => (
 
 export const getAuthorizationStatus = (): AuthorizationStatus => (
   random.arrayElement(Object.values(AuthorizationStatus)) as AuthorizationStatus);
+
+export const getRandomMode = (): PlaceCardMode => (
+  random.arrayElement(Object.values(PlaceCardMode)) as PlaceCardMode);

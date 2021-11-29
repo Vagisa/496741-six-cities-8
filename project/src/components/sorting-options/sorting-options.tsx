@@ -17,7 +17,9 @@ function SortingOptions(): JSX.Element {
   return (
     <form className="places__sorting" action="#" method="get">
       <span className="places__sorting-caption">Sort by</span>
-      <span onClick={() => {setIsOpen(true);}} className="places__sorting-type" tabIndex={0}>
+      <span onClick={() => {setIsOpen(true);}}
+        className="places__sorting-type" tabIndex={0}
+      >
         {sortOption}
         <svg className="places__sorting-arrow" width="7" height="4">
           <use xlinkHref="#icon-arrow-select"></use>
@@ -30,6 +32,7 @@ function SortingOptions(): JSX.Element {
               className={`places__option ${sort === sortOption ? 'places__option--active' : ''}`}
               tabIndex={0}
               onClick={() => {setIsOpen(false); onSortTypeChange(sort);}}
+              data-testid="Sort"
             >
               {sort}
             </li>
