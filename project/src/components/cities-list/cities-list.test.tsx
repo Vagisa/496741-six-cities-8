@@ -1,15 +1,13 @@
 import { configureMockStore } from '@jedmao/redux-mock-store';
 import { render, screen } from '@testing-library/react';
-import { random } from 'faker';
 import { createMemoryHistory } from 'history';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router';
 import { Action } from 'redux';
 import thunk, { ThunkDispatch } from 'redux-thunk';
-import { AuthorizationStatus } from '../../const';
 import { createAPI } from '../../services/api';
 import { State } from '../../types/state';
-import { getRandomMode, getRandomSortOptions, makeFakeOffer, makeFakeOffers } from '../../utils/mocks';
+import { makeFakeOffer } from '../../utils/mocks';
 import CitiesList from './cities-list';
 
 const setActiveCity = jest.fn();
