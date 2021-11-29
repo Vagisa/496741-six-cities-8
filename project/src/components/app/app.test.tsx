@@ -77,7 +77,8 @@ describe('Application Routing', () => {
     history.push(AppRoute.SignIn);
     render(fakeApp);
 
-    expect(screen.getByText(new RegExp(`${fakeAuthInfo.email}`, 'i'))).toBeInTheDocument();
+    expect(screen.getByText(new RegExp(`${fakeAuthInfo.email}`, 'i')))
+      .toBeInTheDocument();
     expect(screen.getByText(/Sign out/i)).toBeInTheDocument();
   });
 });
