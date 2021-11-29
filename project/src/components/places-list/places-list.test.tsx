@@ -9,7 +9,7 @@ import thunk, { ThunkDispatch } from 'redux-thunk';
 import { AuthorizationStatus } from '../../const';
 import { createAPI } from '../../services/api';
 import { State } from '../../types/state';
-import { getRandomMode, getRandomSortOptions, makeFakeOffers } from '../../utils/mocks';
+import { getRandomMode, getRandomSortOptions, makeFakeOffer, makeFakeOffers } from '../../utils/mocks';
 import PlacesList from './places-list';
 
 const offerItemHover = jest.fn();
@@ -25,7 +25,7 @@ const mockStore = configureMockStore<
 const history = createMemoryHistory();
 
 describe('Component: PlaceCard', () => {
-  const fakeOffers = makeFakeOffers();
+  const fakeOffers = [...makeFakeOffers(), makeFakeOffer()];
   const fakeOffer = random.arrayElement(fakeOffers);
   const randomSortOptions = getRandomSortOptions();
   const randomMode = getRandomMode();

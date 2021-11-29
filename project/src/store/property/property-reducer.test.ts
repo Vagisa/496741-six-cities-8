@@ -49,13 +49,14 @@ describe('Reducer: propertyReducer', () => {
   });
   it('update offer', () => {
     const state = {
-      offer: makeFakeOffer(),
+      offer: fakeOffer,
       comments: fakeComments,
       offersNearby: fakeOffersNearby,
     };
-    expect(propertyReducer(state, updateOffer(fakeOffer)))
+    const expectFakeOffer = {...fakeOffer, isFavorite: !fakeOffer.isFavorite};
+    expect(propertyReducer(state, updateOffer(expectFakeOffer)))
       .toEqual({
-        offer: fakeOffer,
+        offer: expectFakeOffer,
         comments: fakeComments,
         offersNearby: fakeOffersNearby,
       });

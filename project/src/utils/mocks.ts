@@ -53,14 +53,14 @@ export const makeFakeOffer = (): Offer => ({
 } as Offer);
 
 export const makeFakeOffers = (): Offer[] => (
-  new Array(datatype.number(NUMBER_OF_FAKE_CASES)).fill(null).map(makeFakeOffer) as Offer[]);
+  new Array(datatype.number(NUMBER_OF_FAKE_CASES + 1)).fill(null).map(makeFakeOffer) as Offer[]);
 
 export const makeFakeOffersNearby = (): Offer[] => (
   new Array(datatype.number(NUMBER_OF_FAKE_OFFERS_NEADBY)).fill(null).map(makeFakeOffer) as Offer[]);
 
 export const makeFakeFavoriteOffers = (): Offer[] => (
-  makeFakeOffers().filter((offer) => (
-    offer.isFavorite === true)) as Offer[]);
+  makeFakeOffers().map((offer) => (
+    {...offer, isFavorite: true})) as Offer[]);
 
 export const makeFakeComment = (): Review => ({
   comment: commerce.productDescription(),

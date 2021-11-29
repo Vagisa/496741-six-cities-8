@@ -4,14 +4,14 @@ import { random } from 'faker';
 import { createMemoryHistory } from 'history';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router';
-import { makeFakeOffers } from '../../utils/mocks';
+import { makeFakeOffer, makeFakeOffers } from '../../utils/mocks';
 import Map from './map';
 
 const mockStore = configureMockStore();
 const history = createMemoryHistory();
 
 describe('Component: Map', () => {
-  const fakeOffers = makeFakeOffers();
+  const fakeOffers = [...makeFakeOffers(), makeFakeOffer()];
   const fakeOffer = random.arrayElement(fakeOffers);
   const store = mockStore({
     OFFERS: {city: fakeOffer.city, activeOffer: fakeOffer},
